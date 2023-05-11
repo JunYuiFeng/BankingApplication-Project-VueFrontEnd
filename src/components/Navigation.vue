@@ -1,17 +1,40 @@
 <template>
-  <div>
+  <div class="navDiv">
     <nav
-      class="navbar navbar-expand-lg navbar-dark bg-dark"
+      class="navbar navbar-expand-lg"
       aria-label="Oitavo exemplo de barra de navegação"
     >
-      <div class="container">
+      <div class="Container">
         <router-link to="/" class="navbar-brand">
-          <font>Home</font>
+          <img src="/pictures/logo.jpg" alt="Logo" class="logo-img" />
         </router-link>
-        <ul class="navbar-nav ms-auto">
+      </div>
+      <div class="navbar-collapse justify-content-between">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <router-link to="/Register" class="nav-link">
+            <router-link to="/RegisterUser" class="nav-link">
               Register
+            </router-link>
+          </li>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <router-link to="/OverView" class="nav-link">
+                OverView
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/Transaction" class="nav-link">
+                Transactions
+              </router-link>
+            </li>
+          </ul>
+          <li class="nav-item">
+            <router-link to="/Profile" class="nav-link">
+              <img
+                src="/pictures/profilePic.png"
+                alt="profilePicture"
+                class="profile-icon"
+              />
             </router-link>
           </li>
           <li v-if="store.isLoggedIn" class="nav-item">
@@ -62,4 +85,23 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.navDiv {
+  background-color: #5d0c1d;
+}
+
+.nav-item a.nav-link {
+  color: white;
+}
+
+.navbar-nav.ml-auto {
+  margin-left: auto;
+}
+
+.profile-icon {
+  width: 30px; /* Adjust the width as needed */
+  height: 30px; /* Adjust the height as needed */
+  border-radius: 50%; /* Optional: Add border-radius for a circular profile icon */
+  margin-left: 20px;
+}
+</style>
