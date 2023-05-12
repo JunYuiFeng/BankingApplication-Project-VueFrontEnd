@@ -18,8 +18,8 @@
           </li>
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link to="/Overview" class="nav-link">
-                Overview
+              <router-link to="/OverView" class="nav-link">
+                OverView
               </router-link>
             </li>
             <li class="nav-item">
