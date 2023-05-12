@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../components/HomePage.vue";
 import Login from "../components/login/Login.vue";
 import RegisterUser from "../components/RegisterUser.vue";
-import Overview from "../components/AccountOverview.vue";
 
 const routes = [
   { path: "/", component: Home },
