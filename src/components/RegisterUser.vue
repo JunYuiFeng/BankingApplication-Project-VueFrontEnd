@@ -2,6 +2,7 @@
   <div id="firstCart" class="text-center" style="min-height: 500px">
     <br /><br /><br /><br />
     <h2>Create new User</h2>
+    <br />
     <div>
       <input
         v-model="username"
@@ -42,16 +43,16 @@
         Create new User</button
       ><br /><br />
     </div>
-    <div
-      v-if="registerUserMessage"
-      class="alert"
-      :class="{
-        'alert-success': status === 'success',
-        'alert-danger': status === 'error',
-      }"
-    >
-      {{ registerUserMessage }}
-    </div>
+  </div>
+  <div
+    v-if="registerUserMessage"
+    class="alert"
+    :class="{
+      'alert-success': status === 'success',
+      'alert-danger': status === 'error',
+    }"
+  >
+    {{ registerUserMessage }}
   </div>
 </template>
 
@@ -75,8 +76,8 @@ export default {
         .post("/UserAccounts", {
           username: this.username,
           password: this.password,
-          firstname: this.firstname,
-          lastname: this.lastname,
+          firstName: this.firstname,
+          lastName: this.lastname,
           email: this.email,
         })
         .then((response) => {
@@ -94,3 +95,4 @@ export default {
   },
 };
 </script>
+<style scoped></style>
