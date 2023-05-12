@@ -6,7 +6,7 @@
     >
       <div class="Container">
         <router-link to="/" class="navbar-brand">
-          <img src="/pictures/logo.jpg" alt="Logo" class="logo-img" />
+          <img src="/pictures/logo1.jpg" alt="Logo" class="logo-img" />
         </router-link>
       </div>
       <div class="navbar-collapse justify-content-between">
@@ -103,5 +103,8 @@ export default {
   height: 30px; /* Adjust the height as needed */
   border-radius: 50%; /* Optional: Add border-radius for a circular profile icon */
   margin-left: 20px;
+}
+.nav-link:hover {
+  transform: scale(1.2); /* Increase the size on hover */
 }
 </style>
