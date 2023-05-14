@@ -4,9 +4,9 @@
             <h1>Overview</h1>
 
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-warning shadow-sm" @click="showBankAccount=true">Request new bank account</button>
+                <button type="button" class="btn btn-warning shadow-sm" @click="showCreateBankAccount=true">Request new bank account</button>
             </div>
-            <CreateBankAccount v-if="showBankAccount">
+            <CreateBankAccount v-if="showCreateBankAccount" @cancel="showCreateBankAccount=false">
             </CreateBankAccount> 
 
             <div class="bankAccountsOverviewContainer ps-5 pe-5">
@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      showBankAccount: false
+      showCreateBankAccount: false
     }
   }
 }

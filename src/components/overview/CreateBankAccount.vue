@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isVisible" class="createBankAccount d-flex justify-content-center align-items-center">
+    <div class="createBankAccount d-flex justify-content-center align-items-center">
         <div class="createBankAccountContainer shadow">
             <div @click="requestBankAccount" class="bankAccountOption shadow m-4 p-2 ps-5 d-flex">
                 <p>Current account</p>
@@ -12,7 +12,7 @@
             <div class="mt-5">
                 <div class="row">
                     <div class="col d-flex justify-content-end">
-                        <button class="btn btn-danger cancelBtn" @click="isVisible = false" >Cancel</button>
+                        <button class="btn btn-danger cancelBtn" @click="$emit('cancel')">Cancel</button>
                     </div>
                     <div class="col">
                         <button class="btn btn-warning requestBtn">Request</button>
@@ -32,7 +32,6 @@ export default {
         return {
             bankAccountType: 'CURRENT',
             id: 2,
-            isVisible: true 
         }
     },
     methods: {
