@@ -4,34 +4,61 @@
             <h1>Overview</h1>
 
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-warning">Request new bank account</button>
+                <button type="button" class="btn btn-warning shadow-sm" @click="showBankAccount=true">Request new bank account</button>
             </div>
+            <CreateBankAccount v-if="showBankAccount">
+            </CreateBankAccount> 
 
             <div class="bankAccountsOverviewContainer ps-5 pe-5">
                 <div class="d-flex justify-content-end mt-5">
                     <h5 class="">Total balance: 10000</h5>
                 </div>
 
-                <div class="row">
+                <div>
                     current account
-                    <div class="bankAccountContainer">
-                        <p>John Doe</p>
+                    <div class="bankAccountContainer shadow-sm p-3 mb-4 d-flex justify-content-between">
+                        <div>
+                            <p>John Doe</p>
+                            <p>NL29INHOL3124908</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <p>10000000</p>
+                        </div>
                     </div>
                 </div>
+
+                <div>
+                    savings account
+                    <div class="bankAccountContainer shadow-sm p-3">
+                        <p>John Doe</p>
+                        <p>NL29INHOL3124908</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </template>
 
 <script>
-export default {
+import CreateBankAccount from './CreateBankAccount.vue'
 
+export default {
+  components: {
+    CreateBankAccount
+  },
+  data() {
+    return {
+      showBankAccount: false
+    }
+  }
 }
 </script>
 
 <style scoped>
 .bankAccountContainer {
     background: #D9D9D9;
+    border-radius: 18px;
 }
 
 .bankAccountsOverviewContainer {
