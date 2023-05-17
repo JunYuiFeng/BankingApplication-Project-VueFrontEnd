@@ -16,6 +16,7 @@
               Register
             </router-link>
           </li>
+
           <ul class="navbar-nav">
             <li class="nav-item">
               <router-link to="/Overview" class="nav-link">
@@ -37,6 +38,8 @@
               />
             </router-link>
           </li>
+
+         
           <li v-if="store.isLoggedIn" class="nav-item">
             <button
               type="button"
