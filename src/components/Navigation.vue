@@ -23,7 +23,7 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/Transaction" class="nav-link">
+              <router-link to="/Transactions" class="nav-link">
                 Transactions
               </router-link>
             </li>
