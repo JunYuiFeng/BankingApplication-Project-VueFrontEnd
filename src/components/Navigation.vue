@@ -28,6 +28,16 @@
                 Transactions
               </router-link>
             </li>
+            <li class="nav-item">
+              <router-link to="/UserManagement" class="nav-link">
+                UserManagement
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/BankAccountManagement" class="nav-link">
+                BankAccountManagement
+              </router-link>
+            </li>
           </ul>
           <li class="nav-item">
             <router-link to="/Profile" class="nav-link">
