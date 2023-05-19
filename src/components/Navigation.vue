@@ -28,6 +28,11 @@
                 Transactions
               </router-link>
             </li>
+            <li class="nav-item">
+              <router-link to="/BankAccounts" class="nav-link">
+                Bank Accounts
+              </router-link>
+            </li>
           </ul>
           <li class="nav-item">
             <router-link to="/Profile" class="nav-link">
@@ -54,8 +59,7 @@
               type="button"
               class="btn btn-success"
               @click="$router.push('/login')"
-              style="margin: 2px 30px"
-            >
+              style="margin: 2px 30px">
               Login
             </button>
           </li>
