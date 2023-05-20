@@ -6,8 +6,8 @@
             <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-warning shadow-sm" @click="showCreateBankAccount=true">Request new bank account</button>
             </div>
-            <CreateBankAccount v-if="showCreateBankAccount" @cancel="showCreateBankAccount=false">
-            </CreateBankAccount> 
+            
+            <CreateBankAccount v-if="showCreateBankAccount" @cancel="showCreateBankAccount=false"/>
 
             <div class="bankAccountsOverviewContainer ps-5 pe-5">
                 <div class="d-flex justify-content-end mt-5">
