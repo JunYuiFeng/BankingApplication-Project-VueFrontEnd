@@ -34,7 +34,7 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/BankAccountManagement" class="nav-link">
+              <router-link to="/BankAccountsManagement" class="nav-link">
                 BankAccountManagement
               </router-link>
             </li>

@@ -6,7 +6,7 @@ import RegisterUser from "../components/RegisterUser.vue";
 import Overview from "../components/overview/Overview.vue";
 import Transactions from "../components/overview/Transactions.vue";
 import UserManagement from "../components/userAccountManagement/UserManagement.vue";
-import BankAccounts from "../components/bankaccountsmanagement/BankAccountsManagement.vue";
+import BankAccountsManagement from "../components/bankaccountsmanagement/BankAccountsManagement.vue";
 import ATM from "../components/atm/atm.vue";
 
 const routes = [
@@ -16,7 +16,7 @@ const routes = [
   { path: "/Overview", component: Overview },
   { path: "/Transactions", component: Transactions },
   { path: "/UserManagement", component: UserManagement },
-  { path: "/BankAccountsManagement", component: BankAccounts },
+  { path: "/BankAccountsManagement", component: BankAccountsManagement },
   { path: "/ATM", component: ATM }
 ];
 
