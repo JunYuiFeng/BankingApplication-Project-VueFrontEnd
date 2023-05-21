@@ -5,37 +5,30 @@
             <div class="userOverview">
               <UserAccount v-for="userAccount in userAccounts" :userAccount="userAccount"/>
               <div class="d-flex justify-content-end">
-                <button class="btn btn-warning cancelBtn" @click="createUserAccount">Create New User Account</button>
+                <button class="btn btn-warning" @click="CreateUserAccount">Create New User Account</button>
               </div>
             </div>
-           
         </div>
     </div>
 </template>
 
 <script>
-import { loadRouteLocation } from 'vue-router';
 import UserAccount from './UserAccount.vue'
-import CreateUserAccount from './CreateUserAccount.vue'
 import axios from 'axios';
 
 export default {
   components: {
     UserAccount,
-    CreateUserAccount
   },
   data() {
         return {
-            userAccounts: []
+          userAccounts: []
         };
   },  
   mounted() {
     this.load();
   },
   methods: {
-    createUserAccount() {
-      
-    },
     load(){
         axios
       .get("http://localhost/UserAccounts")
@@ -46,6 +39,10 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+    },
+    CreateUserAccount() {
+      console.log("CreateUserAccount");
+      this.$router.push("/RegisterUser");
     }
   }
 }

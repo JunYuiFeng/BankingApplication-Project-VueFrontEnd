@@ -1,5 +1,9 @@
 <template>
     <div class="container">
+        <h1>Deposit</h1>
+        <div class="atmInterface d-flex justify-content-center">
+            
+        </div>
         
     </div>
 </template>
@@ -14,11 +18,10 @@ export default {
         }
     },
     methods: {
-       
-    }
+        
+    },
 };
 </script>
 
 <style scoped>
-
 </style>

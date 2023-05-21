@@ -47,8 +47,12 @@
                 <button id="editButton" class="col btn" :class="['btn-primary', { 'btn-confirm': confirmClicked }]" @click="edit">
                     <template v-if="!confirmClicked">Edit</template>
                     <template v-else>Confirm</template>
-                </button>   
+                </button>  
+                <div v-if="editUserMessage" class="alert mt-3" :class="['alert-success', {'alert-danger': displayError }]">
+                    {{ editUserMessage }}
+                </div> 
             </div>
+            
         </div>      
     </div>
 </template>
@@ -66,6 +70,8 @@ export default {
   data() {
     return {
       confirmClicked: false,
+      displayError: null,
+      editUserMessage: '',
       firstName: '',
       lastName: '',
       email: '',
@@ -112,11 +118,17 @@ export default {
         .put(`http://localhost/UserAccounts/update/${this.userAccount.id}`, this.userAccount)
         .then(response => {
             console.log(response);
-
+            this.editUserMessage = "Edit successful";
         })
         .catch(error => {
             console.log(error);
+            this.displayError = true;
+            this.editUserMessage = "Failed to edit user";  
+            //this.reload();
         });
+    },
+    reload(){
+        this.$router.go();
     },
 }
 }
@@ -125,7 +137,7 @@ export default {
 <style scoped>
     .userContainerFields {
         background-color: #FFFFFF;
-        padding: 3%
+        padding: 2%
     }
 
     p {

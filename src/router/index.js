@@ -8,6 +8,8 @@ import Transactions from "../components/overview/Transactions.vue";
 import UserManagement from "../components/userAccountManagement/UserManagement.vue";
 import BankAccountsManagement from "../components/bankaccountsmanagement/BankAccountsManagement.vue";
 import ATM from "../components/atm/atm.vue";
+import WithDraw from "../components/atm/withdraw.vue";
+import Deposit from "../components/atm/deposit.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -17,7 +19,9 @@ const routes = [
   { path: "/Transactions", component: Transactions },
   { path: "/UserManagement", component: UserManagement },
   { path: "/BankAccountsManagement", component: BankAccountsManagement },
-  { path: "/ATM", component: ATM }
+  { path: "/ATM", component: ATM },
+  { path: "/WithDraw", component: WithDraw },
+  { path: "/Deposit", component: Deposit }
 ];
 
 const router = createRouter({

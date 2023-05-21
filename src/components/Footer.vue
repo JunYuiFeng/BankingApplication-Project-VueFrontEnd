@@ -2,7 +2,7 @@
   <div class="containerWithFooter expand-lg">
     <div id="footer" class="container">
       <footer
-        class="d-flex flex-wrap justify-content-center align-items-center py-3 my-4 border-top"
+        class="d-flex flex-wrap justify-content-center align-items-center py-3 my-4 border-top absolute-bottom"
       >
         <ul class="nav">
           <li class="nav-item">
