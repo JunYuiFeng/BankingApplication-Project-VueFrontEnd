@@ -34,13 +34,18 @@
                     </div>
                 </div>
             </div>
-            <BankAccount v-for="bankAccount in bankAccounts" :bankAccount="bankAccount"/>
+            <template v-if="bankAccounts.length === 0">
+                <p class="d-flex justify-content-center mt-5 mb-5">No bank accounts available</p>
+            </template>
+            <template v-else>
+                <BankAccount v-for="bankAccount in bankAccounts" :key="bankAccount.id" :bankAccount="bankAccount" />
+            </template>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '../../Axios-auth';
 import BankAccount from './BankAccount.vue'
 
 export default {
@@ -58,7 +63,7 @@ export default {
     },
     methods: {
         getBankAccounts() {
-            axios.get('http://localhost/BankAccounts')
+            axios.get('/BankAccounts')
                 .then(response => {
                     this.bankAccounts = response.data;
                 })
@@ -70,7 +75,8 @@ export default {
 }
 </script>
 
-<style scoped>.bankAccountsListContainer {
+<style scoped>
+.bankAccountsListContainer {
     background: #D9D9D9;
 }
 

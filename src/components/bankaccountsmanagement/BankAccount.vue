@@ -2,27 +2,28 @@
     <div class="bankAccount rounded shadow-sm p-3 mb-4">
         <div class="row">
             <div class="col d-flex justify-content-center align-items-center">
-                <p>{{bankAccount.userAccount.firstName}}</p>
+                <p>{{ bankAccount.userAccount.firstName }}</p>
             </div>
             <div class="col d-flex justify-content-center align-items-center">
-                <p>{{bankAccount.type}}</p>
+                <p>{{ bankAccount.type }}</p>
             </div>
             <div class="col d-flex justify-content-center align-items-center">
-                <p>{{bankAccount.iban}}</p>
+                <p>{{ bankAccount.iban }}</p>
             </div>
             <div class="col d-flex justify-content-center align-items-center">
-                <p>€ {{bankAccount.absoluteLimit}}</p>
+                <p>€ {{ bankAccount.absoluteLimit }}</p>
             </div>
             <div class="col-2 d-flex justify-content-center align-items-center">
-                <p>€ {{bankAccount.balance}}</p>
+                <p>€ {{ bankAccount.balance }}</p>
             </div>
             <div class="col-1 d-flex justify-content-center align-items-center">
-                <p>{{bankAccount.status}}</p>
+                <p>{{ bankAccount.status }}</p>
             </div>
             <div class="col d-flex justify-content-center align-items-center">
                 <div>
-                    <button v-if="bankAccount.status.toLowerCase() === 'active'" class="btn btn-danger btn-sm mb-2">deactivate</button>
-                    <button v-else class="btn btn-success mb-2 pe-4 btn-sm">activate</button>
+                    <button v-if="bankAccount.status.toLowerCase() === 'active'" class="btn btn-danger btn-sm mb-2"
+                        @click="deactivateBankAccount">deactivate</button>
+                    <button v-else class="btn btn-success mb-2 pe-4 btn-sm" @click="activateBankAccount">activate</button>
                     <br>
                     <button class="btn btn-primary pe-5 btn-sm">edit</button>
                 </div>
@@ -32,16 +33,48 @@
 </template>
 
 <script>
+import axios from '../../Axios-auth';
+
 export default {
     name: 'BankAccount',
     props: {
         bankAccount: Object,
-    }
-}
+    },
+    methods: {
+        activateBankAccount() {
+            const activeStatus = {
+                status: 'active',
+            };
+
+            axios.patch(`/BankAccounts/${this.bankAccount.iban}/statusupdate`, activeStatus)
+                .then(response => {
+                    console.log(response.data);
+                    this.bankAccount.status = response.data.status; // Update the status
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        deactivateBankAccount() {
+            const activeStatus = {
+                status: 'inactive',
+            };
+
+            axios.patch(`/BankAccounts/${this.bankAccount.iban}/statusupdate`, activeStatus)
+                .then(response => {
+                    console.log(response.data);
+                    this.bankAccount.status = response.data.status; // Update the status
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+    },
+};
 </script>
 
 <style scoped>
 .bankAccount {
     background: white;
-    }
+}
 </style>
