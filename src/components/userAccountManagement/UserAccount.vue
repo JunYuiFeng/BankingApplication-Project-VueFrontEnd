@@ -118,6 +118,7 @@ export default {
         .put(`http://localhost/UserAccounts/update/${this.userAccount.id}`, this.userAccount)
         .then(response => {
             console.log(response);
+            this.displayError = false;
             this.editUserMessage = "Edit successful";
         })
         .catch(error => {
