@@ -29,8 +29,13 @@
               </router-link>
             </li>
             <li class="nav-item">
+              <router-link to="/UserManagement" class="nav-link">
+                UserManagement
+              </router-link>
+            </li>
+            <li class="nav-item">
               <router-link to="/BankAccountsManagement" class="nav-link">
-                Bank Accounts
+                BankAccountManagement
               </router-link>
             </li>
           </ul>
