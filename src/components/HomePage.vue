@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../Axios-auth.js";
 import "../assets/main.css";
 
 export default {
