@@ -11,7 +11,8 @@
                 <p>{{ bankAccount.iban }}</p>
             </div>
             <div class="col d-flex justify-content-center align-items-center">
-                <p>€ {{ bankAccount.absoluteLimit }}</p>
+                <p v-if="!editing">€ {{ bankAccount.absoluteLimit }}</p>
+                <input v-else type="number" class="form-control" v-model="editedAbsoluteLimit">
             </div>
             <div class="col-2 d-flex justify-content-center align-items-center">
                 <p>€ {{ bankAccount.balance }}</p>
@@ -25,7 +26,8 @@
                         @click="deactivateBankAccount">deactivate</button>
                     <button v-else class="btn btn-success mb-2 pe-4 btn-sm" @click="activateBankAccount">activate</button>
                     <br>
-                    <button class="btn btn-primary pe-5 btn-sm">edit</button>
+                    <button v-if="editing" class="btn btn-success pe-4 btn-sm" @click="confirmEdit">confirm</button>
+                    <button v-else class="btn btn-primary pe-5 btn-sm" @click="startEditing">edit</button>
                 </div>
             </div>
         </div>
@@ -37,39 +39,52 @@ import axios from '../../Axios-auth';
 
 export default {
     name: 'BankAccount',
+    data() {
+        return {
+            editing: false,
+            editedAbsoluteLimit: 0,
+        }
+    },
     props: {
         bankAccount: Object,
     },
     methods: {
-        activateBankAccount() {
-            const activeStatus = {
-                status: 'active',
+        updateBankAccountStatus(status) {
+            const statusPayload = {
+                status: status,
             };
 
-            axios.patch(`/BankAccounts/${this.bankAccount.iban}/statusupdate`, activeStatus)
+            axios.patch(`/BankAccounts/${this.bankAccount.iban}`, statusPayload)
                 .then(response => {
-                    console.log(response.data);
                     this.bankAccount.status = response.data.status; // Update the status
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.log('An error occurred:', error.response.data.message);
                 });
+
+        },
+        activateBankAccount() {
+            this.updateBankAccountStatus('active');
         },
         deactivateBankAccount() {
-            const activeStatus = {
-                status: 'inactive',
-            };
-
-            axios.patch(`/BankAccounts/${this.bankAccount.iban}/statusupdate`, activeStatus)
+            this.updateBankAccountStatus('inactive');
+        },
+        startEditing() {
+            this.editing = true;
+            this.editedAbsoluteLimit = this.bankAccount.absoluteLimit;
+        },
+        confirmEdit() {
+            axios.patch(`/BankAccounts/${this.bankAccount.iban}`, { absoluteLimit: this.editedAbsoluteLimit })
                 .then(response => {
                     console.log(response.data);
-                    this.bankAccount.status = response.data.status; // Update the status
+                    this.bankAccount.absoluteLimit = this.editedAbsoluteLimit;
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.log('An error occurred:', error.response.data.message);
                 });
-        },
-    },
+            this.editing = false;
+        }
+    }
 };
 </script>
 

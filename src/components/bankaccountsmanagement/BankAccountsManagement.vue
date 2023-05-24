@@ -3,9 +3,16 @@
         <h1 class="d-flex justify-content-center p-3 mb-4">Bank accounts management</h1>
 
         <div class="d-flex">
-            <button class="btn btn-primary me-2">All</button>
-            <button class="btn btn-primary me-2">pending</button>
-            <button class="btn btn-primary me-2">approved</button>
+            <input type="radio" class="btn-check" name="options" id="radio1" autocomplete="off" @change="getBankAccounts">
+            <label class="btn btn-outline-primary me-2" for="radio1">All</label>
+
+            <input type="radio" class="btn-check" name="options" id="radio2" autocomplete="off"
+                @change="getActiveBankAccounts">
+            <label class="btn btn-outline-primary me-2" for="radio2">Active</label>
+
+            <input type="radio" class="btn-check" name="options" id="radio3" autocomplete="off"
+                @change="getInactiveBankAccounts">
+            <label class="btn btn-outline-primary me-2" for="radio3">Inactive</label>
         </div>
 
         <div class="bankAccountsListContainer p-4 mt-5">
@@ -49,7 +56,7 @@ import axios from '../../Axios-auth';
 import BankAccount from './BankAccount.vue'
 
 export default {
-    name: 'BankAccountsManage',
+    name: 'BankAccountsManagement',
     components: {
         BankAccount
     },
@@ -70,8 +77,26 @@ export default {
                 .catch(error => {
                     console.log(error);
                 })
+        },
+        getActiveBankAccounts() {
+            axios.get('/BankAccounts?status=active')
+                .then(response => {
+                    this.bankAccounts = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+        getInactiveBankAccounts() {
+            axios.get('/BankAccounts?status=inactive')
+                .then(response => {
+                    this.bankAccounts = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
         }
-    },
+    }
 }
 </script>
 

@@ -3,6 +3,10 @@
         <div class="container mt-5">
             <h1>Overview</h1>
 
+            <div class="d-flex justify-content-end mb-2" @click="this.$router.push('/CreateTransaction')">
+                <button type="button" class="btn btn-primary shadow-sm">Transfer</button>
+            </div>
+
             <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-warning shadow-sm" @click="showCreateBankAccount=true">Request new bank account</button>
             </div>
