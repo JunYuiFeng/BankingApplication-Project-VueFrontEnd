@@ -10,6 +10,7 @@ import BankAccountsManagement from "../components/bankaccountsmanagement/BankAcc
 import ATM from "../components/atm/atm.vue";
 import WithDraw from "../components/atm/withdraw.vue";
 import Deposit from "../components/atm/deposit.vue";
+import Profile from "../components/profile/Profile.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -21,7 +22,8 @@ const routes = [
   { path: "/BankAccountsManagement", component: BankAccountsManagement },
   { path: "/ATM", component: ATM },
   { path: "/WithDraw", component: WithDraw },
-  { path: "/Deposit", component: Deposit }
+  { path: "/Deposit", component: Deposit },
+  { path: "/Profile", component: Profile },
 ];
 
 const router = createRouter({

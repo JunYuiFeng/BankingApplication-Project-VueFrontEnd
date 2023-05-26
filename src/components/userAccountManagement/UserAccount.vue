@@ -5,11 +5,11 @@
 
             <div class="userContainerFields row">
                 <div class="row">
-                    <label for="firstName" class="col">First Name</label>
-                    <label for="firstName" class="col">Last Name</label>
-                    <label for="firstName" class="col">Email</label>
-                    <label for="firstName" class="col">Username</label>
-                    <label for="firstName" class="col">Account Type</label>
+                    <label class="col">First Name</label>
+                    <label class="col">Last Name</label>
+                    <label class="col">Email</label>
+                    <label class="col">Username</label>
+                    <label class="col">Account Type</label>
                 </div>
                 <p class="col" v-if="!confirmClicked">{{ userAccount.firstName }}</p>
                 <input class="inputField col" v-else v-model="firstName"/>
@@ -23,18 +23,16 @@
                 <select class="inputField col" v-else="!confirmClicked" v-model="type">
                     <option value="CUSTOMER">Customer</option>
                     <option value="EMPLOYEE">Employee</option>
-                    <option value="REGISTEREDUSER">Registered User</option>
-                    <option value="DEACTIVATEDUSER">Deactivated User</option>
                 </select>
             </div>
 
             <div class="userContainerFields row mb-5">
                 <div class="row">
-                    <label for="firstName" class="col">Phone Number</label>
-                    <label for="firstName" class="col">BSN Number</label>
-                    <label for="firstName" class="col">Day Limit</label>
-                    <label for="firstName" class="col">Transaction Limit</label>
-                    <label for="firstName" class="col"></label>
+                    <label class="col">Phone Number</label>
+                    <label class="col">BSN Number</label>
+                    <label class="col">Day Limit</label>
+                    <label class="col">Transaction Limit</label>
+                    <label class="col"></label>
                 </div>
                 <p class="col" v-if="!confirmClicked">{{ userAccount.phoneNumber }}</p>
                 <input class="inputField col" v-else v-model="phoneNumber" />
@@ -125,11 +123,7 @@ export default {
             console.log(error);
             this.displayError = true;
             this.editUserMessage = "Failed to edit user";  
-            //this.reload();
         });
-    },
-    reload(){
-        this.$router.go();
     },
 }
 }
