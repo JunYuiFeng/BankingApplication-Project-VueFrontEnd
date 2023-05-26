@@ -70,9 +70,15 @@ export default {
     },
     methods: {
         getBankAccounts() {
-            axios.get('/BankAccounts')
+            const token = 'eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJKdW5GZW5nIiwiYXV0aCI6WyJST0xFX0NVU1RPTUVSIl0sImlhdCI6MTY4NTA1ODI4MywiZXhwIjoxNjg1MDYxODgzfQ.c12pVk1hs44kX3-Qo4FRgGo2n7kw0zvJAk8t5ji6cRO_u1r5sZwDY66NyLebE73WxeswVZ89nBVDwCxDM92sEqiUH38AccbzwXAwFE9Shgmbgk_mPk2pjdnvzvhw-8gg3p2Ti3gx45BaoegXCf4dIzNFkFO3tKbwsL650uS1ssmWXuae_xO_u0aT7TYxCQoIVewiqD67YCapDRmG5EbzlSQZYCyRig3Cl39dN6RKY9nQ4fSRtqpPnz6XMF1kPTt8pGIvnKOsRiBDy0ArTPRzPA60Fz1IZqsm3ppFF5nVpMQMZFM42JboJkLS7MUbuy7qTYrkOULqkHlhkn8XpaAQQg'; // Replace 'your_token_here' with your actual token
+            axios.get('/BankAccounts', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
                 .then(response => {
                     this.bankAccounts = response.data;
+                    console.log("hello");
                 })
                 .catch(error => {
                     console.log(error);

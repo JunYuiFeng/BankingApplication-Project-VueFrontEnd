@@ -15,6 +15,7 @@ export const useUserSessionStore = defineStore("userSessionStore", {
       return new Promise((resolve, reject) => {
         Axios.post("/login", { username: username, password: password })
           .then((response) => {
+            console.log(response);
             this.username = response.data.username;
             resolve(response);
           })
