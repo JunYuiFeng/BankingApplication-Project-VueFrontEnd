@@ -19,8 +19,8 @@
                 <input class="inputField col" v-else v-model="email" />
                 <p class="col" v-if="!confirmClicked">{{ userAccount.username }}</p>
                 <input class="inputField col" v-else v-model="username" />
-                <p class="col" v-if="!confirmClicked">{{ userAccount.type }}</p>
-                <select class="inputField col" v-else="!confirmClicked" v-model="type">
+                <p class="col" v-if="!confirmClicked">{{ userAccount.types }}</p>
+                <select class="inputField col" v-else="!confirmClicked" v-model="types">
                     <option value="CUSTOMER">Customer</option>
                     <option value="EMPLOYEE">Employee</option>
                 </select>
@@ -74,7 +74,7 @@ export default {
       lastName: '',
       email: '',
       username: '',
-      type: '',
+      types: '',
       phoneNumber: '',
       bsn: '',
       dayLimit: '',
@@ -92,7 +92,7 @@ export default {
         this.lastName = this.userAccount.lastName;
         this.email = this.userAccount.email;
         this.username = this.userAccount.username;
-        this.type = this.userAccount.type;
+        this.types = this.userAccount.types;
         this.phoneNumber = this.userAccount.phoneNumber;
         this.bsn = this.userAccount.bsn;
         this.dayLimit = this.userAccount.dayLimit;
@@ -106,7 +106,7 @@ export default {
         this.userAccount.lastName = this.lastName,
         this.userAccount.email = this.email,
         this.userAccount.username = this.username,
-        this.userAccount.type = this.type,
+        this.userAccount.types = this.types,
         this.userAccount.phoneNumber = this.phoneNumber,
         this.userAccount.bsn = this.bsn,
         this.userAccount.dayLimit = this.dayLimit,
