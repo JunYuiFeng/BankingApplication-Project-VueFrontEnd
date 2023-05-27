@@ -32,7 +32,7 @@
 <script>
 import "../../assets/main.css";
 import axios from "../../Axios-auth";
-import { useUserSessionStore } from "../store/userSessionStore";
+import { useUserSessionStore } from "../../store/userSessionStore";
 
 export default {
   setup() {

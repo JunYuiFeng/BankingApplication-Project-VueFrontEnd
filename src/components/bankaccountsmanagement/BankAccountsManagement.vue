@@ -3,9 +3,16 @@
         <h1 class="d-flex justify-content-center p-3 mb-4">Bank accounts management</h1>
 
         <div class="d-flex">
-            <button class="btn btn-primary me-2">All</button>
-            <button class="btn btn-primary me-2">pending</button>
-            <button class="btn btn-primary me-2">approved</button>
+            <input type="radio" class="btn-check" name="options" id="radio1" autocomplete="off" @change="getBankAccounts">
+            <label class="btn btn-outline-primary me-2" for="radio1">All</label>
+
+            <input type="radio" class="btn-check" name="options" id="radio2" autocomplete="off"
+                @change="getActiveBankAccounts">
+            <label class="btn btn-outline-primary me-2" for="radio2">Active</label>
+
+            <input type="radio" class="btn-check" name="options" id="radio3" autocomplete="off"
+                @change="getInactiveBankAccounts">
+            <label class="btn btn-outline-primary me-2" for="radio3">Inactive</label>
         </div>
 
         <div class="bankAccountsListContainer p-4 mt-5">
@@ -34,17 +41,22 @@
                     </div>
                 </div>
             </div>
-            <BankAccount v-for="bankAccount in bankAccounts" :bankAccount="bankAccount"/>
+            <template v-if="bankAccounts.length === 0">
+                <p class="d-flex justify-content-center mt-5 mb-5">No bank accounts available</p>
+            </template>
+            <template v-else>
+                <BankAccount v-for="bankAccount in bankAccounts" :key="bankAccount.id" :bankAccount="bankAccount" />
+            </template>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '../../Axios-auth';
 import BankAccount from './BankAccount.vue'
 
 export default {
-    name: 'BankAccountsManage',
+    name: 'BankAccountsManagement',
     components: {
         BankAccount
     },
@@ -58,7 +70,25 @@ export default {
     },
     methods: {
         getBankAccounts() {
-            axios.get('http://localhost/BankAccounts')
+            axios.get('/BankAccounts')
+                .then(response => {
+                    this.bankAccounts = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+        getActiveBankAccounts() {
+            axios.get('/BankAccounts?status=active')
+                .then(response => {
+                    this.bankAccounts = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+        getInactiveBankAccounts() {
+            axios.get('/BankAccounts?status=inactive')
                 .then(response => {
                     this.bankAccounts = response.data;
                 })
@@ -66,11 +96,12 @@ export default {
                     console.log(error);
                 })
         }
-    },
+    }
 }
 </script>
 
-<style scoped>.bankAccountsListContainer {
+<style scoped>
+.bankAccountsListContainer {
     background: #D9D9D9;
 }
 

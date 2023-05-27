@@ -4,6 +4,7 @@ import Home from "../components/HomePage.vue";
 import Login from "../components/login/Login.vue";
 import RegisterUser from "../components/RegisterUser.vue";
 import Overview from "../components/overview/Overview.vue";
+import CreateTransaction from "../components/overview/CreateTransaction.vue";
 import Transactions from "../components/overview/Transactions.vue";
 import UserManagement from "../components/userAccountManagement/UserManagement.vue";
 import BankAccountsManagement from "../components/bankaccountsmanagement/BankAccountsManagement.vue";
@@ -17,6 +18,7 @@ const routes = [
   { path: "/login", component: Login },
   { path: "/RegisterUser", component: RegisterUser },
   { path: "/Overview", component: Overview },
+  { path: "/CreateTransaction", component: CreateTransaction},
   { path: "/Transactions", component: Transactions },
   { path: "/UserManagement", component: UserManagement },
   { path: "/BankAccountsManagement", component: BankAccountsManagement },

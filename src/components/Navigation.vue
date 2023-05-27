@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { useUserSessionStore } from "./store/userSessionStore";
+import { useUserSessionStore } from "../store/userSessionStore";
 
 export default {
   name: "Navbar",
