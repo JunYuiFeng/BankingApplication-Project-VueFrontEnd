@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '../../Axios-auth';
 
 export default {
     name: 'Profile',
@@ -115,7 +115,7 @@ export default {
             this.userAccount.transactionLimit = this.transactionLimit
 
             axios
-            .put(`http://localhost/UserAccounts/update/1`, this.userAccount)
+            .put(`/UserAccounts/update/1`, this.userAccount)
             .then(response => {
                 console.log(response);
                 this.displayError = false;
@@ -129,7 +129,7 @@ export default {
         },
         load() {
             axios
-            .get(`http://localhost/UserAccounts/1`)
+            .get(`/UserAccounts/1`)
             .then(response => {
                 console.log(response);
                 this.userAccount = response.data;
