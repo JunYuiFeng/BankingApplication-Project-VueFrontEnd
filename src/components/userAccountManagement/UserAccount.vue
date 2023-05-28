@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '../../Axios-auth';
 
 export default {
   props: {
@@ -113,7 +113,7 @@ export default {
         this.userAccount.transactionLimit = this.transactionLimit
 
         axios
-        .put(`http://localhost/UserAccounts/update/${this.userAccount.id}`, this.userAccount)
+        .put(`/UserAccounts/update/${this.userAccount.id}`, this.userAccount)
         .then(response => {
             console.log(response);
             this.displayError = false;

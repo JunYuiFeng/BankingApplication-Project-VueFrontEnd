@@ -49,7 +49,6 @@
       <input
         v-model="bsn"
         required
-        type="text"
         name="bsn"
         placeholder="BSN"
       /><br /><br />
@@ -95,8 +94,9 @@ export default {
           email: this.email,
           username: this.username,
           password: this.password,
-          type: "registereduser",
+          types: "ROLE_USER",
           phoneNumber: this.phoneNumber,
+          bsn: this.bsn,
           dayLimit: 1000,
           transactionLimit: 250,
         })
