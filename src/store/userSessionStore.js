@@ -15,8 +15,8 @@ export const useUserSessionStore = defineStore("userSessionStore", {
   actions: {
     autologin() {
       if (localStorage.getItem('token')) {
-        this.jwt = localStorage.getItem('token');
-        Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.jwt;
+        this.token = localStorage.getItem('token');
+        Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.token;
       }
     },
     login(username, password) {

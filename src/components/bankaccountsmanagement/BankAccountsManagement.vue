@@ -44,6 +44,9 @@
             <template v-if="bankAccounts.length === 0">
                 <p class="d-flex justify-content-center mt-5 mb-5">No bank accounts available</p>
             </template>
+            <template v-else-if="errorMessage">
+                <p class="d-flex justify-content-center mt-5 mb-5">{{ errorMessage }}</p>
+            </template>
             <template v-else>
                 <BankAccount v-for="bankAccount in bankAccounts" :key="bankAccount.id" :bankAccount="bankAccount" />
             </template>
@@ -63,6 +66,7 @@ export default {
     data() {
         return {
             bankAccounts: [],
+            errorMessage: '',
         }
     },
     mounted() {
@@ -70,7 +74,11 @@ export default {
     },
     methods: {
         getBankAccounts() {
-            axios.get('/BankAccounts')
+            //axios.defaults.headers.common['Authorization'] = 'Bearer YOUR_JWT_TOKEN'; // Hardcode the JWT token here
+
+            this.errorMessage = "";
+
+            axios.get('/BankAccounts/ExceptBank')
                 .then(response => {
                     this.bankAccounts = response.data;
                 })
@@ -79,6 +87,8 @@ export default {
                 })
         },
         getActiveBankAccounts() {
+            this.errorMessage = "";
+
             axios.get('/BankAccounts?status=active')
                 .then(response => {
                     this.bankAccounts = response.data;
@@ -88,13 +98,21 @@ export default {
                 })
         },
         getInactiveBankAccounts() {
+            this.errorMessage = "";
+
             axios.get('/BankAccounts?status=inactive')
                 .then(response => {
                     this.bankAccounts = response.data;
                 })
                 .catch(error => {
-                    console.log(error);
-                })
+                    if (error.response && error.response.data && error.response.data.message) {
+                        const errorMessage = error.response.data.message;
+
+                        this.errorMessage = errorMessage;
+                    } else {
+                        console.log(error); // Fallback to logging the error if the message is not available
+                    }
+                });
         }
     }
 }

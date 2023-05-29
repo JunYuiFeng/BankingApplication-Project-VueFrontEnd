@@ -8,10 +8,11 @@
             </div>
 
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-warning shadow-sm" @click="showCreateBankAccount=true">Request new bank account</button>
+                <button type="button" class="btn btn-warning shadow-sm" @click="showCreateBankAccount = true">Request new bank
+                    account</button>
             </div>
-            
-            <CreateBankAccount v-if="showCreateBankAccount" @cancel="showCreateBankAccount=false"/>
+
+            <CreateBankAccount v-if="showCreateBankAccount" @cancel="showCreateBankAccount = false" />
 
             <div class="bankAccountsOverviewContainer ps-5 pe-5">
                 <div class="d-flex justify-content-end mt-5">
@@ -46,16 +47,30 @@
 
 <script>
 import CreateBankAccount from './CreateBankAccount.vue'
+import getLoggedInUserBankAccounts from './LoggedInUserBankAccount.vue'
 
 export default {
-  components: {
-    CreateBankAccount
-  },
-  data() {
-    return {
-      showCreateBankAccount: false
+    components: {
+        CreateBankAccount,
+        getLoggedInUserBankAccounts
+    },
+    data() {
+        return {
+            bankAccounts: [],
+            showCreateBankAccount: false
+        }
+    },
+    methods: {
+        getLoggedInUserBankAccounts() {
+            axios.get("/BankAccounts/UserAccount/2")
+                .then((response) => {
+                    this.bankAccounts = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
     }
-  }
 }
 </script>
 
