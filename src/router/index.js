@@ -4,16 +4,30 @@ import Home from "../components/HomePage.vue";
 import Login from "../components/login/Login.vue";
 import RegisterUser from "../components/RegisterUser.vue";
 import Overview from "../components/overview/Overview.vue";
+import CreateTransaction from "../components/overview/CreateTransaction.vue";
 import Transactions from "../components/overview/Transactions.vue";
-import BankAccounts from "../components/bankaccountsmanagement/BankAccountsManagement.vue";
+import UserManagement from "../components/userAccountManagement/UserManagement.vue";
+import BankAccountsManagement from "../components/bankaccountsmanagement/BankAccountsManagement.vue";
+import ATM from "../components/atm/atm.vue";
+import WithDraw from "../components/atm/withdraw.vue";
+import Deposit from "../components/atm/deposit.vue";
+import Profile from "../components/profile/Profile.vue";
+import AddressBook from "../components/overview/AddressBook.vue";
 
 const routes = [
   { path: "/", component: Home },
   { path: "/login", component: Login },
   { path: "/RegisterUser", component: RegisterUser },
   { path: "/Overview", component: Overview },
+  { path: "/CreateTransaction", component: CreateTransaction},
   { path: "/Transactions", component: Transactions },
-  { path: "/BankAccountsManagement", component: BankAccounts }
+  { path: "/UserManagement", component: UserManagement },
+  { path: "/BankAccountsManagement", component: BankAccountsManagement },
+  { path: "/ATM", component: ATM },
+  { path: "/WithDraw", component: WithDraw },
+  { path: "/Deposit", component: Deposit },
+  { path: "/Profile", component: Profile },
+  { path: "/AddressBook", component: AddressBook },
 ];
 
 const router = createRouter({

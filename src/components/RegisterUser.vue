@@ -37,9 +37,23 @@
         required
         type="text"
         name="email"
-        placeholder="email"
+        placeholder="Email"
       /><br /><br />
-      <button class="btn btn-primary" @click="createUser">
+      <input
+        v-model="phoneNumber"
+        required
+        type="text"
+        name="phoneNumber"
+        placeholder="Phone number"
+      /><br /><br />
+      <input
+        v-model="bsn"
+        required
+        type="text"
+        name="bsn"
+        placeholder="BSN"
+      /><br /><br />
+      <button class="btn btn-warning" @click="createUser">
         Create new User</button
       ><br /><br />
     </div>
@@ -67,6 +81,8 @@ export default {
       lastname: "",
       email: "",
       registerUserMessage: "",
+      phoneNumber: "",
+      bsn: "",
       status: "",
     };
   },
@@ -74,11 +90,15 @@ export default {
     createUser() {
       axios
         .post("/UserAccounts", {
-          username: this.username,
-          password: this.password,
           firstName: this.firstname,
           lastName: this.lastname,
           email: this.email,
+          username: this.username,
+          password: this.password,
+          type: "registereduser",
+          phoneNumber: this.phoneNumber,
+          dayLimit: 1000,
+          transactionLimit: 250,
         })
         .then((response) => {
           this.registerUserMessage = "User was registered successfully";
@@ -95,4 +115,10 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+input {
+  margin: 0.3%;
+  border: 1px solid #D9D9D9 ;
+  border-radius: 5px;
+}
+</style>
