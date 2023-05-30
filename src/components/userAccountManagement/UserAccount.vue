@@ -21,8 +21,8 @@
                 <input class="inputField col" v-else v-model="username" />
                 <p class="col" v-if="!confirmClicked">{{ userAccount.types }}</p>
                 <select class="inputField col" v-else="!confirmClicked" v-model="types">
-                    <option value="CUSTOMER">Customer</option>
-                    <option value="EMPLOYEE">Employee</option>
+                    <option value="ROLE_CUSTOMER">Customer</option>
+                    <option value="ROLE_EMPLOYEE">Employee</option>
                 </select>
             </div>
 
@@ -113,7 +113,7 @@ export default {
         this.userAccount.transactionLimit = this.transactionLimit
 
         axios
-        .put(`/UserAccounts/update/${this.userAccount.id}`, this.userAccount)
+        .put(`/UserAccounts/${this.userAccount.id}`, this.userAccount)
         .then(response => {
             console.log(response);
             this.displayError = false;
