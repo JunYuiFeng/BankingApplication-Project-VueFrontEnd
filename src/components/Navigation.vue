@@ -34,7 +34,11 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/BankAccountsManagement" class="nav-link">
+              <router-link
+                to="/BankAccountsManagement"
+                v-if="this.role === 'ROLE_EMPLOYEE'"
+                class="nav-link"
+              >
                 BankAccountManagement
               </router-link>
             </li>
@@ -64,7 +68,8 @@
               type="button"
               class="btn btn-success"
               @click="$router.push('/login')"
-              style="margin: 2px 30px">
+              style="margin: 2px 30px"
+            >
               Login
             </button>
           </li>
@@ -81,7 +86,8 @@ export default {
   name: "Navbar",
   setup() {
     const store = useUserSessionStore();
-    return { store };
+    const role = localStorage.getItem("role");
+    return { store, role };
   },
   data() {
     return {
