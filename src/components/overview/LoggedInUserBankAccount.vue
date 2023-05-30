@@ -3,7 +3,7 @@
         {{ bankAccount.type }} account
         <div class="bankAccountContainer shadow-sm p-3 mb-4 d-flex justify-content-between">
             <div>
-                <p>{{ bankAccount.userAccount.firstName }}</p>
+                <p>{{ bankAccount.userAccount.firstName }} {{ bankAccount.userAccount.lastName }}</p>
                 <p>{{ bankAccount.iban }}</p>
             </div>
             <div class="d-flex align-items-center">
