@@ -1,5 +1,6 @@
 <script>
 import { useUserSessionStore } from "./store/userSessionStore";
+//import { jwt } from "./server";
 import Navbar from "./components/Navigation.vue";
 import Footer from "./components/Footer.vue";
 
@@ -14,7 +15,9 @@ export default {
   },
   mounted() {
     this.store.autologin();
-  }
+    this.store.getRole();
+    //this.jwt = jwt;
+  },
 };
 </script>
 

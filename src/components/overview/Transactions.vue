@@ -16,39 +16,39 @@
         <div class="filter-option">
           <label>
             <input
-              type="radio"
-              v-model="selectedFilter"
+              type="checkbox"
+              v-model="userId"
               value="userId"
               @change="resetInputs"
             />
             User ID
           </label>
-          <div class="input-container" v-if="selectedFilter === 'userId'">
+          <div class="input-container">
             <input v-model="userId" type="number" placeholder="Enter User ID" />
           </div>
         </div>
-        <div v-if="selectedFilter === 'userId'">
+        <div>
           <input v-model="userId" type="number" />
           <button @click="filterByUserId">Filter</button>
         </div>
         <div class="filter-option">
           <label>
             <input
-              type="radio"
+              type="checkbox"
               v-model="selectedFilter"
               value="ibanFrom"
               @change="resetInputs"
             />
             IBAN From
           </label>
-          <div class="input-container" v-if="selectedFilter === 'ibanFrom'">
+          <div class="input-container">
             <input
               v-model="ibanFrom"
               type="text"
               placeholder="Enter IBAN From"
             />
           </div>
-          <div v-if="selectedFilter === 'ibanFrom'">
+          <div>
             <br /><br />
             <input v-model="ibanFrom" type="text" />
             <button @click="filterByIbanFrom">Filter</button>
@@ -57,17 +57,17 @@
         <div class="filter-option">
           <label>
             <input
-              type="radio"
+              type="checkbox"
               v-model="selectedFilter"
               value="ibanTo"
               @change="resetInputs"
             />
             IBAN To
           </label>
-          <div class="input-container" v-if="selectedFilter === 'ibanTo'">
+          <div class="input-container">
             <input v-model="ibanTo" type="text" placeholder="Enter IBAN To" />
           </div>
-          <div v-if="selectedFilter === 'ibanTo'">
+          <div>
             <br /><br />
 
             <input v-model="ibanTo" type="text" />
@@ -77,53 +77,53 @@
         <div class="filter-option">
           <label>
             <input
-              type="radio"
+              type="checkbox"
               v-model="selectedFilter"
               value="dateFrom"
               @change="resetInputs"
             />
             Date From
           </label>
-          <div id="filterInput" v-if="selectedFilter === 'dateFrom'">
+          <div id="filterInput">
             <br /><br />
             <input v-model="dateFrom" type="datetime-local" />
             <button @click="filterByDateFrom">Filter</button>
           </div>
-          <div class="input-container" v-if="selectedFilter === 'dateFrom'">
+          <div class="input-container">
             <input v-model="dateFrom" type="datetime-local" />
           </div>
         </div>
-        <div class="filter-option">
+        <div class="filter-option" ref="dateTo">
           <label>
             <input
-              type="radio"
+              type="checkbox"
               v-model="selectedFilter"
               value="dateTo"
               @change="resetInputs"
             />
             Date To
           </label>
-          <div v-if="selectedFilter === 'dateTo'">
+          <div>
             <br /><br />
 
             <input v-model="dateTo" type="datetime-local" />
             <button @click="filterByDateTo">Filter</button>
           </div>
-          <div class="input-container" v-if="selectedFilter === 'dateTo'">
+          <div class="input-container">
             <input v-model="dateTo" type="datetime-local" />
           </div>
         </div>
         <div class="filter-option">
           <label>
             <input
-              type="radio"
+              type="checkbox"
               v-model="selectedFilter"
               value="dateRange"
               @change="resetInputs"
             />
             Date Range
           </label>
-          <div class="input-container" v-if="selectedFilter === 'dateRange'">
+          <div class="input-container">
             <br /><br />
             <label>Start Date</label>
             <input v-model="dateRangeStart" type="datetime-local" />
@@ -159,30 +159,33 @@ export default {
   computed: {
     filteredTransactions() {
       return this.transactions.filter((transaction) => {
-        let match = true;
-        if (this.selectedFilter === "userId") {
-          match = match && transaction.userId === this.userId;
+        if (this.selectedFilter.length === 0) {
+          return true; // Return all transactions if no filter is selected
         }
-        if (this.selectedFilter === "ibanFrom") {
-          match = match && transaction.IBANFrom === this.ibanFrom;
-        }
-        if (this.selectedFilter === "ibanTo") {
-          match = match && transaction.IBANTo === this.ibanTo;
-        }
-        if (this.selectedFilter === "dateFrom") {
-          match =
-            match && new Date(transaction.date) >= new Date(this.dateFrom);
-        }
-        if (this.selectedFilter === "dateTo") {
-          match = match && new Date(transaction.date) <= new Date(this.dateTo);
-        }
-        if (this.selectedFilter === "dateRange") {
-          match =
-            match &&
-            new Date(transaction.date) >= new Date(this.dateRangeStart) &&
-            new Date(transaction.date) <= new Date(this.dateRangeEnd);
-        }
-        return match;
+        return this.selectedFilter.every((filter) => {
+          if (filter.selectedFilter === "userId") {
+            return transaction.userId === this.userId;
+          }
+          if (filter === "ibanFrom") {
+            return transaction.IBANFrom === this.ibanFrom;
+          }
+          if (filter === "ibanTo") {
+            return transaction.IBANTo === this.ibanTo;
+          }
+          if (filter === "dateFrom") {
+            return new Date(transaction.date) >= new Date(this.dateFrom);
+          }
+          if (filter === "dateTo") {
+            return new Date(transaction.date) <= new Date(this.dateTo);
+          }
+          if (filter === "dateRange") {
+            return (
+              new Date(transaction.date) >= new Date(this.dateRangeStart) &&
+              new Date(transaction.date) <= new Date(this.dateRangeEnd)
+            );
+          }
+          return true; // Return true for unknown filters
+        });
       });
     },
   },
