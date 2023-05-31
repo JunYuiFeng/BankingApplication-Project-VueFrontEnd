@@ -17,121 +17,96 @@
           <label>
             <input
               type="checkbox"
-              v-model="userId"
+              v-model="selectedFilters"
               value="userId"
-              @change="resetInputs"
+              @change="resetInputs('userId')"
             />
             User ID
           </label>
           <div class="input-container">
-            <input v-model="userId" type="number" placeholder="Enter User ID" />
+            <input
+              v-if="selectedFilters.includes('userId')"
+              v-model="userId"
+              type="number"
+              placeholder="Enter User ID"
+            />
           </div>
-        </div>
-        <div>
-          <input v-model="userId" type="number" />
-          <button @click="filterByUserId">Filter</button>
         </div>
         <div class="filter-option">
           <label>
             <input
               type="checkbox"
-              v-model="selectedFilter"
+              v-model="selectedFilters"
               value="ibanFrom"
-              @change="resetInputs"
+              @change="resetInputs('ibanFrom')"
             />
             IBAN From
           </label>
           <div class="input-container">
             <input
+              v-if="selectedFilters.includes('ibanFrom')"
               v-model="ibanFrom"
               type="text"
               placeholder="Enter IBAN From"
             />
           </div>
-          <div>
-            <br /><br />
-            <input v-model="ibanFrom" type="text" />
-            <button @click="filterByIbanFrom">Filter</button>
-          </div>
         </div>
         <div class="filter-option">
           <label>
             <input
               type="checkbox"
-              v-model="selectedFilter"
+              v-model="selectedFilters"
               value="ibanTo"
-              @change="resetInputs"
+              @change="resetInputs('ibanTo')"
             />
             IBAN To
           </label>
           <div class="input-container">
-            <input v-model="ibanTo" type="text" placeholder="Enter IBAN To" />
-          </div>
-          <div>
-            <br /><br />
-
-            <input v-model="ibanTo" type="text" />
-            <button @click="filterByIbanTo">Filter</button>
+            <input
+              v-if="selectedFilters.includes('ibanTo')"
+              v-model="ibanTo"
+              type="text"
+              placeholder="Enter IBAN To"
+            />
           </div>
         </div>
         <div class="filter-option">
           <label>
             <input
               type="checkbox"
-              v-model="selectedFilter"
+              v-model="selectedFilters"
               value="dateFrom"
-              @change="resetInputs"
+              @change="resetInputs('dateFrom')"
             />
             Date From
           </label>
-          <div id="filterInput">
-            <br /><br />
-            <input v-model="dateFrom" type="datetime-local" />
-            <button @click="filterByDateFrom">Filter</button>
-          </div>
           <div class="input-container">
-            <input v-model="dateFrom" type="datetime-local" />
-          </div>
-        </div>
-        <div class="filter-option" ref="dateTo">
-          <label>
             <input
-              type="checkbox"
-              v-model="selectedFilter"
-              value="dateTo"
-              @change="resetInputs"
+              v-if="selectedFilters.includes('dateFrom')"
+              v-model="dateFrom"
+              type="datetime-local"
             />
-            Date To
-          </label>
-          <div>
-            <br /><br />
-
-            <input v-model="dateTo" type="datetime-local" />
-            <button @click="filterByDateTo">Filter</button>
-          </div>
-          <div class="input-container">
-            <input v-model="dateTo" type="datetime-local" />
           </div>
         </div>
         <div class="filter-option">
           <label>
             <input
               type="checkbox"
-              v-model="selectedFilter"
-              value="dateRange"
-              @change="resetInputs"
+              v-model="selectedFilters"
+              value="dateTo"
+              @change="resetInputs('dateTo')"
             />
-            Date Range
+            Date To
           </label>
           <div class="input-container">
-            <br /><br />
-            <label>Start Date</label>
-            <input v-model="dateRangeStart" type="datetime-local" />
-            <label>End Date</label>
-            <input v-model="dateRangeEnd" type="datetime-local" />
-            <button @click="filterByDateRange">Filter</button>
+            <input
+              v-if="selectedFilters.includes('dateTo')"
+              v-model="dateTo"
+              type="datetime-local"
+            />
           </div>
         </div>
+        <button @click="applyFilters">Filter</button>
       </div>
     </div>
   </div>
@@ -145,7 +120,7 @@ export default {
   data() {
     return {
       showFilters: false,
-      selectedFilter: "",
+      selectedFilters: [],
       userId: null,
       ibanFrom: "",
       ibanTo: "",
@@ -159,11 +134,11 @@ export default {
   computed: {
     filteredTransactions() {
       return this.transactions.filter((transaction) => {
-        if (this.selectedFilter.length === 0) {
+        if (this.selectedFilters.length === 0) {
           return true; // Return all transactions if no filter is selected
         }
-        return this.selectedFilter.every((filter) => {
-          if (filter.selectedFilter === "userId") {
+        return this.selectedFilters.every((filter) => {
+          if (filter === "userId") {
             return transaction.userId === this.userId;
           }
           if (filter === "ibanFrom") {
@@ -201,14 +176,18 @@ export default {
     toggleFilters() {
       this.showFilters = !this.showFilters;
     },
-    resetInputs() {
-      this.userId = null;
-      this.ibanFrom = "";
-      this.ibanTo = "";
-      this.dateFrom = "";
-      this.dateTo = "";
-      this.dateRangeStart = "";
-      this.dateRangeEnd = "";
+    resetInputs(filter) {
+      if (!this.selectedFilters.includes(filter)) {
+        // Remove the filter from selectedFilters if unchecked
+        const index = this.selectedFilters.indexOf(filter);
+        if (index !== -1) {
+          this.selectedFilters.splice(index, 1);
+        }
+      }
+    },
+    applyFilters() {
+      // Implement your logic to apply the filters
+      // You can access the filtered transactions from the computed property "filteredTransactions"
     },
   },
   mounted() {
@@ -267,25 +246,38 @@ export default {
 }
 
 .filter-option {
-  display: flex;
-  align-items: center;
   margin-bottom: 10px;
 }
 
 .input-container {
-  display: none;
   margin-top: 5px;
 }
 
-.filter-option input:checked + .input-container {
-  display: block;
+input[type="number"],
+input[type="text"],
+input[type="datetime-local"] {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }
 
-.filter-option label {
-  margin-left: 10px;
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
-.input-container input {
-  margin-top: 5px;
+ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+li {
+  margin-bottom: 5px;
 }
 </style>

@@ -27,7 +27,8 @@ export const useUserSessionStore = defineStore("userSessionStore", {
             console.log(response);
             this.token = response.data.token;
             this.username = response.data.username;
-            //let decoded = VueJwtDecode.decode(response.data.token);
+            let decoded = VueJwtDecode.decode(response.data.token);
+            current_user = decoded;
             // Extract the role from the JWT
             const tokenPayload = parseJwt(response.data.token);
             this.role = tokenPayload.role;

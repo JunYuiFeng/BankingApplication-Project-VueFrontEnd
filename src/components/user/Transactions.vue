@@ -195,6 +195,67 @@ export default {
         console.log(error);
       }
     },
+    async filterByUserId() {
+      try {
+        const response = await axios.get(
+          "/Transactions/UserId?userId=${this.userId}"
+        );
+        this.transactions = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async filterByIbanFrom() {
+      try {
+        const response = await axios.get(
+          "/Transactions/IBANFrom?IBAN=${this.ibanFrom}"
+        );
+        this.transactions = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async filterByIbanTo() {
+      try {
+        const response = await axios.get(
+          "/Transactions/IBANTo?IBAN=${this.ibanTo}"
+        );
+        this.transactions = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async filterByDateFrom() {
+      try {
+        const response = await axios.get(
+          "/Transactions/DateFrom?dateFrom=${this.dateFrom}"
+        );
+        this.transactions = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async filterByDateTo() {
+      try {
+        const response = await axios.get(
+          "/Transactions/DateTo?dateTo=${this.dateTo}"
+        );
+        this.transactions = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async filterByDateRange() {
+      try {
+        const timestamps = [this.dateRangeStart, this.dateRangeEnd];
+        const response = await axios.get(
+          "/Transactions/DateBetween?timestamps=${timestamps}"
+        );
+        this.transactions = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
     toggleFilters() {
       this.showFilters = !this.showFilters;
     },
