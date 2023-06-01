@@ -16,122 +16,97 @@
         <div class="filter-option">
           <label>
             <input
-              type="radio"
-              v-model="selectedFilter"
+              type="checkbox"
+              v-model="selectedFilters"
               value="userId"
-              @change="resetInputs"
+              @change="resetInputs('userId')"
             />
             User ID
           </label>
-          <div class="input-container" v-if="selectedFilter === 'userId'">
-            <input v-model="userId" type="number" placeholder="Enter User ID" />
+          <div class="input-container">
+            <input
+              v-if="selectedFilters.includes('userId')"
+              v-model="userId"
+              type="number"
+              placeholder="Enter User ID"
+            />
           </div>
-        </div>
-        <div v-if="selectedFilter === 'userId'">
-          <input v-model="userId" type="number" />
-          <button @click="filterByUserId">Filter</button>
         </div>
         <div class="filter-option">
           <label>
             <input
-              type="radio"
-              v-model="selectedFilter"
+              type="checkbox"
+              v-model="selectedFilters"
               value="ibanFrom"
-              @change="resetInputs"
+              @change="resetInputs('ibanFrom')"
             />
             IBAN From
           </label>
-          <div class="input-container" v-if="selectedFilter === 'ibanFrom'">
+          <div class="input-container">
             <input
+              v-if="selectedFilters.includes('ibanFrom')"
               v-model="ibanFrom"
               type="text"
               placeholder="Enter IBAN From"
             />
           </div>
-          <div v-if="selectedFilter === 'ibanFrom'">
-            <br /><br />
-            <input v-model="ibanFrom" type="text" />
-            <button @click="filterByIbanFrom">Filter</button>
-          </div>
         </div>
         <div class="filter-option">
           <label>
             <input
-              type="radio"
-              v-model="selectedFilter"
+              type="checkbox"
+              v-model="selectedFilters"
               value="ibanTo"
-              @change="resetInputs"
+              @change="resetInputs('ibanTo')"
             />
             IBAN To
           </label>
-          <div class="input-container" v-if="selectedFilter === 'ibanTo'">
-            <input v-model="ibanTo" type="text" placeholder="Enter IBAN To" />
-          </div>
-          <div v-if="selectedFilter === 'ibanTo'">
-            <br /><br />
-
-            <input v-model="ibanTo" type="text" />
-            <button @click="filterByIbanTo">Filter</button>
+          <div class="input-container">
+            <input
+              v-if="selectedFilters.includes('ibanTo')"
+              v-model="ibanTo"
+              type="text"
+              placeholder="Enter IBAN To"
+            />
           </div>
         </div>
         <div class="filter-option">
           <label>
             <input
-              type="radio"
-              v-model="selectedFilter"
+              type="checkbox"
+              v-model="selectedFilters"
               value="dateFrom"
-              @change="resetInputs"
+              @change="resetInputs('dateFrom')"
             />
             Date From
           </label>
-          <div id="filterInput" v-if="selectedFilter === 'dateFrom'">
-            <br /><br />
-            <input v-model="dateFrom" type="datetime-local" />
-            <button @click="filterByDateFrom">Filter</button>
-          </div>
-          <div class="input-container" v-if="selectedFilter === 'dateFrom'">
-            <input v-model="dateFrom" type="datetime-local" />
+          <div class="input-container">
+            <input
+              v-if="selectedFilters.includes('dateFrom')"
+              v-model="dateFrom"
+              type="datetime-local"
+            />
           </div>
         </div>
         <div class="filter-option">
           <label>
             <input
-              type="radio"
-              v-model="selectedFilter"
+              type="checkbox"
+              v-model="selectedFilters"
               value="dateTo"
-              @change="resetInputs"
+              @change="resetInputs('dateTo')"
             />
             Date To
           </label>
-          <div v-if="selectedFilter === 'dateTo'">
-            <br /><br />
-
-            <input v-model="dateTo" type="datetime-local" />
-            <button @click="filterByDateTo">Filter</button>
-          </div>
-          <div class="input-container" v-if="selectedFilter === 'dateTo'">
-            <input v-model="dateTo" type="datetime-local" />
-          </div>
-        </div>
-        <div class="filter-option">
-          <label>
+          <div class="input-container">
             <input
-              type="radio"
-              v-model="selectedFilter"
-              value="dateRange"
-              @change="resetInputs"
+              v-if="selectedFilters.includes('dateTo')"
+              v-model="dateTo"
+              type="datetime-local"
             />
-            Date Range
-          </label>
-          <div class="input-container" v-if="selectedFilter === 'dateRange'">
-            <br /><br />
-            <label>Start Date</label>
-            <input v-model="dateRangeStart" type="datetime-local" />
-            <label>End Date</label>
-            <input v-model="dateRangeEnd" type="datetime-local" />
-            <button @click="filterByDateRange">Filter</button>
           </div>
         </div>
+        <button @click="applyFilters">Filter</button>
       </div>
     </div>
   </div>
@@ -145,7 +120,7 @@ export default {
   data() {
     return {
       showFilters: false,
-      selectedFilter: "",
+      selectedFilters: [],
       userId: null,
       ibanFrom: "",
       ibanTo: "",
@@ -159,30 +134,33 @@ export default {
   computed: {
     filteredTransactions() {
       return this.transactions.filter((transaction) => {
-        let match = true;
-        if (this.selectedFilter === "userId") {
-          match = match && transaction.userId === this.userId;
+        if (this.selectedFilters.length === 0) {
+          return true; // Return all transactions if no filter is selected
         }
-        if (this.selectedFilter === "ibanFrom") {
-          match = match && transaction.IBANFrom === this.ibanFrom;
-        }
-        if (this.selectedFilter === "ibanTo") {
-          match = match && transaction.IBANTo === this.ibanTo;
-        }
-        if (this.selectedFilter === "dateFrom") {
-          match =
-            match && new Date(transaction.date) >= new Date(this.dateFrom);
-        }
-        if (this.selectedFilter === "dateTo") {
-          match = match && new Date(transaction.date) <= new Date(this.dateTo);
-        }
-        if (this.selectedFilter === "dateRange") {
-          match =
-            match &&
-            new Date(transaction.date) >= new Date(this.dateRangeStart) &&
-            new Date(transaction.date) <= new Date(this.dateRangeEnd);
-        }
-        return match;
+        return this.selectedFilters.every((filter) => {
+          if (filter === "userId") {
+            return transaction.userId === this.userId;
+          }
+          if (filter === "ibanFrom") {
+            return transaction.IBANFrom === this.ibanFrom;
+          }
+          if (filter === "ibanTo") {
+            return transaction.IBANTo === this.ibanTo;
+          }
+          if (filter === "dateFrom") {
+            return new Date(transaction.date) >= new Date(this.dateFrom);
+          }
+          if (filter === "dateTo") {
+            return new Date(transaction.date) <= new Date(this.dateTo);
+          }
+          if (filter === "dateRange") {
+            return (
+              new Date(transaction.date) >= new Date(this.dateRangeStart) &&
+              new Date(transaction.date) <= new Date(this.dateRangeEnd)
+            );
+          }
+          return true; // Return true for unknown filters
+        });
       });
     },
   },
@@ -198,14 +176,18 @@ export default {
     toggleFilters() {
       this.showFilters = !this.showFilters;
     },
-    resetInputs() {
-      this.userId = null;
-      this.ibanFrom = "";
-      this.ibanTo = "";
-      this.dateFrom = "";
-      this.dateTo = "";
-      this.dateRangeStart = "";
-      this.dateRangeEnd = "";
+    resetInputs(filter) {
+      if (!this.selectedFilters.includes(filter)) {
+        // Remove the filter from selectedFilters if unchecked
+        const index = this.selectedFilters.indexOf(filter);
+        if (index !== -1) {
+          this.selectedFilters.splice(index, 1);
+        }
+      }
+    },
+    applyFilters() {
+      // Implement your logic to apply the filters
+      // You can access the filtered transactions from the computed property "filteredTransactions"
     },
   },
   mounted() {
@@ -264,25 +246,38 @@ export default {
 }
 
 .filter-option {
-  display: flex;
-  align-items: center;
   margin-bottom: 10px;
 }
 
 .input-container {
-  display: none;
   margin-top: 5px;
 }
 
-.filter-option input:checked + .input-container {
-  display: block;
+input[type="number"],
+input[type="text"],
+input[type="datetime-local"] {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }
 
-.filter-option label {
-  margin-left: 10px;
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
-.input-container input {
-  margin-top: 5px;
+ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+li {
+  margin-bottom: 5px;
 }
 </style>

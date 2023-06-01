@@ -8,36 +8,20 @@
             </div>
 
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-warning shadow-sm" @click="showCreateBankAccount=true">Request new bank account</button>
+                <button type="button" class="btn btn-warning shadow-sm" @click="showCreateBankAccount = true">Request new
+                    bank
+                    account</button>
             </div>
-            
-            <CreateBankAccount v-if="showCreateBankAccount" @cancel="showCreateBankAccount=false"/>
+
+            <CreateBankAccount v-if="showCreateBankAccount" @cancel="showCreateBankAccount = false" />
 
             <div class="bankAccountsOverviewContainer ps-5 pe-5">
                 <div class="d-flex justify-content-end mt-5">
-                    <h5 class="">Total balance: 10000</h5>
+                    <h5 class="">Total balance: €{{ calculateTotalBalance() }}</h5>
                 </div>
 
-                <div>
-                    current account
-                    <div class="bankAccountContainer shadow-sm p-3 mb-4 d-flex justify-content-between">
-                        <div>
-                            <p>John Doe</p>
-                            <p>NL29INHOL3124908</p>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <p>10000000</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    savings account
-                    <div class="bankAccountContainer shadow-sm p-3">
-                        <p>John Doe</p>
-                        <p>NL29INHOL3124908</p>
-                    </div>
-                </div>
+                <LoggedInUserBankAccount v-for="bankAccount in bankAccounts" :key="bankAccount.id"
+                    :bankAccount="bankAccount" />
 
             </div>
         </div>
@@ -45,17 +29,40 @@
 </template>
 
 <script>
+import axios from '../../Axios-auth';
 import CreateBankAccount from './CreateBankAccount.vue'
+import LoggedInUserBankAccount from './LoggedInUserBankAccount.vue'
 
 export default {
-  components: {
-    CreateBankAccount
-  },
-  data() {
-    return {
-      showCreateBankAccount: false
+    components: {
+        CreateBankAccount,
+        LoggedInUserBankAccount
+    },
+    data() {
+        return {
+            bankAccounts: [],
+            showCreateBankAccount: false
+        }
+    },
+    mounted() {
+        this.getLoggedInUserBankAccounts();
+    },
+    methods: {
+        getLoggedInUserBankAccounts() {
+            axios.get("/BankAccounts/UserAccount/2")
+                .then((response) => {
+                    this.bankAccounts = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        },
+        calculateTotalBalance() {
+            return this.bankAccounts.reduce((total, bankAccount) => {
+                return total + bankAccount.balance;
+            }, 0);
+        }
     }
-  }
 }
 </script>
 
