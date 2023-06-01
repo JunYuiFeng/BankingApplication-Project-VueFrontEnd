@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import Axios from "../Axios-auth";
-//import VueJwtDecode from "vue-jwt-decode";
+import VueJwtDecode from 'vue-jwt-decode';
 
 export const useUserSessionStore = defineStore("userSessionStore", {
   state: () => ({
@@ -12,6 +12,9 @@ export const useUserSessionStore = defineStore("userSessionStore", {
     isLoggedIn: (state) => {
       return state.username !== "";
     },
+    getRole: (state) => {
+      return state.role;
+    }
   },
   actions: {
     autologin() {
@@ -24,16 +27,15 @@ export const useUserSessionStore = defineStore("userSessionStore", {
       return new Promise((resolve, reject) => {
         Axios.post("/login", { username: username, password: password })
           .then((response) => {
+            const tokenPayload = VueJwtDecode.decode(response.data.token);
+            this.role = tokenPayload.auth;
+            
             console.log(response);
-            // this.token = response.data.token;
-            // this.username = response.data.username;
-            // //let decoded = VueJwtDecode.decode(response.data.token);
-            // // Extract the role from the JWT
-            // const tokenPayload = parseJwt(response.data.token);
-            // this.role = tokenPayload.role;
+            this.token = response.data.token;
+            this.username = response.data.username;
 
             localStorage.setItem("token", response.data.token);
-            // localStorage.setItem("role", tokenPayload.role);
+            localStorage.setItem("role", tokenPayload.auth);
             Axios.defaults.headers.common["Authorization"] =
               "Bearer " + response.data.token;
             resolve(response);

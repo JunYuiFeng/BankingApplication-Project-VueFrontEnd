@@ -35,7 +35,8 @@
             </li>
             <li class="nav-item">
               <router-link
-                to="/BankAccountsManagement" class="nav-link">
+                to="/BankAccountsManagement" class="nav-link"
+                >
                 BankAccountManagement
               </router-link>
             </li>
@@ -82,9 +83,9 @@ import { useUserSessionStore } from "../store/userSessionStore";
 export default {
   name: "Navbar",
   setup() {
-    const store = useUserSessionStore();
-    const role = localStorage.getItem("role");
-    return { store, role };
+    return { store: useUserSessionStore() };
+    //const role = localStorage.getItem("role");
+    //return { store, role };
   },
   data() {
     return {
