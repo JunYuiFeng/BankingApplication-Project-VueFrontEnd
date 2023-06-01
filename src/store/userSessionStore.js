@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import Axios from "../Axios-auth";
-import VueJwtDecode from "vue-jwt-decode";
+//import VueJwtDecode from "vue-jwt-decode";
 
 export const useUserSessionStore = defineStore("userSessionStore", {
   state: () => ({
@@ -28,12 +28,13 @@ export const useUserSessionStore = defineStore("userSessionStore", {
             this.token = response.data.token;
             this.username = response.data.username;
             //let decoded = VueJwtDecode.decode(response.data.token);
+            //current_user = decoded;
             // Extract the role from the JWT
-            const tokenPayload = parseJwt(response.data.token);
-            this.role = tokenPayload.role;
+            //const tokenPayload = parseJwt(response.data.token);
+            //this.role = tokenPayload.role;
 
             localStorage.setItem("token", response.data.token);
-            localStorage.setItem("role", tokenPayload.role);
+            //localStorage.setItem("role", tokenPayload.role);
             Axios.defaults.headers.common["Authorization"] =
               "Bearer " + response.data.token;
             resolve(response);
@@ -45,6 +46,12 @@ export const useUserSessionStore = defineStore("userSessionStore", {
     },
     logout() {
       this.username = "";
+      this.token = "";
+      this.role = "";
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      Axios.defaults.headers.common["Authorization"] = "";
+      localStorage.clear();
     },
   },
 });
