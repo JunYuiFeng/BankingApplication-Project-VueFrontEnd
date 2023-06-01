@@ -48,7 +48,7 @@
                 <p class="d-flex justify-content-center mt-5 mb-5">{{ errorMessage }}</p>
             </template>
             <template v-else>
-                <BankAccount v-for="bankAccount in bankAccounts" :key="bankAccount.id" :bankAccount="bankAccount" />
+                <BankAccount v-for="bankAccount in bankAccounts" :key="bankAccount.iban" :bankAccount="bankAccount" />
             </template>
         </div>
     </div>
@@ -74,8 +74,6 @@ export default {
     },
     methods: {
         getBankAccounts() {
-            //axios.defaults.headers.common['Authorization'] = 'Bearer YOUR_JWT_TOKEN'; // Hardcode the JWT token here
-
             this.errorMessage = "";
 
             axios.get('/BankAccounts/ExceptBank')

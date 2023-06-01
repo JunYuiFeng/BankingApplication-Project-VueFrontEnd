@@ -35,10 +35,7 @@
             </li>
             <li class="nav-item">
               <router-link
-                to="/BankAccountsManagement"
-                v-if="this.role === 'ROLE_EMPLOYEE'"
-                class="nav-link"
-              >
+                to="/BankAccountsManagement" class="nav-link">
                 BankAccountManagement
               </router-link>
             </li>
