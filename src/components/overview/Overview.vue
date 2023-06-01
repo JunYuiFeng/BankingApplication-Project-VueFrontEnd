@@ -30,7 +30,7 @@
 
 <script>
 import axios from '../../Axios-auth';
-import CreateBankAccount from './CreateBankAccount.vue'
+import CreateBankAccount from './RequestBankAccount.vue'
 import LoggedInUserBankAccount from './LoggedInUserBankAccount.vue'
 
 export default {

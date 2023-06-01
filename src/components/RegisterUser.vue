@@ -94,7 +94,7 @@ export default {
           email: this.email,
           username: this.username,
           password: this.password,
-          types: ["ROLE_USER"],
+          type: "ROLE_USER",
           phoneNumber: this.phoneNumber,
           bsn: this.bsn,
           dayLimit: 1000,
