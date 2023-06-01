@@ -30,11 +30,11 @@ export const useUserSessionStore = defineStore("userSessionStore", {
             //let decoded = VueJwtDecode.decode(response.data.token);
             //current_user = decoded;
             // Extract the role from the JWT
-            const tokenPayload = parseJwt(response.data.token);
-            this.role = tokenPayload.role;
+            //const tokenPayload = parseJwt(response.data.token);
+            //this.role = tokenPayload.role;
 
             localStorage.setItem("token", response.data.token);
-            localStorage.setItem("role", tokenPayload.role);
+            //localStorage.setItem("role", tokenPayload.role);
             Axios.defaults.headers.common["Authorization"] =
               "Bearer " + response.data.token;
             resolve(response);
@@ -46,6 +46,12 @@ export const useUserSessionStore = defineStore("userSessionStore", {
     },
     logout() {
       this.username = "";
+      this.token = "";
+      this.role = "";
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      Axios.defaults.headers.common["Authorization"] = "";
+      localStorage.clear();
     },
   },
 });
