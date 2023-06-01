@@ -16,7 +16,7 @@ export default {
   mounted() {
     this.store.autologin();
     //this.store.getRole();
-    this.jwt = jwt;
+    //this.jwt = jwt;
   },
 };
 </script>

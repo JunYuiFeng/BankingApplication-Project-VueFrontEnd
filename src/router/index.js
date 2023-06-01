@@ -19,7 +19,7 @@ const routes = [
   { path: "/login", component: Login },
   { path: "/RegisterUser", component: RegisterUser },
   { path: "/Overview", component: Overview },
-  { path: "/CreateTransaction", component: CreateTransaction},
+  { path: "/CreateTransaction", component: CreateTransaction },
   { path: "/Transactions", component: Transactions },
   { path: "/UserManagement", component: UserManagement },
   { path: "/BankAccountsManagement", component: BankAccountsManagement },
