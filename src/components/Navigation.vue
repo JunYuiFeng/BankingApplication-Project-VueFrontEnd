@@ -11,37 +11,35 @@
       </div>
       <div class="navbar-collapse justify-content-between">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+          <li class="nav-item" v-if="!store.isLoggedIn">
             <router-link to="/RegisterUser" class="nav-link">
               Register
             </router-link>
           </li>
 
           <ul class="navbar-nav">
-            <li class="nav-item">
+            <li class="nav-item" v-if="store.isLoggedIn">
               <router-link to="/Overview" class="nav-link">
                 Overview
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="store.isLoggedIn">
               <router-link to="/Transactions" class="nav-link">
                 Transactions
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="this.role === 'ROLE_EMPLOYEE'">
               <router-link to="/UserManagement" class="nav-link">
                 UserManagement
               </router-link>
             </li>
-            <li class="nav-item">
-              <router-link
-                to="/BankAccountsManagement" class="nav-link"
-                >
+            <li class="nav-item" v-if="this.role === 'ROLE_EMPLOYEE'">
+              <router-link to="/BankAccountsManagement" class="nav-link">
                 BankAccountManagement
               </router-link>
             </li>
           </ul>
-          <li class="nav-item">
+          <li class="nav-item" v-if="store.isLoggedIn">
             <router-link to="/Profile" class="nav-link">
               <img
                 src="/pictures/profilePic.png"
@@ -83,14 +81,27 @@ import { useUserSessionStore } from "../store/userSessionStore";
 export default {
   name: "Navbar",
   setup() {
-    return { store: useUserSessionStore() };
-    //const role = localStorage.getItem("role");
-    //return { store, role };
+    const store = useUserSessionStore();
+    const role = localStorage.getItem("role");
+    return { store, role };
   },
   data() {
     return {
       isLoggedIn: this.store.isLoggedIn,
     };
+  },
+  data() {
+    return {
+      role: localStorage.getItem("role"),
+    };
+  },
+  computed: {
+    isLoggedIn() {
+      return this.store.isLoggedIn;
+    },
+    role() {
+      return this.store.getRole;
+    },
   },
   methods: {
     logout() {

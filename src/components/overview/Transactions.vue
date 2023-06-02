@@ -2,6 +2,42 @@
   <div class="container">
     <div class="filtered-transactions">
       <h4>Filtered Transactions</h4>
+
+      <div class="Transcation History p-4 mt-5">
+        <div class="header p-3 mb-2">
+          <div class="row">
+            <div class="col d-flex justify-content-center">
+              <h5>Date</h5>
+            </div>
+            <div class="col d-flex justify-content-center">
+              <h5>From</h5>
+            </div>
+            <div class="col d-flex justify-content-center">
+              <h5>To</h5>
+            </div>
+            <div class="col d-flex justify-content-center">
+              <h5>Amount</h5>
+            </div>
+          </div>
+        </div>
+        <div
+          v-for="transaction in transactions"
+          :key="transaction.id"
+          class="col d-flex justify-content-center"
+        >
+          <h3>{{ transaction.occuredAt }}</h3>
+          <h3>{{ transaction.accountFrom }}</h3>
+          <h3>{{ transaction.accountTo }}</h3>
+          <h3>{{ transaction.amount }}</h3>
+        </div>
+      </div>
+
+      <!--for each date that there are transactions i want to list the
+      transactions for that day. So if the transaction was a - i will display
+      the name of the person who got the transaction and the amount that it was
+      paid to them. If the transaction was a + then i want to display th name of
+      the person who did the sent them money and the amount that was sent to
+      them. I also want to display the date of the transaction.-->
       <ul>
         <li v-for="transaction in filteredTransactions" :key="transaction.id">
           {{ transaction }}
@@ -111,9 +147,8 @@
     </div>
   </div>
 </template>
-
 <script>
-import axios from "axios";
+import axios from "../../Axios-auth";
 
 export default {
   name: "TransactionFilters",
@@ -130,6 +165,20 @@ export default {
       dateRangeEnd: "",
       transactions: [],
     };
+  },
+  setup() {
+    name: "transactions";
+    return { transactions: [] };
+  },
+  created() {
+    axios
+      .get("/Transactions")
+      .then((response) => {
+        this.transactions = response.data;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   },
   computed: {
     filteredTransactions() {
@@ -165,9 +214,9 @@ export default {
     },
   },
   methods: {
-    async getAllTransactions() {
+    async getFilteredTransactions() {
       try {
-        const response = await axios.get("/Transactions");
+        const response = axios.get("/Transactions");
         this.transactions = response.data;
       } catch (error) {
         console.log(error);
@@ -191,7 +240,7 @@ export default {
     },
   },
   mounted() {
-    this.getAllTransactions();
+    this.getFilteredTransactions();
   },
 };
 </script>
