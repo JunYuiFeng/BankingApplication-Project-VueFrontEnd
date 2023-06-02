@@ -87,7 +87,7 @@ export default {
     },
     methods: {
         getBankAccounts() {
-            axios.get('/BankAccounts/UserAccount/2')
+            axios.get('/BankAccounts/UserAccount/3')
                 .then(response => {
                     this.bankAccounts = response.data;
                 })
