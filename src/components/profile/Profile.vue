@@ -61,8 +61,12 @@
 
 <script>
 import axios from '../../Axios-auth';
+import { useUserSessionStore } from "../../store/userSessionStore";
 
 export default {
+    setup() {
+        return { store : useUserSessionStore() };
+    },
     name: 'Profile',
     data() {
         return {
@@ -115,7 +119,7 @@ export default {
             this.userAccount.transactionLimit = this.transactionLimit
 
             axios
-            .put(`/UserAccounts/update/1`, this.userAccount)
+            .put(`/UserAccounts/${this.store.username}`, this.userAccount)
             .then(response => {
                 console.log(response);
                 this.displayError = false;
@@ -128,9 +132,12 @@ export default {
             });
         },
         load() {
+            console.log(this.store.$state.username);
+
             axios
-            .get(`/UserAccounts/1`)
+            .get(`/UserAccounts/${this.store.$state.username}`)
             .then(response => {
+                
                 console.log(response);
                 this.userAccount = response.data;
             })
