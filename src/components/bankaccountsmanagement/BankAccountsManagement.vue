@@ -56,7 +56,7 @@
 
 <script>
 import axios from '../../Axios-auth';
-import BankAccount from './BankAccount.vue'
+import BankAccount from './BankAccount.vue';
 
 export default {
     name: 'BankAccountsManagement',
