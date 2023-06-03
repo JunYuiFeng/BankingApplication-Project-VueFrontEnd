@@ -87,7 +87,8 @@ export default {
         }
     },
     mounted() {
-        this.load();
+        this.userId = localStorage.getItem('userId');
+        this.load();    
     },
     methods: {
         edit() {
@@ -119,7 +120,7 @@ export default {
             this.userAccount.transactionLimit = this.transactionLimit
 
             axios
-            .put(`/UserAccounts/${this.store.username}`, this.userAccount)
+            .put(`/UserAccounts/${this.userId}`, this.userAccount)
             .then(response => {
                 console.log(response);
                 this.displayError = false;
@@ -132,10 +133,10 @@ export default {
             });
         },
         load() {
-            console.log(this.store.$state.username);
+            console.log(this.userId);
 
             axios
-            .get(`/UserAccounts/${this.store.$state.username}`)
+            .get(`/UserAccounts/${this.userId}`)
             .then(response => {
                 
                 console.log(response);

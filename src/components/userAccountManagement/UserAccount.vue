@@ -2,7 +2,7 @@
     <div>
         <div id="userContainer">
 
-            <CreateBankAccount @cancel="cancel" v-if="showBankAccountForm"/>
+            <CreateBankAccount :userAccount="userAccount" @cancel="cancel"  v-if="showBankAccountForm"/>
             <div class="userContainerFields row">
                 <div class="row">
                     <label class="col">First Name</label>
