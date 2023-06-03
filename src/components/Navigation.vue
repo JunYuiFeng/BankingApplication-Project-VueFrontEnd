@@ -11,37 +11,39 @@
       </div>
       <div class="navbar-collapse justify-content-between">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+          <li class="nav-item" v-if="!this.store.isLoggedIn">
             <router-link to="/RegisterUser" class="nav-link">
               Register
             </router-link>
           </li>
 
           <ul class="navbar-nav">
-            <li class="nav-item">
+            <li class="nav-item" v-if="this.store.isLoggedIn">
               <router-link to="/Overview" class="nav-link">
                 Overview
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="this.store.isLoggedIn">
               <router-link to="/Transactions" class="nav-link">
                 Transactions
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="this.store.role === 'ROLE_EMPLOYEE'">
               <router-link to="/UserManagement" class="nav-link">
                 UserManagement
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="this.store.role === 'ROLE_EMPLOYEE'">
               <router-link
-                to="/BankAccountsManagement" class="nav-link"
-                >
+                to="/BankAccountsManagement"
+                class="nav-link"
+                active-class="active"
+              >
                 BankAccountManagement
               </router-link>
             </li>
           </ul>
-          <li class="nav-item">
+          <li class="nav-item" v-if="this.store.isLoggedIn">
             <router-link to="/Profile" class="nav-link">
               <img
                 src="/pictures/profilePic.png"
@@ -51,7 +53,7 @@
             </router-link>
           </li>
 
-          <li v-if="store.isLoggedIn" class="nav-item">
+          <li v-if="this.store.isLoggedIn" class="nav-item">
             <button
               type="button"
               class="btn btn-danger"
@@ -84,13 +86,20 @@ export default {
   name: "Navbar",
   setup() {
     return { store: useUserSessionStore() };
-    //const role = localStorage.getItem("role");
-    //return { store, role };
   },
   data() {
     return {
-      isLoggedIn: this.store.isLoggedIn,
+      isLoggedIn: "",
+      role: "",
     };
+  },
+  mounted() {
+    // console.log("mounted");
+    this.store.autologin();
+    this.role = localStorage.getItem("role");
+    if (this.store.isLoggedIn) {
+      this.$router.push("/Overview");
+    }
   },
   methods: {
     logout() {
