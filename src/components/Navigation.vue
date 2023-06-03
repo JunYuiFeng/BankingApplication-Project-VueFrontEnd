@@ -104,6 +104,7 @@ export default {
   methods: {
     logout() {
       this.store.logout();
+      this.$router.push("/");
     },
   },
 };

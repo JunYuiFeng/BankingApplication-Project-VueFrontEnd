@@ -3,19 +3,23 @@
     <div class="filtered-transactions">
       <h4>Filtered Transactions</h4>
 
-      <div class="Transcation History p-4 mt-5">
+      <div
+        style="background-color: #0c1231"
+        class="TranscationHistory p-4 mt-5"
+      >
+        <h2 style="text-align: center">Transaction History</h2>
         <div class="header p-3 mb-2">
           <div class="row">
-            <div class="col d-flex justify-content-center">
+            <div class="col d-flex">
               <h5>Date</h5>
             </div>
-            <div class="col d-flex justify-content-center">
+            <div class="col d-flex">
               <h5>From</h5>
             </div>
-            <div class="col d-flex justify-content-center">
+            <div class="col d-flex">
               <h5>To</h5>
             </div>
-            <div class="col d-flex justify-content-center">
+            <div class="col d-flex">
               <h5>Amount</h5>
             </div>
           </div>
@@ -56,7 +60,7 @@
     </div>
     <div class="filters">
       <button class="filter-button" @click="toggleFilters">
-        <span class="filter-icon">🔍</span> Filters
+        <span class="filter-icon" style="color: black">🔍</span> Filters
       </button>
       <div class="filter-options" :class="{ open: showFilters }">
         <div class="filter-option">
@@ -275,6 +279,9 @@ export default {
   flex: 3;
   order: 2;
   text-align: left;
+}
+.TranscationHistory {
+  color: white;
 }
 
 .filter-button {
