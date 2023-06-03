@@ -13,9 +13,6 @@ export default {
     Navbar,
     Footer,
   },
-  mounted() {
-    this.store.autologin();
-  },
   /*created() {
     const store = useUserSessionStore();
     const storedToken = localStorage.getItem("token");

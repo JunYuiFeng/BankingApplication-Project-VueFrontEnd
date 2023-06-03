@@ -20,16 +20,31 @@
             </div>
           </div>
         </div>
-        <div
+
+        <span
           v-for="transaction in transactions"
           :key="transaction.id"
           class="col d-flex justify-content-center"
         >
-          <h3>{{ transaction.occuredAt }}</h3>
-          <h3>{{ transaction.accountFrom }}</h3>
-          <h3>{{ transaction.accountTo }}</h3>
-          <h3>{{ transaction.amount }}</h3>
-        </div>
+          <div class="col">
+            <h5>{{ formatDate(transaction.occuredAt) }}</h5>
+          </div>
+          <div class="col">
+            <h5>
+              {{ transaction.accountFrom.userAccount.firstName }}
+              {{ transaction.accountFrom.userAccount.lastName }}
+            </h5>
+          </div>
+          <div class="col">
+            <h5>
+              {{ transaction.accountTo.userAccount.firstName }}
+              {{ transaction.accountTo.userAccount.lastName }}
+            </h5>
+          </div>
+          <div class="col">
+            <h5>&euro; {{ transaction.amount }}</h5>
+          </div>
+        </span>
       </div>
 
       <!--for each date that there are transactions i want to list the
@@ -38,11 +53,6 @@
       paid to them. If the transaction was a + then i want to display th name of
       the person who did the sent them money and the amount that was sent to
       them. I also want to display the date of the transaction.-->
-      <ul>
-        <li v-for="transaction in filteredTransactions" :key="transaction.id">
-          {{ transaction }}
-        </li>
-      </ul>
     </div>
     <div class="filters">
       <button class="filter-button" @click="toggleFilters">
@@ -166,19 +176,9 @@ export default {
       transactions: [],
     };
   },
+  name: "Transactions",
   setup() {
-    name: "transactions";
     return { transactions: [] };
-  },
-  created() {
-    axios
-      .get("/Transactions")
-      .then((response) => {
-        this.transactions = response.data;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   },
   computed: {
     filteredTransactions() {
@@ -216,11 +216,16 @@ export default {
   methods: {
     async getFilteredTransactions() {
       try {
-        const response = axios.get("/Transactions");
-        this.transactions = response.data;
+        axios.get("/Transactions").then((response) => {
+          this.transactions = response.data;
+        });
       } catch (error) {
         console.log(error);
       }
+    },
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleString(); // Adjust the formatting as per your requirements
     },
     toggleFilters() {
       this.showFilters = !this.showFilters;
@@ -240,7 +245,18 @@ export default {
     },
   },
   mounted() {
-    this.getFilteredTransactions();
+    if (localStorage.getItem("token") === null) {
+      this.$router.push("/login");
+    }
+    axios
+      .get("/Transactions")
+      .then((response) => {
+        this.transactions = response.data;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // this.getFilteredTransactions();
   },
 };
 </script>

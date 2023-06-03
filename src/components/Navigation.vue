@@ -11,35 +11,39 @@
       </div>
       <div class="navbar-collapse justify-content-between">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item" v-if="!store.isLoggedIn">
+          <li class="nav-item" v-if="!this.store.isLoggedIn">
             <router-link to="/RegisterUser" class="nav-link">
               Register
             </router-link>
           </li>
 
           <ul class="navbar-nav">
-            <li class="nav-item" v-if="store.isLoggedIn">
+            <li class="nav-item" v-if="this.store.isLoggedIn">
               <router-link to="/Overview" class="nav-link">
                 Overview
               </router-link>
             </li>
-            <li class="nav-item" v-if="store.isLoggedIn">
+            <li class="nav-item" v-if="this.store.isLoggedIn">
               <router-link to="/Transactions" class="nav-link">
                 Transactions
               </router-link>
             </li>
-            <li class="nav-item" v-if="this.role === 'ROLE_EMPLOYEE'">
+            <li class="nav-item" v-if="this.store.role === 'ROLE_EMPLOYEE'">
               <router-link to="/UserManagement" class="nav-link">
                 UserManagement
               </router-link>
             </li>
-            <li class="nav-item" v-if="this.role === 'ROLE_EMPLOYEE'">
-              <router-link to="/BankAccountsManagement" class="nav-link">
+            <li class="nav-item" v-if="this.store.role === 'ROLE_EMPLOYEE'">
+              <router-link
+                to="/BankAccountsManagement"
+                class="nav-link"
+                active-class="active"
+              >
                 BankAccountManagement
               </router-link>
             </li>
           </ul>
-          <li class="nav-item" v-if="store.isLoggedIn">
+          <li class="nav-item" v-if="this.store.isLoggedIn">
             <router-link to="/Profile" class="nav-link">
               <img
                 src="/pictures/profilePic.png"
@@ -49,7 +53,7 @@
             </router-link>
           </li>
 
-          <li v-if="store.isLoggedIn" class="nav-item">
+          <li v-if="this.store.isLoggedIn" class="nav-item">
             <button
               type="button"
               class="btn btn-danger"
@@ -81,27 +85,21 @@ import { useUserSessionStore } from "../store/userSessionStore";
 export default {
   name: "Navbar",
   setup() {
-    const store = useUserSessionStore();
-    const role = localStorage.getItem("role");
-    return { store, role };
+    return { store: useUserSessionStore() };
   },
   data() {
     return {
-      isLoggedIn: this.store.isLoggedIn,
+      isLoggedIn: "",
+      role: "",
     };
   },
-  data() {
-    return {
-      role: localStorage.getItem("role"),
-    };
-  },
-  computed: {
-    isLoggedIn() {
-      return this.store.isLoggedIn;
-    },
-    role() {
-      return this.store.getRole;
-    },
+  mounted() {
+    // console.log("mounted");
+    this.store.autologin();
+    this.role = localStorage.getItem("role");
+    if (this.store.isLoggedIn) {
+      this.$router.push("/Overview");
+    }
   },
   methods: {
     logout() {

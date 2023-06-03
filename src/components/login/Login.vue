@@ -50,7 +50,7 @@ export default {
       this.store
         .login(this.username, this.password)
         .then(() => {
-          this.$router.push("/");
+          this.$router.push("/Overview");
         })
         .catch((error) => {
           console.log(error);

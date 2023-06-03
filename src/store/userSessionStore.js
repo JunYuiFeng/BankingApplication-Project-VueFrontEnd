@@ -10,7 +10,7 @@ export const useUserSessionStore = defineStore("userSessionStore", {
   }),
   getters: {
     isLoggedIn: (state) => {
-      return state.username !== "";
+      return state.token !== "";
     },
     getRole: (state) => {
       return state.role;
@@ -20,6 +20,7 @@ export const useUserSessionStore = defineStore("userSessionStore", {
     autologin() {
       if (localStorage.getItem("token")) {
         this.token = localStorage.getItem("token");
+        this.role = localStorage.getItem("role");
         Axios.defaults.headers.common["Authorization"] = "Bearer " + this.token;
       }
     },
@@ -32,7 +33,6 @@ export const useUserSessionStore = defineStore("userSessionStore", {
 
             console.log(response);
             this.token = response.data.token;
-            this.username = response.data.username;
 
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("role", tokenPayload.auth);
