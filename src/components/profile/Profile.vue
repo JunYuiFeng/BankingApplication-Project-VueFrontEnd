@@ -36,12 +36,10 @@
                     <input class="inputField" v-else v-model="bsn" />
 
                     <label>Day Limit</label>
-                    <p v-if="!confirmClicked">{{ userAccount.dayLimit }}</p>
-                    <input class="inputField" v-else v-model="dayLimit" />
+                    <p>{{ userAccount.dayLimit }}</p>
 
                     <label>Transaction Limit</label>
-                    <p v-if="!confirmClicked">{{ userAccount.transactionLimit }}</p>
-                    <input class="inputField" v-else v-model="transactionLimit" />
+                    <p>{{ userAccount.transactionLimit }}</p>
 
                     <button id="editButton" class="btn" :class="['btn-primary', { 'btn-confirm': confirmClicked }]" @click="edit">
                         <template v-if="!confirmClicked">Edit Profile</template>
