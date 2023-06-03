@@ -30,10 +30,14 @@
 
 <script>
 import axios from '../../Axios-auth';
-import CreateBankAccount from './CreateBankAccount.vue'
+import CreateBankAccount from './RequestBankAccount.vue'
 import LoggedInUserBankAccount from './LoggedInUserBankAccount.vue'
+import { useUserSessionStore } from "../../store/userSessionStore";
 
 export default {
+    setup() {
+        return { store: useUserSessionStore() };
+    },
     components: {
         CreateBankAccount,
         LoggedInUserBankAccount
@@ -49,7 +53,7 @@ export default {
     },
     methods: {
         getLoggedInUserBankAccounts() {
-            axios.get("/BankAccounts/UserAccount/2")
+            axios.get(`/BankAccounts/UserAccount/${localStorage.getItem("userId")}`)
                 .then((response) => {
                     this.bankAccounts = response.data;
                 })

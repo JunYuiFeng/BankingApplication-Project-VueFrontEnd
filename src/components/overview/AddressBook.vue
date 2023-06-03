@@ -12,6 +12,7 @@
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
                     <th scope="col">IBAN</th>
+                    <th scope="col">Type</th>
                 </tr>
             </thead>
 
@@ -21,6 +22,7 @@
                     <td>{{ bankAccount.userAccount.firstName }}</td>
                     <td>{{ bankAccount.userAccount.lastName }}</td>
                     <td>{{ bankAccount.iban }}</td>
+                    <td>{{ bankAccount.type }}</td>
                 </tr>
             </tbody>
         </table>

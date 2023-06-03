@@ -1,17 +1,13 @@
 <template>
-    <div class="createBankAccount d-flex justify-content-center align-items-center">
-        <div class="createBankAccountContainer shadow">
-            <div @click="setBankAccountType('CURRENT')" class="bankAccountOption shadow m-4 p-2 ps-5 d-flex">
+    <div class="requestBankAccount d-flex justify-content-center align-items-center">
+        <div class="requestBankAccountContainer shadow">
+            <div @click="requestBankAccount" class="bankAccountOption shadow m-4 p-2 ps-5 d-flex">
                 <p>Current account</p>
             </div>
 
-            <div @click="setBankAccountType('SAVINGS')" class="bankAccountOption shadow m-4 p-2 ps-5 d-flex mb-5">
+            <div class="bankAccountOption shadow m-4 p-2 ps-5 d-flex mb-5">
                 <p>Savings account</p>
             </div>
-
-            <div v-if="createMessage" class="alert mt-3" :class="['alert-success', {'alert-danger': displayError }]">
-                    {{ createMessage }}
-            </div> 
 
             <div class="mt-5">
                 <div class="row">
@@ -29,39 +25,29 @@
 </template>
 
 <script>
-import axios from '../../Axios-auth';
+import axios from 'axios';
 
 export default {
     data() {
         return {
-            bankAccountType: '',
-            id: '',
-            createMessage: ''
+            bankAccountType: 'CURRENT',
+            id: 2,
         }
     },
     methods: {
-        createBankAccount() {
-            if (this.bankAccountType == '') {
-                this.createMessage = "Please select a bank account type";
-                return;
-            }
-
-            axios.post("/BankAccounts", {
+        requestBankAccount() {
+            axios.post("http://localhost/BankAccounts", {
                 type: this.bankAccountType,
                 id: this.id
             })
             .then((response) => {
-                this.createMessage = "Bank account successfully created";
                 console.log(response);
             })
             .catch((error) => {
                 console.log(error);
             })
-        },
-        setBankAccountType(type) {
-            this.bankAccountType = type;
         }
-    }
+}
 };
 </script>
 
@@ -88,6 +74,7 @@ export default {
     background: white;
     border-radius: 10px;
     font-size: 18pt;
+    /* TODO: make font size to responsive */
 }
 
 .bankAccountOption:hover {
