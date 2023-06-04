@@ -5,6 +5,7 @@
             <div>
                 <p>{{ bankAccount.userAccount.firstName }} {{ bankAccount.userAccount.lastName }}</p>
                 <p>{{ bankAccount.iban }}</p>
+                <p>absoluteLimit: {{ bankAccount.absoluteLimit }}</p>
             </div>
             <div class="d-flex align-items-center">
                 <p>€ {{ bankAccount.balance }}</p>

@@ -61,10 +61,10 @@
 </template>
 
 <script>
-import axios from '../../Axios-auth';
-import TransactionSuccess from './TransactionSuccess.vue';
-import TransactionFailed from './TransactionFailed.vue';
-import { useUserSessionStore } from '../../store/userSessionStore';
+import axios from "../Axios-auth";
+import TransactionSuccess from './overview/TransactionSuccess.vue';
+import TransactionFailed from './overview/TransactionFailed.vue';
+import { useUserSessionStore } from '../store/userSessionStore';
 
 export default {
     setup() {
@@ -91,7 +91,7 @@ export default {
     },
     methods: {
         getBankAccounts() {
-            axios.get(`/BankAccounts/UserAccount/${this.store.getUserId}`)
+            axios.get(`/BankAccounts/ExcludeUserAccount/${this.store.getUserId}`)
                 .then(response => {
                     this.bankAccounts = response.data;
                 })
