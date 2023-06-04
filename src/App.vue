@@ -13,9 +13,17 @@ export default {
     Navbar,
     Footer,
   },
-  mounted() {
-    this.store.autologin();
-  },
+  /*created() {
+    const store = useUserSessionStore();
+    const storedToken = localStorage.getItem("token");
+    const storedRole = localStorage.getItem("role");
+
+    if (storedToken && storedRole) {
+      // Set the user session data in the Vuex store
+      store.setToken(storedToken);
+      store.setRole(storedRole);
+    }
+  },*/
 };
 </script>
 
