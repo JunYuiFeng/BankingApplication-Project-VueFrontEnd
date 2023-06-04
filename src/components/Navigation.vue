@@ -42,6 +42,15 @@
                 BankAccountManagement
               </router-link>
             </li>
+            <li class="nav-item">
+              <router-link
+                to="/TransferService"
+                class="nav-link"
+                active-class="active"
+              >
+                Transfer Service
+              </router-link>
+            </li>
           </ul>
           <li class="nav-item" v-if="this.store.isLoggedIn">
             <router-link to="/Profile" class="nav-link">

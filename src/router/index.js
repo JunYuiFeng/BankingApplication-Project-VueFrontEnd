@@ -13,6 +13,7 @@ import WithDraw from "../components/atm/withdraw.vue";
 import Deposit from "../components/atm/deposit.vue";
 import Profile from "../components/profile/Profile.vue";
 import AddressBook from "../components/overview/AddressBook.vue";
+import TransferService from "../components/TransferService.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -28,6 +29,7 @@ const routes = [
   { path: "/Deposit", component: Deposit },
   { path: "/Profile", component: Profile },
   { path: "/AddressBook", component: AddressBook },
+  { path: "/TransferService", component: TransferService },
 ];
 
 const router = createRouter({

@@ -76,7 +76,7 @@ export default {
         getBankAccounts() {
             this.errorMessage = "";
 
-            axios.get('/BankAccounts/ExceptBank')
+            axios.get('/BankAccounts/ExcludeUserAccount/1')
                 .then(response => {
                     this.bankAccounts = response.data;
                 })

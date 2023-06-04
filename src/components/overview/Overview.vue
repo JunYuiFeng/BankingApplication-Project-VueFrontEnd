@@ -3,14 +3,22 @@
         <div class="container mt-5">
             <h1>Overview</h1>
 
-            <div class="d-flex justify-content-end mb-2" @click="this.$router.push('/CreateTransaction')">
-                <button type="button" class="btn btn-primary shadow-sm">Transfer</button>
-            </div>
+            <div class="d-flex justify-content-between mt-3">
+                <h5>Daylimit remaining:</h5>
 
-            <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-warning shadow-sm" @click="showCreateBankAccount = true">Request new
-                    bank
-                    account</button>
+                <div>
+                    <div class="d-flex justify-content-end mb-2" @click="this.$router.push('/CreateTransaction')">
+                        <button type="button" class="btn btn-primary shadow-sm">Transfer</button>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-warning shadow-sm"
+                            @click="showCreateBankAccount = true">Request
+                            new
+                            bank
+                            account</button>
+                    </div>
+                </div>
             </div>
 
             <CreateBankAccount v-if="showCreateBankAccount" @cancel="showCreateBankAccount = false" />
@@ -53,7 +61,7 @@ export default {
     },
     methods: {
         getLoggedInUserBankAccounts() {
-            axios.get(`/BankAccounts/UserAccount/${localStorage.getItem("userId")}`)
+            axios.get(`/BankAccounts/UserAccount/${this.store.getUserId}`)
                 .then((response) => {
                     this.bankAccounts = response.data;
                 })

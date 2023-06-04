@@ -6,7 +6,7 @@
             </div>
             <h1 class="d-flex justify-content-center">Transaction failed</h1>
             <div class="d-flex justify-content-center mt-4">
-                <button class="btn btn-primary" @click="$emit('cancel')">Close</button>
+                <button class="btn btn-primary" @click="$emit('close')">Close</button>
             </div>
         </div>
         <br>
