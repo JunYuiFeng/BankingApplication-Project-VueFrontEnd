@@ -1,10 +1,8 @@
 <template>
   <div class="container">
     <div class="filtered-transactions">
-      <h4>Filtered Transactions</h4>
-
       <div
-        style="background-color: #0c1231"
+        style="background-color: #d9d9d9; border-radius: 18px"
         class="TranscationHistory p-4 mt-5"
       >
         <h2 style="text-align: center">Transaction History</h2>
@@ -31,22 +29,26 @@
           class="col d-flex justify-content-center"
         >
           <div class="col">
-            <h5>{{ formatDate(transaction.occuredAt) }}</h5>
+            <p>{{ formatDate(transaction.occuredAt) }}</p>
           </div>
           <div class="col">
-            <h5>
+            <p>
+              User ID: {{ transaction.accountFrom.userAccount.id }} <br />
               {{ transaction.accountFrom.userAccount.firstName }}
               {{ transaction.accountFrom.userAccount.lastName }}
-            </h5>
+              <br />{{ transaction.accountFrom.iban }}
+            </p>
           </div>
           <div class="col">
-            <h5>
+            <p>
+              User ID: {{ transaction.accountTo.userAccount.id }} <br />
               {{ transaction.accountTo.userAccount.firstName }}
               {{ transaction.accountTo.userAccount.lastName }}
-            </h5>
+              <br />{{ transaction.accountTo.iban }}
+            </p>
           </div>
           <div class="col">
-            <h5>&euro; {{ transaction.amount }}</h5>
+            <p>&euro; {{ transaction.amount }}</p>
           </div>
         </span>
       </div>
@@ -63,6 +65,7 @@
         <span class="filter-icon" style="color: black">🔍</span> Filters
       </button>
       <div class="filter-options" :class="{ open: showFilters }">
+        <p>Select the boxes you want to filter:</p>
         <div class="filter-option">
           <label>
             <input
@@ -281,7 +284,8 @@ export default {
   text-align: left;
 }
 .TranscationHistory {
-  color: white;
+  flex: 9;
+  color: black;
 }
 
 .filter-button {
