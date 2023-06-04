@@ -85,7 +85,7 @@ export default {
         }
     },
     mounted() {
-        this.userId = localStorage.getItem('userId');
+        this.userId = this.store.getUserId;
         this.load();    
     },
     methods: {
