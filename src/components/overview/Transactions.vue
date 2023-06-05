@@ -65,7 +65,6 @@
         <span class="filter-icon" style="color: black">🔍</span> Filters
       </button>
       <div class="filter-options" :class="{ open: showFilters }">
-        <p>Select the boxes you want to filter:</p>
         <div class="filter-option">
           <label>
             <input
