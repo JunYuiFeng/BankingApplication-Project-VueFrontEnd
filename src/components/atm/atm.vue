@@ -89,12 +89,10 @@ export default {
                 return;
             }
 
-            this.transaction.accountFrom = this.selectedAccount.iban;
-            this.transaction.accountTo = "NL77ABNA5602795901";
+            this.transaction.IBAN = this.selectedAccount.iban;
             this.transaction.amount = this.amount;
-            this.transaction.description = "withdraw from ATM";
 
-            axios.post(`Transactions`, this.transaction)
+            axios.post(`Transactions/Withdrawal`, this.transaction)
             .then(response => {
                 this.displayError = false;
                 this.errorMessage = "Withdraw successful";
@@ -113,12 +111,10 @@ export default {
                 return;
             }
             
-            this.transaction.accountFrom = "NL77ABNA5602795901";
             this.transaction.accountTo = this.selectedAccount.iban;
             this.transaction.amount = this.amount;
-            this.transaction.description = "deposit from ATM";
 
-            axios.post(`Transactions`, this.transaction)
+            axios.post(`Transactions/Deposit`, this.transaction)
             .then(response => {
                 this.displayError = false;
                 this.errorMessage = "Deposit successful";
