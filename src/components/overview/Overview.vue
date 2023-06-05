@@ -4,7 +4,7 @@
             <h1>Overview</h1>
 
             <div class="d-flex justify-content-between mt-3">
-                <h5>Daylimit remaining:</h5>
+                <h5>Daylimit remaining: {{ getDayLimitRemaining }}</h5>
 
                 <div>
                     <div class="d-flex justify-content-end mb-2" @click="this.$router.push('/CreateTransaction')">
@@ -53,11 +53,13 @@ export default {
     data() {
         return {
             bankAccounts: [],
+            loggedInUser: {},
             showCreateBankAccount: false
         }
     },
     mounted() {
         this.getLoggedInUserBankAccounts();
+        this.getLoggedInUser();
     },
     methods: {
         getLoggedInUserBankAccounts() {
@@ -73,9 +75,27 @@ export default {
             return this.bankAccounts.reduce((total, bankAccount) => {
                 return total + bankAccount.balance;
             }, 0);
+        },
+        getLoggedInUser(){
+            axios.get(`/UserAccounts/${this.store.getUserId}`)
+                .then((response) => {
+                    this.loggedInUser = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    },
+    computed: {
+        getDayLimitRemaining() {
+            if (this.loggedInUser != null) {
+                return this.loggedInUser.dayLimit - this.loggedInUser.currentDayLimit;
+            }
+            return 0;
         }
     }
 }
+
 </script>
 
 <style scoped>
