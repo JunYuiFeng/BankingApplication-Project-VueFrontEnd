@@ -52,115 +52,46 @@
           </div>
         </span>
       </div>
-
-      <!--for each date that there are transactions i want to list the
-      transactions for that day. So if the transaction was a - i will display
-      the name of the person who got the transaction and the amount that it was
-      paid to them. If the transaction was a + then i want to display th name of
-      the person who did the sent them money and the amount that was sent to
-      them. I also want to display the date of the transaction.-->
     </div>
     <div class="filters">
       <button class="filter-button" @click="toggleFilters">
         <span class="filter-icon" style="color: black">🔍</span> Filters
       </button>
       <div class="filter-options" :class="{ open: showFilters }">
-        <div class="filter-option">
+        <div
+          class="filter-option"
+          v-for="checkBox in checkBoxes"
+          :key="checkBox.value + checkBox.inputValue"
+        >
           <label>
             <input
               type="checkbox"
               v-model="selectedFilters"
-              value="userId"
-              @change="resetInputs('userId')"
+              :value="checkBox.value"
+              @change="resetInputs(checkBox.value)"
             />
-            User ID
+            {{ checkBox.label }}
           </label>
           <div class="input-container">
             <input
-              v-if="selectedFilters.includes('userId')"
-              v-model="userId"
-              type="number"
-              placeholder="Enter User ID"
-            />
-          </div>
-        </div>
-        <div class="filter-option">
-          <label>
-            <input
-              type="checkbox"
-              v-model="selectedFilters"
-              value="ibanFrom"
-              @change="resetInputs('ibanFrom')"
-            />
-            IBAN From
-          </label>
-          <div class="input-container">
-            <input
-              v-if="selectedFilters.includes('ibanFrom')"
-              v-model="ibanFrom"
+              v-if="selectedFilters.includes(checkBox.value)"
               type="text"
-              placeholder="Enter IBAN From"
-            />
-          </div>
-        </div>
-        <div class="filter-option">
-          <label>
-            <input
-              type="checkbox"
-              v-model="selectedFilters"
-              value="ibanTo"
-              @change="resetInputs('ibanTo')"
-            />
-            IBAN To
-          </label>
-          <div class="input-container">
-            <input
-              v-if="selectedFilters.includes('ibanTo')"
-              v-model="ibanTo"
-              type="text"
-              placeholder="Enter IBAN To"
-            />
-          </div>
-        </div>
-        <div class="filter-option">
-          <label>
-            <input
-              type="checkbox"
-              v-model="selectedFilters"
-              value="dateFrom"
-              @change="resetInputs('dateFrom')"
-            />
-            Date From
-          </label>
-          <div class="input-container">
-            <input
-              v-if="selectedFilters.includes('dateFrom')"
-              v-model="dateFrom"
-              type="datetime-local"
-            />
-          </div>
-        </div>
-        <div class="filter-option">
-          <label>
-            <input
-              type="checkbox"
-              v-model="selectedFilters"
-              value="dateTo"
-              @change="resetInputs('dateTo')"
-            />
-            Date To
-          </label>
-          <div class="input-container">
-            <input
-              v-if="selectedFilters.includes('dateTo')"
-              v-model="dateTo"
-              type="datetime-local"
+              v-model="checkBox.inputValue"
+              :placeholder="checkBox.placeholder"
             />
           </div>
         </div>
         <button @click="applyFilters">Filter</button>
+        <br />
       </div>
     </div>
+  </div>
+  <div>
+    <br />
+    <h5>selected filters:</h5>
+    <span v-for="item in filteredItems" :key="item.value">
+      {{ item.value }}: {{ item.inputValue }}
+    </span>
   </div>
 </template>
 <script>
@@ -171,22 +102,84 @@ export default {
   data() {
     return {
       showFilters: false,
-      selectedFilters: [],
       userId: null,
       ibanFrom: "",
       ibanTo: "",
+      amountEqualTo: "",
+      amountLessThan: "",
+      amountGreaterThan: "",
       dateFrom: "",
       dateTo: "",
       dateRangeStart: "",
       dateRangeEnd: "",
       transactions: [],
+      checkBoxes: [
+        {
+          value: "userId",
+          label: "User ID",
+          inputValue: "",
+          type: "number",
+          placeholder: "Enter User ID",
+        },
+        {
+          value: "ibanFrom",
+          label: "IBAN From",
+          inputValue: "",
+          type: "text",
+          placeholder: "Enter IBAN From",
+        },
+        {
+          value: "ibanTo",
+          label: "IBAN To",
+          inputValue: "",
+          type: "text",
+          placeholder: "Enter IBAN To",
+        },
+        {
+          value: "amountEqualTo",
+          label: "Amount Equal To",
+          inputValue: "",
+          type: "number",
+          placeholder: "Enter Amount",
+        },
+        {
+          value: "amountLessThan",
+          label: "Amount Less Than",
+          inputValue: "",
+          type: "number",
+          placeholder: "Enter Amount",
+        },
+        {
+          value: "amountGreaterThan",
+          label: "Amount Greater Than",
+          inputValue: "",
+          type: "number",
+          placeholder: "Enter Amount",
+        },
+        {
+          value: "dateFrom",
+          label: "Date From",
+          inputValue: "",
+          type: "datetime-local",
+        },
+        {
+          value: "dateTo",
+          label: "Date To",
+          inputValue: "",
+          type: "datetime-local",
+        },
+      ],
+      selectedFilters: [],
     };
   },
-  name: "Transactions",
-  setup() {
-    return { transactions: [] };
-  },
   computed: {
+    filteredItems() {
+      return this.checkBoxes.filter(
+        (checkBox) =>
+          checkBox.inputValue && this.selectedFilters.includes(checkBox.value)
+      );
+    },
+
     filteredTransactions() {
       return this.transactions.filter((transaction) => {
         if (this.selectedFilters.length === 0) {
@@ -208,11 +201,14 @@ export default {
           if (filter === "dateTo") {
             return new Date(transaction.date) <= new Date(this.dateTo);
           }
-          if (filter === "dateRange") {
-            return (
-              new Date(transaction.date) >= new Date(this.dateRangeStart) &&
-              new Date(transaction.date) <= new Date(this.dateRangeEnd)
-            );
+          if (filter === "amountEqualTo") {
+            return transaction.amount === this.amountEqualTo;
+          }
+          if (filter === "amountLessThan") {
+            return transaction.amount < this.amountLessThan;
+          }
+          if (filter === "amountGreaterThan") {
+            return transaction.amount > this.amountGreaterThan;
           }
           return true; // Return true for unknown filters
         });
@@ -253,16 +249,9 @@ export default {
   mounted() {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
+    } else {
+      this.getFilteredTransactions(); // Call the method to fetch transactions
     }
-    axios
-      .get("/Transactions")
-      .then((response) => {
-        this.transactions = response.data;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    // this.getFilteredTransactions();
   },
 };
 </script>
