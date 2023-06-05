@@ -24,16 +24,21 @@
               </router-link>
             </li>
             <li class="nav-item" v-if="this.store.isLoggedIn">
+              <router-link to="/ATM" class="nav-link">
+                ATM
+              </router-link>
+            </li>
+            <li class="nav-item" v-if="this.store.isLoggedIn">
               <router-link to="/Transactions" class="nav-link">
                 Transactions
               </router-link>
             </li>
-            <li class="nav-item" v-if="this.store.role === 'ROLE_EMPLOYEE'">
+            <li class="nav-item" v-if="this.store.isLoggedIn">
               <router-link to="/UserManagement" class="nav-link">
                 UserManagement
               </router-link>
             </li>
-            <li class="nav-item" v-if="this.store.role === 'ROLE_EMPLOYEE'">
+            <li class="nav-item" v-if="this.store.isLoggedIn">
               <router-link
                 to="/BankAccountsManagement"
                 class="nav-link"

@@ -2,13 +2,19 @@
   <div>
     <div class="container mt-5">
         <h1>User Accounts</h1>
-        <button class="btn btn-primary m-1 mt-3" @click="loadAllUsers">All</button>
-        <button class="btn btn-primary m-1 mt-3" @click="loadAllRegisteredUsers">No Bank Accounts</button>
-        <div class="userOverview">
-          <UserAccount v-for="userAccount in userAccounts" :userAccount="userAccount"/>
-          <div class="d-flex justify-content-end">
-            <button class="btn btn-warning" @click="CreateUserAccount">Create New User Account</button>
+        <div class="row">
+          <div class="col-8">
+            <button class="btn btn-primary m-1 mt-3" @click="loadAllUsers">All</button>
+            <button class="btn btn-primary m-1 mt-3" @click="loadAllRegisteredUsers">No Bank Accounts</button>
           </div>
+          <div class="col-4 text-end">
+            <button class="btn btn-warning m-1 mt-3" @click="CreateUserAccount">Create New User Account</button>
+          </div>
+        </div>
+
+        <div class="userOverview">
+          
+          <UserAccount v-for="userAccount in userAccounts" :userAccount="userAccount"/>
         </div>
     </div>
   </div>

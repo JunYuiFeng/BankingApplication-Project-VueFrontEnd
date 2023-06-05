@@ -62,7 +62,6 @@ export default {
                 }
                 this.displayError = false;
                 this.createMessage = "Bank account successfully created";
-                this.$emit('cancel');
                 console.log(response);          
             })
             .catch((error) => {

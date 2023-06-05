@@ -88,7 +88,7 @@ export default {
   methods: {
     createUser() {
       axios
-        .post("/UserAccounts", {
+        .post("/UserAccounts/register", {
           firstName: this.firstname,
           lastName: this.lastname,
           email: this.email,
@@ -98,7 +98,9 @@ export default {
           phoneNumber: this.phoneNumber,
           bsn: this.bsn,
           dayLimit: 1000,
+          currentDayLimit: 0,
           transactionLimit: 250,
+          currentTransactionLimit: 0
         })
         .then((response) => {
           this.registerUserMessage = "User was registered successfully";
