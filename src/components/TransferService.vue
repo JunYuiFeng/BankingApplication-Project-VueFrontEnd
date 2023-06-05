@@ -17,11 +17,7 @@
             <!-- From Account -->
             <div class="form-group mb-4 mt-4">
                 <label for="fromAccount">From Account:</label>
-                <select class="form-control" id="fromAccount" v-model="accountFrom">
-                    <option>Select Account</option>
-                    <option v-for="account in bankAccounts" :key="account.iban" :value="account.iban">{{ account.type }} {{ account.iban }}
-                    </option>
-                </select>
+                <input type="text" class="form-control" id="amount" v-model="accountFrom" placeholder="Enter IBAN">
             </div>
 
             <!-- To Account -->

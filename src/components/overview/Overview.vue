@@ -11,21 +11,21 @@
                         <button type="button" class="btn btn-primary shadow-sm">Transfer</button>
                     </div>
 
-                    <div class="d-flex justify-content-end">
+                    <!-- <div class="d-flex justify-content-end">
                         <button type="button" class="btn btn-warning shadow-sm"
                             @click="showCreateBankAccount = true">Request
                             new
                             bank
                             account</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
-            <CreateBankAccount v-if="showCreateBankAccount" @cancel="showCreateBankAccount = false" />
+            <!-- <CreateBankAccount v-if="showCreateBankAccount" @cancel="showCreateBankAccount = false" /> -->
 
             <div class="bankAccountsOverviewContainer ps-5 pe-5">
                 <div class="d-flex justify-content-end mt-5">
-                    <h5 class="">Total balance: €{{ calculateTotalBalance() }}</h5>
+                    <h5 class="">Total balance: €{{ formatNumber(calculateTotalBalance()) }}</h5>
                 </div>
 
                 <LoggedInUserBankAccount v-for="bankAccount in bankAccounts" :key="bankAccount.id"
@@ -38,7 +38,6 @@
 
 <script>
 import axios from '../../Axios-auth';
-import CreateBankAccount from './RequestBankAccount.vue'
 import LoggedInUserBankAccount from './LoggedInUserBankAccount.vue'
 import { useUserSessionStore } from "../../store/userSessionStore";
 
@@ -47,7 +46,6 @@ export default {
         return { store: useUserSessionStore() };
     },
     components: {
-        CreateBankAccount,
         LoggedInUserBankAccount
     },
     data() {
@@ -73,7 +71,12 @@ export default {
             return this.bankAccounts.reduce((total, bankAccount) => {
                 return total + bankAccount.balance;
             }, 0);
-        }
+        },
+        formatNumber(number) {
+            const parts = number.toString().split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return parts.join(',');
+        },
     }
 }
 </script>
