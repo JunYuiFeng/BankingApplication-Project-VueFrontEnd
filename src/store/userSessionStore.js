@@ -16,12 +16,6 @@ export const useUserSessionStore = defineStore("userSessionStore", {
     getRole: (state) => {
       return state.role;
     },
-
-    // getUserId: (state) => {
-    //   this.userId = localStorage.getItem("userId");
-    //   return state.userId;
-    // }
-
   },
   actions: {
     autologin() {
@@ -39,11 +33,11 @@ export const useUserSessionStore = defineStore("userSessionStore", {
             this.role = tokenPayload.auth;
 
             this.userId = tokenPayload.jti;
-            
+
             this.token = response.data.token;
 
-
             localStorage.setItem("token", response.data.token);
+            console.log("role" + this.role);
             localStorage.setItem("role", tokenPayload.auth);
             localStorage.setItem("userId", tokenPayload.jti);
             //localStorage.setItem("username", response.data.sub);

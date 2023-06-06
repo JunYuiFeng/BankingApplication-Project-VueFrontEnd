@@ -122,14 +122,14 @@ export default {
           placeholder: "Enter User ID",
         },
         {
-          value: "ibanFrom",
+          value: "IBANFrom",
           label: "IBAN From",
           inputValue: "",
           type: "text",
           placeholder: "Enter IBAN From",
         },
         {
-          value: "ibanTo",
+          value: "IBANTo",
           label: "IBAN To",
           inputValue: "",
           type: "text",
@@ -179,41 +179,6 @@ export default {
           checkBox.inputValue && this.selectedFilters.includes(checkBox.value)
       );
     },
-
-    filteredTransactions() {
-      return this.transactions.filter((transaction) => {
-        if (this.selectedFilters.length === 0) {
-          return true; // Return all transactions if no filter is selected
-        }
-        return this.selectedFilters.every((filter) => {
-          if (filter === "userId") {
-            return transaction.userId === this.userId;
-          }
-          if (filter === "ibanFrom") {
-            return transaction.IBANFrom === this.ibanFrom;
-          }
-          if (filter === "ibanTo") {
-            return transaction.IBANTo === this.ibanTo;
-          }
-          if (filter === "dateFrom") {
-            return new Date(transaction.date) >= new Date(this.dateFrom);
-          }
-          if (filter === "dateTo") {
-            return new Date(transaction.date) <= new Date(this.dateTo);
-          }
-          if (filter === "amountEqualTo") {
-            return transaction.amount === this.amountEqualTo;
-          }
-          if (filter === "amountLessThan") {
-            return transaction.amount < this.amountLessThan;
-          }
-          if (filter === "amountGreaterThan") {
-            return transaction.amount > this.amountGreaterThan;
-          }
-          return true; // Return true for unknown filters
-        });
-      });
-    },
   },
   methods: {
     async getFilteredTransactions() {
@@ -224,6 +189,13 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    generateQueryString() {
+      let queryString = "";
+      this.filteredItems.forEach((item) => {
+        queryString += `?${item.value}=${item.inputValue}`;
+      });
+      return queryString;
     },
     formatDate(dateString) {
       const date = new Date(dateString);
@@ -242,8 +214,17 @@ export default {
       }
     },
     applyFilters() {
-      // Implement your logic to apply the filters
-      // You can access the filtered transactions from the computed property "filteredTransactions"
+      const queryString = this.generateQueryString();
+      const apiEndpoint = `/Transactions${queryString}`;
+      console.log(apiEndpoint);
+      try {
+        axios.get(apiEndpoint).then((response) => {
+          this.transactions = response.data;
+          console.log(this.transactions);
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   mounted() {
