@@ -41,15 +41,15 @@
                     </div>
                 </div>
             </div>
-            <template v-if="bankAccounts.length === 0">
+            <div v-if="bankAccounts.length === 0">
                 <p class="d-flex justify-content-center mt-5 mb-5">No bank accounts available</p>
-            </template>
-            <template v-else-if="errorMessage">
+            </div>
+            <div v-else-if="errorMessage">
                 <p class="d-flex justify-content-center mt-5 mb-5">{{ errorMessage }}</p>
-            </template>
-            <template v-else>
+            </div>
+            <div v-else>
                 <BankAccount v-for="bankAccount in bankAccounts" :key="bankAccount.iban" :bankAccount="bankAccount" />
-            </template>
+            </div>
         </div>
     </div>
 </template>

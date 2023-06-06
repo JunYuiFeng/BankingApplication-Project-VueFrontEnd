@@ -42,12 +42,12 @@
                 BankAccountManagement
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="this.store.role === 'ROLE_EMPLOYEE'">
               <router-link
                 to="/TransferService"
                 class="nav-link"
                 active-class="active"
-              >
+              > 
                 Transfer Service
               </router-link>
             </li>

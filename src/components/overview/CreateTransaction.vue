@@ -56,7 +56,7 @@
             <button class="btn btn-primary" type="submit" @click="makeTransaction">Submit</button>
         </form>
         <TransactionSuccess v-if="showTransactionSuccess" @close="showTransactionSuccess=false"/>
-        <TransactionFailed v-if="showTransactionFailed" @close="showTransactionFailed=false"/>
+        <TransactionFailed v-if="showTransactionFailed" @close="showTransactionFailed=false" :errorMessage = "errorMessage"/>
     </div>
 </template>
 
@@ -79,7 +79,8 @@ export default {
             accountFrom: '',
             accountTo: '',
             amount: '',
-            description: ''
+            description: '',
+            errorMessage: ''
         }
     },
     components: {
@@ -110,11 +111,16 @@ export default {
                 .then(response => {
                     this.showTransactionSuccess = true;
                     console.log(response);
-                    //this.$refs.form.reset(); // Reset the form fields
                 })
                 .catch(error => {
                     this.showTransactionFailed = true;
-                    console.log(error);
+                    if (error.response && error.response.data && error.response.data.message) {
+                        const errorMessage = error.response.data.message;
+
+                        this.errorMessage = errorMessage;
+                    } else {
+                        console.log(error); // Fallback to logging the error if the message is not available
+                    }
                 })
         }
     }

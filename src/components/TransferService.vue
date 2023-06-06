@@ -1,6 +1,4 @@
 <template>
-    <button class="btn btn-secondary m-4" @click="this.$router.push('/Overview')">Back</button>
-
     <div class="container mt-3">
         <div class="d-flex justify-content-between">
             <h2>Transfer</h2>
@@ -24,9 +22,6 @@
             <div class="form-group mb-4">
                 <label for="toAccount">To Account:</label>
                 <div class="input-group">
-                    <!-- <div class="input-group-prepend">
-                        <span class="input-group-text">NL</span>
-                    </div> -->
                     <input type="text" class="form-control" id="amount" v-model="accountTo" placeholder="Enter IBAN">
                 </div>
             </div>
@@ -52,7 +47,7 @@
             <button class="btn btn-primary" type="submit" @click="makeTransaction">Submit</button>
         </form>
         <TransactionSuccess v-if="showTransactionSuccess" @close="showTransactionSuccess=false"/>
-        <TransactionFailed v-if="showTransactionFailed" @close="showTransactionFailed=false"/>
+        <TransactionFailed v-if="showTransactionFailed" @close="showTransactionFailed=false" :errorMessage = "errorMessage"/>
     </div>
 </template>
 
@@ -75,7 +70,8 @@ export default {
             accountFrom: '',
             accountTo: '',
             amount: '',
-            description: ''
+            description: '',
+            errorMessage: ''
         }
     },
     components: {
