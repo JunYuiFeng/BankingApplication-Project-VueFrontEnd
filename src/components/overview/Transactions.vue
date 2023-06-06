@@ -97,6 +97,7 @@
 </template>
 <script>
 import axios from "../../Axios-auth";
+import { useUserSessionStore } from "../../store/userSessionStore";
 
 export default {
   name: "TransactionFilters",
@@ -163,14 +164,14 @@ export default {
           label: "Date From",
           inputValue: "",
           type: "date",
-          placeholder: "09/09/2021",
+          placeholder: "Sorry about this-> 2023-06-06 22:03:07.207",
         },
         {
           value: "dateTo",
           label: "Date To",
           inputValue: "",
           type: "date",
-          placeholder: "09/09/2021",
+          placeholder: "Sorry about this-> 2023-06-06 22:03:07.207",
         },
       ],
       selectedFilters: [],
@@ -219,12 +220,14 @@ export default {
               }
             case "dateFrom":
             case "dateTo":
-              if (Date.parse(item.inputValue) == x) {
+              const timespanRegex =
+                /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}$/;
+              if (timespanRegex.test(item.inputValue)) {
                 break;
               } else {
                 this.errorMessage = true;
                 document.getElementById("errorMessageLabel").innerHTML =
-                  "Please enter a valid date";
+                  "Please enter a valid timespan (YYYY-MM-DD HH:mm:ss.SSS)";
                 return;
               }
             case "IBANFrom":
@@ -261,6 +264,9 @@ export default {
       const date = new Date(dateString);
       return date.toLocaleString(); // Adjust the formatting as per your requirements
     },
+    setup() {
+      return { store: useUserSessionStore() };
+    },
     toggleFilters() {
       this.showFilters = !this.showFilters;
     },
@@ -290,8 +296,7 @@ export default {
   mounted() {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
-    }
-    else {
+    } else {
       this.getFilteredTransactions(); // Call the method to fetch transactions
     }
   },
