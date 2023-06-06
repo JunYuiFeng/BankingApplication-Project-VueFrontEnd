@@ -33,12 +33,12 @@
                 Transactions
               </router-link>
             </li>
-            <li class="nav-item" v-if="this.store.isLoggedIn">
+            <li class="nav-item" v-if="this.store.role === 'ROLE_EMPLOYEE'">
               <router-link to="/UserManagement" class="nav-link">
                 UserManagement
               </router-link>
             </li>
-            <li class="nav-item" v-if="this.store.isLoggedIn">
+            <li class="nav-item" v-if="this.store.role === 'ROLE_EMPLOYEE'">
               <router-link
                 to="/BankAccountsManagement"
                 class="nav-link"
