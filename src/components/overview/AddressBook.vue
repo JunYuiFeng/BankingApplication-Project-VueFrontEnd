@@ -1,5 +1,5 @@
 <template>
-    <button class="btn btn-secondary m-4" @click="this.$router.push('/CreateTransaction')">Back</button>
+    <button class="btn btn-secondary m-4" @click="this.$router.go(-1)">Back</button>
     <div class="container mt-5">
         <div class="d-flex justify-content-center">
             <input type="search" placeholder="Search IBAN by name" class="form-control searchBar me-1"

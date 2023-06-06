@@ -2,11 +2,15 @@
     <div class="transferSuccess d-flex justify-content-center align-items-center">
         <div class="transferSuccessContainer shadow">
             <div class="d-flex justify-content-center m-4">
-                <img src="/pictures/red-cross-check-mark-icon-simple-style-vector.jpeg" alt="" class="redCrossCheckMarkImg"/>
+                <img src="/pictures/red-cross-check-mark-icon-simple-style-vector.jpeg" alt=""
+                    class="redCrossCheckMarkImg" />
             </div>
             <h1 class="d-flex justify-content-center">Transaction failed</h1>
             <div class="d-flex justify-content-center mt-4">
                 <button class="btn btn-primary" @click="$emit('close')">Close</button>
+            </div>
+            <div v-if="errorMessage" class="alert mt-3 alert-danger">
+                {{ errorMessage }}
             </div>
         </div>
         <br>
@@ -21,9 +25,9 @@ export default {
 
         }
     },
-    methods: {
-
-    }
+    props: {
+        errorMessage: String,
+    },
 }
 </script>
 
