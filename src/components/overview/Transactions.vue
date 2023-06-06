@@ -88,10 +88,11 @@
   </div>
   <div>
     <br />
-    <h5>selected filters:</h5>
-    <span v-for="item in filteredItems" :key="item.value">
-      {{ item.value }}: {{ item.inputValue }}
-    </span>
+    <div
+      v-if="this.errorMessage"
+      id="errorMessageLabel"
+      class="alert alert-danger"
+    ></div>
   </div>
 </template>
 <script>
@@ -113,6 +114,7 @@ export default {
       dateRangeStart: "",
       dateRangeEnd: "",
       transactions: [],
+      errorMessage: false,
       checkBoxes: [
         {
           value: "userId",
@@ -126,31 +128,31 @@ export default {
           label: "IBAN From",
           inputValue: "",
           type: "text",
-          placeholder: "Enter IBAN From",
+          placeholder: "Enter IBAN From NL50 INHO 8560 2609 4",
         },
         {
           value: "IBANTo",
           label: "IBAN To",
           inputValue: "",
           type: "text",
-          placeholder: "Enter IBAN To",
+          placeholder: "Enter IBAN To NL50 INHO 8560 2609 4",
         },
         {
-          value: "amountEqualTo",
+          value: "amount",
           label: "Amount Equal To",
           inputValue: "",
           type: "number",
           placeholder: "Enter Amount",
         },
         {
-          value: "amountLessThan",
+          value: "amount=<",
           label: "Amount Less Than",
           inputValue: "",
           type: "number",
           placeholder: "Enter Amount",
         },
         {
-          value: "amountGreaterThan",
+          value: "amount=>",
           label: "Amount Greater Than",
           inputValue: "",
           type: "number",
@@ -160,13 +162,15 @@ export default {
           value: "dateFrom",
           label: "Date From",
           inputValue: "",
-          type: "datetime-local",
+          type: "date",
+          placeholder: "09/09/2021",
         },
         {
           value: "dateTo",
           label: "Date To",
           inputValue: "",
-          type: "datetime-local",
+          type: "date",
+          placeholder: "09/09/2021",
         },
       ],
       selectedFilters: [],
@@ -190,13 +194,69 @@ export default {
         console.log(error);
       }
     },
+    isValidIBANFormat(iban) {
+      const regex = /^[A-Z]{2}\d{2}[A-Z]{4}\d{10}$/;
+      return regex.test(iban);
+    },
+
     generateQueryString() {
       let queryString = "";
-      this.filteredItems.forEach((item) => {
-        queryString += `?${item.value}=${item.inputValue}`;
+      this.filteredItems.forEach((item, index) => {
+        if (index === 0) {
+          let x = item.inputValue;
+          switch (item.value) {
+            case "userId":
+            case "amount":
+            case "amount=<":
+            case "amount=>":
+              if (parseInt(item.inputValue) == x) {
+                break;
+              } else {
+                this.errorMessage = true;
+                document.getElementById("errorMessageLabel").innerHTML =
+                  "Please enter a valid number";
+                return;
+              }
+            case "dateFrom":
+            case "dateTo":
+              if (Date.parse(item.inputValue) == x) {
+                break;
+              } else {
+                this.errorMessage = true;
+                document.getElementById("errorMessageLabel").innerHTML =
+                  "Please enter a valid date";
+                return;
+              }
+            case "IBANFrom":
+            case "IBANTo":
+              if (this.isValidIBANFormat(item.inputValue)) {
+                break;
+              } else {
+                this.errorMessage = true;
+                document.getElementById("errorMessageLabel").innerHTML =
+                  "Please enter a valid IBAN";
+                return;
+              }
+            default:
+              break;
+          }
+          if (item.value === "amount=<" || item.value == "amount=>") {
+            queryString += `?${item.value}${item.inputValue}`;
+          } else {
+            queryString += `?${item.value}=${item.inputValue}`;
+          }
+        } else {
+          if (item.value === "amount=<" || item.value == "amount=>") {
+            console.log("I am here");
+            queryString += `&${item.value}${item.inputValue}`;
+          } else {
+            queryString += `&${item.value}=${item.inputValue}`;
+          }
+        }
       });
       return queryString;
     },
+
     formatDate(dateString) {
       const date = new Date(dateString);
       return date.toLocaleString(); // Adjust the formatting as per your requirements
@@ -230,7 +290,8 @@ export default {
   mounted() {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
-    } else {
+    }
+    else {
       this.getFilteredTransactions(); // Call the method to fetch transactions
     }
   },
