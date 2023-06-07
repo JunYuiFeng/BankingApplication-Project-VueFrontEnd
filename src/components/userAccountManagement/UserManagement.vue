@@ -2,13 +2,26 @@
   <div>
     <div class="container mt-5">
         <h1>User Accounts</h1>
-        <button class="btn btn-primary m-1 mt-3" @click="loadAllUsers">All</button>
-        <button class="btn btn-primary m-1 mt-3" @click="loadAllRegisteredUsers">No Bank Accounts</button>
-        <div class="userOverview">
-          <UserAccount v-for="userAccount in userAccounts" :userAccount="userAccount"/>
-          <div class="d-flex justify-content-end">
-            <button class="btn btn-warning" @click="CreateUserAccount">Create New User Account</button>
+        <div class="row">
+          <div class="d-flex mt-2 mb-2">
+            <input type="radio" class="btn-check" name="options" id="radio1" autocomplete="off" @change="loadAllUsers">
+            <label class="btn btn-outline-primary me-2" for="radio1">All</label>
+
+            <input type="radio" class="btn-check" name="options" id="radio2" autocomplete="off" @change="loadAllRegisteredUsers">
+            <label class="btn btn-outline-primary me-2" for="radio2">No Bank Accounts</label>
+
+            <div class="flex-grow-1"></div>
+
+            <div>
+              <button class="btn btn-warning" @click="CreateUserAccount">Create New User Account</button>
+            </div>
           </div>
+          
+        </div>
+
+        <div class="userOverview">
+          
+          <UserAccount v-for="userAccount in userAccounts" :userAccount="userAccount"/>
         </div>
     </div>
   </div>
@@ -43,7 +56,7 @@ export default {
       });
     },
     loadAllUsers(){
-      this.getUsers("/UserAccounts");
+      this.getUsers("/UserAccounts/Exclude/1");
     },
     loadAllRegisteredUsers(){
       this.getUsers("/UserAccounts/registered");

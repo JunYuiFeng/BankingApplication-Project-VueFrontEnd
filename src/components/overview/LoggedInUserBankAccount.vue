@@ -5,9 +5,10 @@
             <div>
                 <p>{{ bankAccount.userAccount.firstName }} {{ bankAccount.userAccount.lastName }}</p>
                 <p>{{ bankAccount.iban }}</p>
+                <p>absoluteLimit: {{ bankAccount.absoluteLimit }}</p>
             </div>
             <div class="d-flex align-items-center">
-                <p>€ {{ bankAccount.balance }}</p>
+                <p>€ {{ formatNumber(bankAccount.balance) }}</p>
             </div>
         </div>
     </div>
@@ -18,6 +19,13 @@ export default {
     props: {
         bankAccount: Object
     },
+    methods: {
+        formatNumber(number) {
+            const parts = number.toString().split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return parts.join(',');
+        }
+    }
 }
 </script>
 

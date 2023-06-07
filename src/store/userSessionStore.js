@@ -16,12 +16,20 @@ export const useUserSessionStore = defineStore("userSessionStore", {
     getRole: (state) => {
       return state.role;
     },
+
+
+    getUserId: (state) => {
+      return state.userId;
+    }
+
+
   },
   actions: {
     autologin() {
       if (localStorage.getItem("token")) {
         this.token = localStorage.getItem("token");
         this.role = localStorage.getItem("role");
+        this.userId = localStorage.getItem("userId");
         Axios.defaults.headers.common["Authorization"] = "Bearer " + this.token;
       }
     },
@@ -40,7 +48,6 @@ export const useUserSessionStore = defineStore("userSessionStore", {
             console.log("role" + this.role);
             localStorage.setItem("role", tokenPayload.auth);
             localStorage.setItem("userId", tokenPayload.jti);
-            //localStorage.setItem("username", response.data.sub);
             Axios.defaults.headers.common["Authorization"] =
               "Bearer " + response.data.token;
             resolve(response);

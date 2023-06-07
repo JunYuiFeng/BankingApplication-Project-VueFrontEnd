@@ -1,6 +1,4 @@
 <template>
-    <button class="btn btn-secondary m-4" @click="this.$router.push('/Overview')">Back</button>
-
     <div class="container mt-3">
         <div class="d-flex justify-content-between">
             <h2>Transfer</h2>
@@ -17,20 +15,13 @@
             <!-- From Account -->
             <div class="form-group mb-4 mt-4">
                 <label for="fromAccount">From Account:</label>
-                <select class="form-control" id="fromAccount" v-model="accountFrom">
-                    <option>Select Account</option>
-                    <option v-for="account in bankAccounts" :key="account.iban" :value="account.iban">{{ account.type }} {{ account.iban }}
-                    </option>
-                </select>
+                <input type="text" class="form-control" id="amount" v-model="accountFrom" placeholder="Enter IBAN">
             </div>
 
             <!-- To Account -->
             <div class="form-group mb-4">
                 <label for="toAccount">To Account:</label>
                 <div class="input-group">
-                    <!-- <div class="input-group-prepend">
-                        <span class="input-group-text">NL</span>
-                    </div> -->
                     <input type="text" class="form-control" id="amount" v-model="accountTo" placeholder="Enter IBAN">
                 </div>
             </div>
@@ -61,10 +52,10 @@
 </template>
 
 <script>
-import axios from '../../Axios-auth';
-import TransactionSuccess from './TransactionSuccess.vue';
-import TransactionFailed from './TransactionFailed.vue';
-import { useUserSessionStore } from '../../store/userSessionStore';
+import axios from "../Axios-auth";
+import TransactionSuccess from './overview/TransactionSuccess.vue';
+import TransactionFailed from './overview/TransactionFailed.vue';
+import { useUserSessionStore } from '../store/userSessionStore';
 
 export default {
     setup() {
@@ -92,7 +83,7 @@ export default {
     },
     methods: {
         getBankAccounts() {
-            axios.get(`/BankAccounts/UserAccount/${this.store.getUserId}`)
+            axios.get(`/BankAccounts/ExcludeUserAccount/${this.store.getUserId}`)
                 .then(response => {
                     this.bankAccounts = response.data;
                 })
@@ -111,16 +102,11 @@ export default {
                 .then(response => {
                     this.showTransactionSuccess = true;
                     console.log(response);
+                    //this.$refs.form.reset(); // Reset the form fields
                 })
                 .catch(error => {
                     this.showTransactionFailed = true;
-                    if (error.response && error.response.data && error.response.data.message) {
-                        const errorMessage = error.response.data.message;
-
-                        this.errorMessage = errorMessage;
-                    } else {
-                        console.log(error); // Fallback to logging the error if the message is not available
-                    }
+                    console.log(error);
                 })
         }
     }
