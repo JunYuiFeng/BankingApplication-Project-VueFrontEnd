@@ -1,6 +1,9 @@
-<template>
+<template> 
     <div class="container ">
+        
         <h1>ATM</h1>
+        <ATMSuccess v-if="showATMSuccess" :successTitle="successTitle" @close="showATMSuccess = false"></ATMSuccess>
+        <ATMFailed v-if="showATMFailed" :errorTitle="errorTitle" :errorMessage="errorMessage" @close="showATMFailed = false"></ATMFailed>
         
         <div class="d-flex justify-content-center">
             <div class="m-3" id="atm" v-if="showATM">
@@ -19,35 +22,47 @@
             </div>       
         </div>
 
-        <div v-if="errorMessage" class="alert mt-3 d-flex justify-content-center" :class="['alert-success', {'alert-danger': displayError }]">
-                    {{ errorMessage }}
+        <div v-if="showError" class="alert alert-danger mt-3 d-flex justify-content-center">
+                    {{ showError }}
         </div> 
  
+        
     </div>
 </template>
 
 <script>
 import axios from '../../Axios-auth';
 import { useUserSessionStore } from "../../store/userSessionStore";
+import ATMSuccess from '../overview/ATMSuccess.vue';
+import ATMFailed from '../overview/ATMFailed.vue';
+
 
 export default {
     setup(){
         return { store : useUserSessionStore() };
     },
+    components: {
+        ATMSuccess,
+        ATMFailed,
+    },
     data() {
         return {    
             showATM: false,
+            showError: "",
             hasCurrentAccount: true,
             hasSavingsAccount: true,
             errorMessage: "",
-            displayError: false,
             amount: null,
             selectedAccount: null,
+            showATMSuccess: false,
+            showATMFailed: false,
+            successTitle: "",
+            errorTitle: "",
             bankAccount: {
                 IBAN: "",
                 type: "",
                 status: "",
-                balance: 0,
+                balance: 0, 
                 absoluteLimit: 0,
                 userAccount: {},
             },
@@ -74,8 +89,7 @@ export default {
                     this.showATM = true;                   
                 }
                 else {
-                    this.errorMessage = "You have no bank accounts";
-                    this.displayError = true;        
+                    this.showError = "You have no bank accounts";     
                 }      
             })
             .catch(error => {
@@ -88,19 +102,21 @@ export default {
                 this.errorMessage = "Please enter a valid amount";
                 return;
             }
-
+            this.errorMessage = "";
             this.transaction.IBAN = this.selectedAccount.iban;
             this.transaction.amount = this.amount;
 
             axios.post(`Transactions/Withdrawal`, this.transaction)
             .then(response => {
-                this.displayError = false;
-                this.errorMessage = "Withdraw successful";
-                this.updateBankAccountBalance();      
+                this.updateBankAccountBalance();  
+                this.successTitle = "Withdraw successful";
+                this.showATMSuccess = true;      
             })
             .catch(error => {
                 console.log(error);
-                this.showErrorMessage(error);
+                this.errorTitle = "Withdraw failed";
+                this.errorMessage = error.response.data.message;
+                this.showATMFailed = true;
             })
 
         },
@@ -110,19 +126,21 @@ export default {
                 this.errorMessage = "Please enter a valid amount";
                 return;
             }
-            
+            this.errorMessage = "";
             this.transaction.accountTo = this.selectedAccount.iban;
             this.transaction.amount = this.amount;
 
             axios.post(`Transactions/Deposit`, this.transaction)
             .then(response => {
-                this.displayError = false;
-                this.errorMessage = "Deposit successful";
                 this.updateBankAccountBalance();
+                this.successTitle = "Deposit successful";
+                this.showATMSuccess = true;  
             })
             .catch(error => {
                 console.log(error);
-                this.showErrorMessage(error);
+                this.errorTitle = "Deposit failed";
+                this.errorMessage = error.response.data.message;
+                this.showATMFailed = true;
             })
         },
         updateBankAccountBalance() {
@@ -134,18 +152,6 @@ export default {
                 console.log(error);
             });
         },
-        showErrorMessage(error) {
-            this.displayError = true;
-            if (error != null && error.response != null && error.response.data != null && error.response.data.message != null){
-                const message = error.response.data.message;
-                const parts = message.split(" ");
-                parts.splice(0, 2);
-                this.errorMessage = parts.join(" ").trim();
-            }        
-            else{
-                this.errorMessage = "Transaction failed";
-            }
-        }
     }
 };
 </script>

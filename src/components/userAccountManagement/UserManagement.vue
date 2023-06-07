@@ -3,13 +3,20 @@
     <div class="container mt-5">
         <h1>User Accounts</h1>
         <div class="row">
-          <div class="col-8">
-            <button class="btn btn-primary m-1 mt-3" @click="loadAllUsers">All</button>
-            <button class="btn btn-primary m-1 mt-3" @click="loadAllRegisteredUsers">No Bank Accounts</button>
+          <div class="d-flex mt-2 mb-2">
+            <input type="radio" class="btn-check" name="options" id="radio1" autocomplete="off" @change="loadAllUsers">
+            <label class="btn btn-outline-primary me-2" for="radio1">All</label>
+
+            <input type="radio" class="btn-check" name="options" id="radio2" autocomplete="off" @change="loadAllRegisteredUsers">
+            <label class="btn btn-outline-primary me-2" for="radio2">No Bank Accounts</label>
+
+            <div class="flex-grow-1"></div>
+
+            <div>
+              <button class="btn btn-warning" @click="CreateUserAccount">Create New User Account</button>
+            </div>
           </div>
-          <div class="col-4 text-end">
-            <button class="btn btn-warning m-1 mt-3" @click="CreateUserAccount">Create New User Account</button>
-          </div>
+          
         </div>
 
         <div class="userOverview">
@@ -49,7 +56,7 @@ export default {
       });
     },
     loadAllUsers(){
-      this.getUsers("/UserAccounts");
+      this.getUsers("/UserAccounts/Exclude/1");
     },
     loadAllRegisteredUsers(){
       this.getUsers("/UserAccounts/registered");

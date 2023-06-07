@@ -9,11 +9,11 @@
                 <p>Savings account</p>
             </div>
 
-            <div v-if="createMessage" class="alert mt-3" :class="['alert-success', {'alert-danger': displayError }]">
+            <div v-if="createMessage" class="alert ms-5 me-5 rounded text-center" :class="['alert-success', {'alert-danger': displayError }]">
                     {{ createMessage }}
             </div> 
 
-            <div class="mt-5">
+            <div>
                 <div class="row">
                     <div class="col d-flex justify-content-end">
                         <button class="btn btn-danger cancelBtn" @click="$emit('cancel')">Cancel</button>
@@ -65,6 +65,8 @@ export default {
                 console.log(response);          
             })
             .catch((error) => {
+                this.displayError = true;
+                this.createMessage = "Bank account creation failed";
                 console.log(error);
             })
         },        
