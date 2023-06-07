@@ -4,7 +4,7 @@
             <h1>Overview</h1>
 
             <div class="d-flex justify-content-between mt-3">
-                <h5>Daylimit remaining: {{ getDayLimitRemaining }}</h5>
+                <h5>Daylimit remaining: €{{ formatNumber(getDayLimitRemaining) }}</h5>
 
                 <div>
                     <div class="d-flex justify-content-end mb-2" @click="this.$router.push('/CreateTransaction')">

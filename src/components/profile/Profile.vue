@@ -36,10 +36,10 @@
                     <input class="inputField" v-else v-model="bsn" />
 
                     <label>Day Limit</label>
-                    <p>{{ userAccount.dayLimit }}</p>
+                    <p>€ {{ formatNumber(userAccount.dayLimit) }}</p>
 
                     <label>Transaction Limit</label>
-                    <p>{{ userAccount.transactionLimit }}</p>
+                    <p>€ {{ formatNumber(userAccount.transactionLimit) }}</p>
 
                     <button id="editButton" class="btn" :class="['btn-primary', { 'btn-confirm': confirmClicked }]" @click="edit">
                         <template v-if="!confirmClicked">Edit Profile</template>
@@ -143,6 +143,11 @@ export default {
             .catch(error => {
                 console.log(error);
             });
+        },
+        formatNumber(number) {
+            const parts = number.toString().split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return parts.join(',');
         }
      }
 }

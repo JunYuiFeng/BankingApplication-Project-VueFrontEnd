@@ -14,7 +14,7 @@
                 <p v-if="selectedAccount">{{ selectedAccount.type }} Account</p>
                 <p v-if="selectedAccount">Balance</p>
                 <p class="balance">
-                    <span v-if="selectedAccount">€{{ selectedAccount.balance }}</span>               
+                    <span v-if="selectedAccount">€ {{ formatNumber(selectedAccount.balance) }}</span>               
                 </p>
                 <input v-if="selectedAccount" class="row" placeholder="enter an amount" v-model="amount" required/>
                 <button v-if="selectedAccount" class="btn btn-primary m-2" @click="withdraw">Withdraw</button>
@@ -152,6 +152,11 @@ export default {
                 console.log(error);
             });
         },
+        formatNumber(number) {
+            const parts = number.toString().split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return parts.join(',');
+        }
     }
 };
 </script>
