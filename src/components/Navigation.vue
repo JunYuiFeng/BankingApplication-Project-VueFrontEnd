@@ -33,12 +33,12 @@
                 Transactions
               </router-link>
             </li>
-            <li class="nav-item" v-if="this.store.role === 'ROLE_EMPLOYEE'">
+            <li class="nav-item" v-if="this.store.getRole == 'ROLE_EMPLOYEE'">
               <router-link to="/UserManagement" class="nav-link">
                 UserManagement
               </router-link>
             </li>
-            <li class="nav-item" v-if="this.store.role === 'ROLE_EMPLOYEE'">
+            <li class="nav-item" v-if="this.store.role == 'ROLE_EMPLOYEE'">
               <router-link
                 to="/BankAccountsManagement"
                 class="nav-link"
@@ -101,23 +101,10 @@ export default {
   setup() {
     return { store: useUserSessionStore() };
   },
-  data() {
-    return {
-      isLoggedIn: "",
-      role: "",
-    };
-  },
-  mounted() {
-    // console.log("mounted");
-    this.store.autologin();
-    this.role = localStorage.getItem("role");
-    if (this.store.isLoggedIn) {
-      this.$router.push("/Overview");
-    }
-  },
   methods: {
     logout() {
       this.store.logout();
+      this.$router.push("/");
     },
   },
 };

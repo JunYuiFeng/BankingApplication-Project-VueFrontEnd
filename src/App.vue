@@ -8,6 +8,14 @@ export default {
   setup() {
     return { store: useUserSessionStore() };
   },
+  mounted() {
+    // console.log("mounted");
+    this.store.autologin();
+    //this.role = localStorage.getItem("role");
+    if (this.store.isLoggedIn) {
+      //this.$router.push("/Overview");
+    }
+  },
   name: "App",
   components: {
     Navbar,

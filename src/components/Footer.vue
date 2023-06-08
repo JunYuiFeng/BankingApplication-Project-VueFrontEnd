@@ -52,6 +52,9 @@ export default {
   min-height: 100px;
   background-color: #ccb38d;
 }
+#footer {
+  flex-shrink: 0;
+}
 
 .nav {
   display: flex;

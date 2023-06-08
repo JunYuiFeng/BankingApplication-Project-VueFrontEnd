@@ -1,21 +1,23 @@
 <template>
   <div class="container">
     <div class="filtered-transactions">
-      <h4>Filtered Transactions</h4>
-
-      <div class="Transcation History p-4 mt-5">
+      <div
+        style="background-color: #d9d9d9; border-radius: 18px"
+        class="TranscationHistory p-4 mt-5"
+      >
+        <h2 style="text-align: center">Transaction History</h2>
         <div class="header p-3 mb-2">
           <div class="row">
-            <div class="col d-flex justify-content-center">
+            <div class="col d-flex">
               <h5>Date</h5>
             </div>
-            <div class="col d-flex justify-content-center">
+            <div class="col d-flex">
               <h5>From</h5>
             </div>
-            <div class="col d-flex justify-content-center">
+            <div class="col d-flex">
               <h5>To</h5>
             </div>
-            <div class="col d-flex justify-content-center">
+            <div class="col d-flex">
               <h5>Amount</h5>
             </div>
           </div>
@@ -27,190 +29,160 @@
           class="col d-flex justify-content-center"
         >
           <div class="col">
-            <h5>{{ formatDate(transaction.occuredAt) }}</h5>
+            <p>{{ formatDate(transaction.occuredAt) }}</p>
           </div>
           <div class="col">
-            <h5>
+            <p>
+              User ID: {{ transaction.accountFrom.userAccount.id }} <br />
               {{ transaction.accountFrom.userAccount.firstName }}
               {{ transaction.accountFrom.userAccount.lastName }}
-            </h5>
+              <br />{{ transaction.accountFrom.iban }}
+            </p>
           </div>
           <div class="col">
-            <h5>
+            <p>
+              User ID: {{ transaction.accountTo.userAccount.id }} <br />
               {{ transaction.accountTo.userAccount.firstName }}
               {{ transaction.accountTo.userAccount.lastName }}
-            </h5>
+              <br />{{ transaction.accountTo.iban }}
+            </p>
           </div>
           <div class="col">
-            <h5>&euro; {{ transaction.amount }}</h5>
+            <p>&euro; {{ transaction.amount }}</p>
           </div>
         </span>
       </div>
-
-      <!--for each date that there are transactions i want to list the
-      transactions for that day. So if the transaction was a - i will display
-      the name of the person who got the transaction and the amount that it was
-      paid to them. If the transaction was a + then i want to display th name of
-      the person who did the sent them money and the amount that was sent to
-      them. I also want to display the date of the transaction.-->
     </div>
     <div class="filters">
       <button class="filter-button" @click="toggleFilters">
-        <span class="filter-icon">🔍</span> Filters
+        <span class="filter-icon" style="color: black">🔍</span> Filters
       </button>
       <div class="filter-options" :class="{ open: showFilters }">
-        <div class="filter-option">
+        <div
+          class="filter-option"
+          v-for="checkBox in checkBoxes"
+          :key="checkBox.value + checkBox.inputValue"
+        >
           <label>
             <input
               type="checkbox"
               v-model="selectedFilters"
-              value="userId"
-              @change="resetInputs('userId')"
+              :value="checkBox.value"
+              @change="resetInputs(checkBox.value)"
             />
-            User ID
+            {{ checkBox.label }}
           </label>
           <div class="input-container">
             <input
-              v-if="selectedFilters.includes('userId')"
-              v-model="userId"
-              type="number"
-              placeholder="Enter User ID"
-            />
-          </div>
-        </div>
-        <div class="filter-option">
-          <label>
-            <input
-              type="checkbox"
-              v-model="selectedFilters"
-              value="ibanFrom"
-              @change="resetInputs('ibanFrom')"
-            />
-            IBAN From
-          </label>
-          <div class="input-container">
-            <input
-              v-if="selectedFilters.includes('ibanFrom')"
-              v-model="ibanFrom"
+              v-if="selectedFilters.includes(checkBox.value)"
               type="text"
-              placeholder="Enter IBAN From"
-            />
-          </div>
-        </div>
-        <div class="filter-option">
-          <label>
-            <input
-              type="checkbox"
-              v-model="selectedFilters"
-              value="ibanTo"
-              @change="resetInputs('ibanTo')"
-            />
-            IBAN To
-          </label>
-          <div class="input-container">
-            <input
-              v-if="selectedFilters.includes('ibanTo')"
-              v-model="ibanTo"
-              type="text"
-              placeholder="Enter IBAN To"
-            />
-          </div>
-        </div>
-        <div class="filter-option">
-          <label>
-            <input
-              type="checkbox"
-              v-model="selectedFilters"
-              value="dateFrom"
-              @change="resetInputs('dateFrom')"
-            />
-            Date From
-          </label>
-          <div class="input-container">
-            <input
-              v-if="selectedFilters.includes('dateFrom')"
-              v-model="dateFrom"
-              type="datetime-local"
-            />
-          </div>
-        </div>
-        <div class="filter-option">
-          <label>
-            <input
-              type="checkbox"
-              v-model="selectedFilters"
-              value="dateTo"
-              @change="resetInputs('dateTo')"
-            />
-            Date To
-          </label>
-          <div class="input-container">
-            <input
-              v-if="selectedFilters.includes('dateTo')"
-              v-model="dateTo"
-              type="datetime-local"
+              v-model="checkBox.inputValue"
+              :placeholder="checkBox.placeholder"
             />
           </div>
         </div>
         <button @click="applyFilters">Filter</button>
+        <br />
       </div>
     </div>
+  </div>
+  <div>
+    <br />
+    <div
+      v-if="this.errorMessage"
+      id="errorMessageLabel"
+      class="alert alert-danger"
+    ></div>
   </div>
 </template>
 <script>
 import axios from "../../Axios-auth";
+import { useUserSessionStore } from "../../store/userSessionStore";
 
 export default {
   name: "TransactionFilters",
   data() {
     return {
       showFilters: false,
-      selectedFilters: [],
       userId: null,
       ibanFrom: "",
       ibanTo: "",
+      amountEqualTo: "",
+      amountLessThan: "",
+      amountGreaterThan: "",
       dateFrom: "",
       dateTo: "",
       dateRangeStart: "",
       dateRangeEnd: "",
       transactions: [],
+      errorMessage: false,
+      checkBoxes: [
+        {
+          value: "userId",
+          label: "User ID",
+          inputValue: "",
+          type: "number",
+          placeholder: "Enter User ID",
+        },
+        {
+          value: "IBANFrom",
+          label: "IBAN From",
+          inputValue: "",
+          type: "text",
+          placeholder: "Enter IBAN From NL50 INHO 8560 2609 4",
+        },
+        {
+          value: "IBANTo",
+          label: "IBAN To",
+          inputValue: "",
+          type: "text",
+          placeholder: "Enter IBAN To NL50 INHO 8560 2609 4",
+        },
+        {
+          value: "amount",
+          label: "Amount Equal To",
+          inputValue: "",
+          type: "number",
+          placeholder: "Enter Amount",
+        },
+        {
+          value: "amount=<",
+          label: "Amount Less Than",
+          inputValue: "",
+          type: "number",
+          placeholder: "Enter Amount",
+        },
+        {
+          value: "amount=>",
+          label: "Amount Greater Than",
+          inputValue: "",
+          type: "number",
+          placeholder: "Enter Amount",
+        },
+        {
+          value: "dateFrom",
+          label: "Date From",
+          inputValue: "",
+          type: "date",
+          placeholder: "Sorry about this-> 2023-06-06 22:03:07.207",
+        },
+        {
+          value: "dateTo",
+          label: "Date To",
+          inputValue: "",
+          type: "date",
+          placeholder: "Sorry about this-> 2023-06-06 22:03:07.207",
+        },
+      ],
+      selectedFilters: [],
     };
   },
-  name: "Transactions",
-  setup() {
-    return { transactions: [] };
-  },
   computed: {
-    filteredTransactions() {
-      return this.transactions.filter((transaction) => {
-        if (this.selectedFilters.length === 0) {
-          return true; // Return all transactions if no filter is selected
-        }
-        return this.selectedFilters.every((filter) => {
-          if (filter === "userId") {
-            return transaction.userId === this.userId;
-          }
-          if (filter === "ibanFrom") {
-            return transaction.IBANFrom === this.ibanFrom;
-          }
-          if (filter === "ibanTo") {
-            return transaction.IBANTo === this.ibanTo;
-          }
-          if (filter === "dateFrom") {
-            return new Date(transaction.date) >= new Date(this.dateFrom);
-          }
-          if (filter === "dateTo") {
-            return new Date(transaction.date) <= new Date(this.dateTo);
-          }
-          if (filter === "dateRange") {
-            return (
-              new Date(transaction.date) >= new Date(this.dateRangeStart) &&
-              new Date(transaction.date) <= new Date(this.dateRangeEnd)
-            );
-          }
-          return true; // Return true for unknown filters
-        });
-      });
+    filteredItems() {
+      return this.checkBoxes.filter(
+        (checkBox) =>
+          checkBox.inputValue && this.selectedFilters.includes(checkBox.value)
+      );
     },
   },
   methods: {
@@ -223,9 +195,77 @@ export default {
         console.log(error);
       }
     },
+    isValidIBANFormat(iban) {
+      const regex = /^[A-Z]{2}\d{2}[A-Z]{4}\d{10}$/;
+      return regex.test(iban);
+    },
+
+    generateQueryString() {
+      let queryString = "";
+      this.filteredItems.forEach((item, index) => {
+        if (index === 0) {
+          let x = item.inputValue;
+          switch (item.value) {
+            case "userId":
+            case "amount":
+            case "amount=<":
+            case "amount=>":
+              if (parseInt(item.inputValue) == x) {
+                break;
+              } else {
+                this.errorMessage = true;
+                document.getElementById("errorMessageLabel").innerHTML =
+                  "Please enter a valid number";
+                return;
+              }
+            case "dateFrom":
+            case "dateTo":
+              const timespanRegex =
+                /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}$/;
+              if (timespanRegex.test(item.inputValue)) {
+                break;
+              } else {
+                this.errorMessage = true;
+                document.getElementById("errorMessageLabel").innerHTML =
+                  "Please enter a valid timespan (YYYY-MM-DD HH:mm:ss.SSS)";
+                return;
+              }
+            case "IBANFrom":
+            case "IBANTo":
+              if (this.isValidIBANFormat(item.inputValue)) {
+                break;
+              } else {
+                this.errorMessage = true;
+                document.getElementById("errorMessageLabel").innerHTML =
+                  "Please enter a valid IBAN";
+                return;
+              }
+            default:
+              break;
+          }
+          if (item.value === "amount=<" || item.value == "amount=>") {
+            queryString += `?${item.value}${item.inputValue}`;
+          } else {
+            queryString += `?${item.value}=${item.inputValue}`;
+          }
+        } else {
+          if (item.value === "amount=<" || item.value == "amount=>") {
+            console.log("I am here");
+            queryString += `&${item.value}${item.inputValue}`;
+          } else {
+            queryString += `&${item.value}=${item.inputValue}`;
+          }
+        }
+      });
+      return queryString;
+    },
+
     formatDate(dateString) {
       const date = new Date(dateString);
       return date.toLocaleString(); // Adjust the formatting as per your requirements
+    },
+    setup() {
+      return { store: useUserSessionStore() };
     },
     toggleFilters() {
       this.showFilters = !this.showFilters;
@@ -240,23 +280,25 @@ export default {
       }
     },
     applyFilters() {
-      // Implement your logic to apply the filters
-      // You can access the filtered transactions from the computed property "filteredTransactions"
+      const queryString = this.generateQueryString();
+      const apiEndpoint = `/Transactions${queryString}`;
+      console.log(apiEndpoint);
+      try {
+        axios.get(apiEndpoint).then((response) => {
+          this.transactions = response.data;
+          console.log(this.transactions);
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   mounted() {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
+    } else {
+      this.getFilteredTransactions(); // Call the method to fetch transactions
     }
-    axios
-      .get("/Transactions")
-      .then((response) => {
-        this.transactions = response.data;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    // this.getFilteredTransactions();
   },
 };
 </script>
@@ -275,6 +317,10 @@ export default {
   flex: 3;
   order: 2;
   text-align: left;
+}
+.TranscationHistory {
+  flex: 9;
+  color: black;
 }
 
 .filter-button {
