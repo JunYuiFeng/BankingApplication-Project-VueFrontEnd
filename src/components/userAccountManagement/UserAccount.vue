@@ -31,7 +31,7 @@
           <label class="col">BSN Number</label>
           <label class="col">Day Limit</label>
           <label class="col">Transaction Limit</label>
-          <label class="col"></label>
+          <label class="col">Status</label>
         </div>
         <p class="col" v-if="!confirmClicked">{{ userAccount.phoneNumber }}</p>
         <input class="inputField col" v-else v-model="phoneNumber" />
@@ -39,33 +39,36 @@
         <input class="inputField col" v-else v-model="bsn" />
         <p class="col" v-if="!confirmClicked">{{ userAccount.dayLimit }}</p>
         <input class="inputField col" v-else v-model="dayLimit" />
-        <p class="col" v-if="!confirmClicked">
-          {{ userAccount.transactionLimit }}
-        </p>
+        <p class="col" v-if="!confirmClicked">{{ userAccount.transactionLimit }}</p>
         <input class="inputField col" v-else v-model="transactionLimit" />
-        <button
-          id="editButton"
-          class="col btn"
-          :class="['btn-primary', { 'btn-confirm': confirmClicked }]"
-          @click="edit"
-        >
-          <template v-if="!confirmClicked">Edit</template>
-          <template v-else>Confirm</template>
-        </button>
-        <div
-          v-if="editUserMessage"
-          class="alert mt-3"
-          :class="['alert-success', { 'alert-danger': displayError }]"
-        >
+        <p class="col" v-if="!confirmClicked">{{ userAccount.status }}</p>
+        <div v-if="editUserMessage" class="alert mt-3" :class="['alert-success', { 'alert-danger': displayError }]">
           {{ editUserMessage }}
         </div>
-        <div class="">
-          <button class="btn btn-warning col w-25" @click="showForm">
-            Create New Bank Account
-          </button>
+        <div class="row mt-3">   
+          <div class="col-6">
+            <button class="btn btn-warning w-50" @click="showForm">
+              Create New Bank Account
+            </button>
+          </div>
+          <div class="col-3 d-flex justify-content-end">
+            <button v-if="userAccount.type !== 'ROLE_USER'" id="changeStatusButton" class="btn w-50" :class="['btn-danger', { 'btn-green': userAccount.status === 'INACTIVE' }]" @click="changeStatus">
+              <template v-if="userAccount.status === 'ACTIVE'">Deactivate</template>
+              <template v-else>Activate</template>
+            </button>
+
+            <button v-if="userAccount.type === 'ROLE_USER'" id="deleteButton" class="btn btn-danger w-50" @click="deleteUser">Delete</button>
+
+          </div>
+          <div class="col-3">
+            <button id="editButton" class="btn w-50" :class="['btn-primary', { 'btn-green': confirmClicked }]" @click="edit">
+              <template v-if="!confirmClicked">Edit</template>
+              <template v-else>Confirm</template>
+            </button>
+          </div>
         </div>
       </div>
-
+      
 
       <div class="d-flex justify-content-end"></div>
     </div>
@@ -87,6 +90,7 @@ export default {
   data() {
     return {
       confirmClicked: false,
+      statusClicked: false,
       showBankAccountForm: false,
       displayError: null,
       editUserMessage: "",
@@ -99,6 +103,9 @@ export default {
       bsn: "",
       dayLimit: "",
       transactionLimit: "",
+      user: {
+        status: "",
+      },
     };
   },
   methods: {
@@ -140,6 +147,56 @@ export default {
           this.editUserMessage = "Failed to edit user";
         });
     },
+    changeStatus() {
+      if (this.userAccount.status === "ACTIVE") {
+        this.user.status = "INACTIVE";       
+      } else {
+        this.user.status = "ACTIVE";
+      }
+
+      axios
+        .patch(`/UserAccounts/${this.userAccount.id}`, this.user)
+        .then((response) => {
+          console.log(response);
+          this.displayError = false;
+          this.editUserMessage = "Account is now " + this.user.status;
+          this.updateStatusDisplay();
+        })
+        .catch((error) => {
+          console.log(error);
+          this.displayError = true;
+          this.editUserMessage = error.response.data.message;
+        });
+    },
+    deleteUser(){
+      if (confirm("Are you sure you want to delete this user account?")) {
+        axios
+          .delete(`/UserAccounts/${this.userAccount.id}`)
+          .then((response) => {
+            console.log(response);
+            this.displayError = false;
+            this.editUserMessage = "User has been deleted";
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.log(error);
+            this.displayError = true;
+            this.editUserMessage = error.response.data.message;
+          });
+      }
+    },
+    updateStatusDisplay(){
+      axios
+      .get(`/UserAccounts/${this.userAccount.id}`)
+      .then((response) => {
+        this.userAccount.status = response.data.status;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.displayError = true;
+        this.editUserMessage = error.response.data.message;
+      });
+    },
     showForm() {
       this.showBankAccountForm = true;
     },
@@ -167,7 +224,7 @@ p {
   border-radius: 5px;
 }
 
-.btn-confirm {
+.btn-green {
   background-color: #15d804;
 }
 </style>
