@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="userContainer">
-      <CreateBankAccount @cancel="cancel" v-if="showBankAccountForm" />
+      <CreateBankAccount @cancel="cancel" v-if="showBankAccountForm" :userAccount="userAccount" />
       <div class="userContainerFields row">
         <div class="row">
           <label class="col">First Name</label>

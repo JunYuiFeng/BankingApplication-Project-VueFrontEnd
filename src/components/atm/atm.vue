@@ -127,7 +127,7 @@ export default {
                 return;
             }
             this.errorMessage = "";
-            this.transaction.accountTo = this.selectedAccount.iban;
+            this.transaction.IBAN = this.selectedAccount.iban;
             this.transaction.amount = this.amount;
 
             axios.post(`Transactions/Deposit`, this.transaction)

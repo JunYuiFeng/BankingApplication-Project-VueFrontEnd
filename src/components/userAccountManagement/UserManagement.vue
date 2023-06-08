@@ -22,6 +22,9 @@
         <div class="userOverview">
           
           <UserAccount v-for="userAccount in userAccounts" :userAccount="userAccount"/>
+          <div v-if="userAccounts == 0" class="alert mt-3 alert-danger">
+            No users with no bankAccount found
+          </div>
         </div>
     </div>
   </div>
@@ -37,8 +40,8 @@ export default {
   },
   data() {
         return {
-          userAccounts: []
-        };
+          userAccounts: [],
+        };   
   },  
   mounted() {
     this.loadAllUsers();
@@ -53,6 +56,7 @@ export default {
       })
       .catch((error) => {
         console.log(error);
+        this.showError = true;
       });
     },
     loadAllUsers(){
@@ -60,6 +64,7 @@ export default {
     },
     loadAllRegisteredUsers(){
       this.getUsers("/UserAccounts/registered");
+      
     },  
     CreateUserAccount() {
       console.log("CreateUserAccount");

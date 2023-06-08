@@ -35,7 +35,9 @@
             <i class="fab fa-linkedin-in"></i>
           </a>
         </div>
+        
       </footer>
+      
     </div>
   </div>
 </template>
@@ -49,11 +51,17 @@ export default {
 
 <style scoped>
 .containerWithFooter {
-  min-height: 100px;
-  background-color: #ccb38d;
+  margin-top: 36.8%;
+  position: relative;
 }
+
+
 #footer {
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
   flex-shrink: 0;
+  background-color: #ccb38d;
 }
 
 .nav {

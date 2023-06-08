@@ -62,11 +62,11 @@ export default {
                 }
                 this.displayError = false;
                 this.createMessage = "Bank account successfully created";
-                console.log(response);          
+                console.log(response);      
             })
             .catch((error) => {
                 this.displayError = true;
-                this.createMessage = "Bank account creation failed";
+                this.createMessage = error.response.data.message;
                 console.log(error);
             })
         },        
