@@ -75,9 +75,15 @@ export default {
 </script>
 
 <style scoped>
+
 .userOverview {
   background-color: #D9D9D9;
   padding: 3%;
+}
+
+.container {
+    height: 100%;
+    margin-bottom: 10%;
 }
 </style>
  

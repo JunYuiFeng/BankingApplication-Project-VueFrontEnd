@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container mt-5">
+    <div class="container mt-5 ">
       <h1>Overview</h1>
 
         <div class="d-flex justify-content-between mt-3">
@@ -115,6 +115,11 @@ export default {
 </script>
 
 <style scoped>
+
+
+.container {
+  height: calc(100vh - 270px);
+}
 .bankAccountContainer {
   background: #d9d9d9;
   border-radius: 18px;

@@ -154,6 +154,11 @@ export default {
 </script>
 
 <style scoped>
+
+    .container {
+        height: calc(100vh - 270px);
+    }
+
     label {
         margin-top: 1%;
     }

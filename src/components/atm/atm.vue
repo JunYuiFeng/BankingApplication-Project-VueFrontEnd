@@ -33,8 +33,8 @@
 <script>
 import axios from '../../Axios-auth';
 import { useUserSessionStore } from "../../store/userSessionStore";
-import ATMSuccess from '../overview/ATMSuccess.vue';
-import ATMFailed from '../overview/ATMFailed.vue';
+import ATMSuccess from './ATMSuccess.vue';
+import ATMFailed from './ATMFailed.vue';
 
 
 export default {
@@ -162,6 +162,11 @@ export default {
 </script>
 
 <style scoped>
+
+    .container {
+        height: calc(100vh - 225px);
+    }
+
     input{
         margin: 0.3%;
         border: 1px solid #D9D9D9 ;

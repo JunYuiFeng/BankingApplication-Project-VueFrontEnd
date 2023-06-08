@@ -113,4 +113,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+    .container {
+        height: calc(100vh - 240px);
+    }
+</style>

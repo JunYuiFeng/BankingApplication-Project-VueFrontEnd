@@ -1,8 +1,8 @@
 <template>
   <div class="containerWithFooter expand-lg">
-    <div id="footer" class="container">
+    <div id="footer" class="">
       <footer
-        class="d-flex flex-wrap justify-content-center align-items-center py-3 my-4 border-top absolute-bottom"
+        class="d-flex flex-wrap justify-content-center align-items-center p-5 border-top"
       >
         <ul class="nav">
           <li class="nav-item">
@@ -51,14 +51,14 @@ export default {
 
 <style scoped>
 .containerWithFooter {
-  margin-top: 36.8%;
   position: relative;
+  bottom: 0;
+  height: 100px;
+  width: 100vw;
 }
 
 
 #footer {
-  position: absolute;
-  bottom: 0;
   width: 100vw;
   flex-shrink: 0;
   background-color: #ccb38d;

@@ -307,6 +307,8 @@ export default {
 .container {
   display: flex;
   flex-wrap: wrap;
+  height: calc(100vh - 60px);
+  overflow: hidden;
 }
 
 .filtered-transactions {
