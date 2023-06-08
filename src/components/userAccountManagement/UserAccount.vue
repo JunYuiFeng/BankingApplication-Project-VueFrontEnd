@@ -42,8 +42,8 @@
         <p class="col" v-if="!confirmClicked">{{ userAccount.transactionLimit }}</p>
         <input class="inputField col" v-else v-model="transactionLimit" />
         <p class="col" v-if="!confirmClicked">{{ userAccount.status }}</p>
-        <div v-if="editUserMessage" class="alert mt-3" :class="['alert-success', { 'alert-danger': displayError }]">
-          {{ editUserMessage }}
+        <div v-if="userMessage" class="alert mt-3" :class="['alert-success', { 'alert-danger': displayError }]">
+          {{ userMessage }}
         </div>
         <div class="row mt-3">   
           <div class="col-6">
@@ -93,7 +93,7 @@ export default {
       statusClicked: false,
       showBankAccountForm: false,
       displayError: null,
-      editUserMessage: "",
+      userMessage: "",
       firstName: "",
       lastName: "",
       email: "",
@@ -139,12 +139,12 @@ export default {
         .then((response) => {
           console.log(response);
           this.displayError = false;
-          this.editUserMessage = "Edit successful";
+          this.userMessage = "Edit successful";
         })
         .catch((error) => {
           console.log(error);
           this.displayError = true;
-          this.editUserMessage = "Failed to edit user";
+          this.userMessage = "Failed to edit user";
         });
     },
     changeStatus() {
@@ -159,13 +159,13 @@ export default {
         .then((response) => {
           console.log(response);
           this.displayError = false;
-          this.editUserMessage = "Account is now " + this.user.status;
+          this.userMessage = "Account is now " + this.user.status;
           this.updateStatusDisplay();
         })
         .catch((error) => {
           console.log(error);
           this.displayError = true;
-          this.editUserMessage = error.response.data.message;
+          this.userMessage = error.response.data.message;
         });
     },
     deleteUser(){
@@ -175,13 +175,13 @@ export default {
           .then((response) => {
             console.log(response);
             this.displayError = false;
-            this.editUserMessage = "User has been deleted";
+            this.userMessage = "User has been deleted";
             window.location.reload();
           })
           .catch((error) => {
             console.log(error);
             this.displayError = true;
-            this.editUserMessage = error.response.data.message;
+            this.userMessage = error.response.data.message;
           });
       }
     },
@@ -194,10 +194,11 @@ export default {
       .catch((error) => {
         console.log(error);
         this.displayError = true;
-        this.editUserMessage = error.response.data.message;
+        this.userMessage = error.response.data.message;
       });
     },
     showForm() {
+      this.userMessage = "";
       this.showBankAccountForm = true;
     },
     cancel() {

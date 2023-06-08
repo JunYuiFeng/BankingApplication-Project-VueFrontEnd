@@ -127,4 +127,10 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.container {
+    height: 100%;
+    margin-bottom: 6%;
+}
+</style>

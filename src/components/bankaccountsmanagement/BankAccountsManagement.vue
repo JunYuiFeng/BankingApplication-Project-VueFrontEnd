@@ -159,7 +159,8 @@ export default {
 
 <style scoped>
 .container {
-    height: 100vh;
+    height: 100%;
+    margin-bottom: 10%;
 }
 
 .bankAccountsListContainer {
