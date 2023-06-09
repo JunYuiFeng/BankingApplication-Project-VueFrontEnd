@@ -41,7 +41,7 @@
         <input class="inputField col" v-else v-model="dayLimit" />
         <p class="col" v-if="!confirmClicked">{{ userAccount.transactionLimit }}</p>
         <input class="inputField col" v-else v-model="transactionLimit" />
-        <p class="col" v-if="!confirmClicked">{{ userAccount.status }}</p>
+        <p class="col">{{ userAccount.status }}</p>
         <div v-if="userMessage" class="alert mt-3" :class="['alert-success', { 'alert-danger': displayError }]">
           {{ userMessage }}
         </div>
@@ -126,14 +126,15 @@ export default {
     },
     confirm() {
       (this.userAccount.firstName = this.firstName),
-        (this.userAccount.lastName = this.lastName),
-        (this.userAccount.email = this.email),
-        (this.userAccount.username = this.username),
-        (this.userAccount.type = this.type),
-        (this.userAccount.phoneNumber = this.phoneNumber),
-        (this.userAccount.bsn = this.bsn),
-        (this.userAccount.dayLimit = this.dayLimit),
-        (this.userAccount.transactionLimit = this.transactionLimit);
+      (this.userAccount.lastName = this.lastName),
+      (this.userAccount.email = this.email),
+      (this.userAccount.username = this.username),
+      (this.userAccount.type = this.type),
+      (this.userAccount.phoneNumber = this.phoneNumber),
+      (this.userAccount.bsn = this.bsn),
+      (this.userAccount.dayLimit = this.dayLimit),
+      (this.userAccount.transactionLimit = this.transactionLimit);
+
       axios
         .put(`/UserAccounts/${this.userAccount.id}`, this.userAccount)
         .then((response) => {

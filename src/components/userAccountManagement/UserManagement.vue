@@ -22,8 +22,8 @@
         <div class="userOverview">
           
           <UserAccount v-for="userAccount in userAccounts" :userAccount="userAccount"/>
-          <div v-if="userAccounts == 0" class="alert mt-3 alert-danger">
-            No users with no bankAccount found
+          <div v-if="showError" class="alert mt-3 alert-danger">
+            {{ notFound }}
           </div>
         </div>
     </div>
@@ -41,6 +41,8 @@ export default {
   data() {
         return {
           userAccounts: [],
+          notFound: "",
+          showError: false,
         };   
   },  
   mounted() {
@@ -51,12 +53,15 @@ export default {
       axios
       .get(url)
       .then((response) => {
+        this.showError = false;
         this.userAccounts = response.data;
         console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
+        this.userAccounts = [];
         this.showError = true;
+        this.notFound = error.response.data.message;
       });
     },
     loadAllUsers(){
@@ -64,7 +69,6 @@ export default {
     },
     loadAllRegisteredUsers(){
       this.getUsers("/UserAccounts/registered");
-      
     },  
     CreateUserAccount() {
       console.log("CreateUserAccount");
