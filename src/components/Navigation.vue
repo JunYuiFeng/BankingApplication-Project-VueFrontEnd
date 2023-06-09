@@ -47,7 +47,7 @@
                 BankAccountManagement
               </router-link>
             </li>
-            <li class="nav-item" v-if="this.store.role === 'ROLE_EMPLOYEE'">
+            <li class="nav-item" v-if="this.store.role == 'ROLE_EMPLOYEE'">
               <router-link
                 to="/TransferService"
                 class="nav-link"

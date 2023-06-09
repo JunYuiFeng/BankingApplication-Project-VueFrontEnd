@@ -61,11 +61,11 @@
         Create new User</button
       >  
     </div>
-    
+    <div v-if="registerMessage" class="message alert rounded text-center w-25 mt-5" :class="['alert-success', {'alert-danger': displayError }]">
+      {{ registerMessage }}
+    </div> 
   </div>
-  <div v-if="registerMessage" class="message alert rounded text-center w-25" :class="['alert-success', {'alert-danger': displayError }]">
-    {{ registerMessage }}
-  </div> 
+  
 </template>
 
 <script>
@@ -115,6 +115,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 9%;
 }
 
 .input-container {
