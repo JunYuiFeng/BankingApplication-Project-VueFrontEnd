@@ -13,39 +13,41 @@
               Register
             </router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="this.store.isLoggedIn">
             <router-link to="/OverView" class="nav-link">
               OverView
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link to="/Transaction" class="nav-link">
+          <li class="nav-item" v-if="this.store.isLoggedIn">
+            <router-link to="/Transactions" class="nav-link">
               Transactions
             </router-link>
           </li>
         </ul>
         <div class="social-icons">
-          <a href="#" class="social-icon">
+          <a href="https://www.instagram.com/" class="social-icon">
             <i style="margin-left: 200px" class="fab fa-instagram"></i>
           </a>
-          <a href="#" class="social-icon">
+          <a href="https://www.facebook.com/" class="social-icon">
             <i class="fab fa-facebook-f"></i>
           </a>
-          <a href="#" class="social-icon">
+          <a href="https://www.linkedin.com/" class="social-icon">
             <i class="fab fa-linkedin-in"></i>
           </a>
         </div>
-        
       </footer>
-      
     </div>
   </div>
 </template>
 
 <script>
+import { useUserSessionStore } from "../store/userSessionStore";
 import "../assets/main.css";
 export default {
   name: "Footer",
+  setup() {
+    return { store: useUserSessionStore() };
+  },
 };
 </script>
 
@@ -56,7 +58,6 @@ export default {
   height: 100px;
   width: 100vw;
 }
-
 
 #footer {
   width: 100vw;

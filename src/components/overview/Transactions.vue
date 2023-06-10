@@ -51,6 +51,12 @@
             <p>&euro; {{ transaction.amount }}</p>
           </div>
         </span>
+        <div
+          v-if="errorMessage"
+          class="alert alert-danger mt-3 d-flex justify-content-center"
+        >
+          {{ errorMessage }}
+        </div>
       </div>
     </div>
     <div class="filters">
@@ -88,11 +94,6 @@
   </div>
   <div>
     <br />
-    <div
-      v-if="this.errorMessage"
-      id="errorMessageLabel"
-      class="alert alert-danger"
-    ></div>
   </div>
 </template>
 <script>
@@ -107,6 +108,7 @@ export default {
       userId: null,
       ibanFrom: "",
       ibanTo: "",
+      errorMessage: "",
       amountEqualTo: "",
       amountLessThan: "",
       amountGreaterThan: "",
@@ -213,9 +215,7 @@ export default {
               if (parseInt(item.inputValue) == x) {
                 break;
               } else {
-                this.errorMessage = true;
-                document.getElementById("errorMessageLabel").innerHTML =
-                  "Please enter a valid number";
+                this.errorMessage = "Please enter a valid number";
                 return;
               }
             case "dateFrom":
@@ -225,8 +225,7 @@ export default {
               if (timespanRegex.test(item.inputValue)) {
                 break;
               } else {
-                this.errorMessage = true;
-                document.getElementById("errorMessageLabel").innerHTML =
+                this.errorMessage =
                   "Please enter a valid timespan (YYYY-MM-DD HH:mm:ss.SSS)";
                 return;
               }
@@ -235,9 +234,7 @@ export default {
               if (this.isValidIBANFormat(item.inputValue)) {
                 break;
               } else {
-                this.errorMessage = true;
-                document.getElementById("errorMessageLabel").innerHTML =
-                  "Please enter a valid IBAN";
+                this.errorMessage = "Please enter a valid IBAN";
                 return;
               }
             default:
@@ -250,7 +247,6 @@ export default {
           }
         } else {
           if (item.value === "amount=<" || item.value == "amount=>") {
-            console.log("I am here");
             queryString += `&${item.value}${item.inputValue}`;
           } else {
             queryString += `&${item.value}=${item.inputValue}`;

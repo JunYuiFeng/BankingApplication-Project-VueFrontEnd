@@ -25,6 +25,12 @@
         >
           Login</button
         ><br /><br />
+        <div
+          v-if="errorMessage"
+          class="alert alert-danger mt-3 d-flex justify-content-center"
+        >
+          {{ errorMessage }}
+        </div>
       </div>
     </div>
   </div>
@@ -43,6 +49,7 @@ export default {
     return {
       username: "",
       password: "",
+      errorMessage: "",
     };
   },
   methods: {
@@ -54,6 +61,9 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+
+          this.errorMessage =
+            "Username or password is incorrect, please try again!";
         });
     },
   },
@@ -61,7 +71,7 @@ export default {
 </script>
 
 <style scoped>
-.container{
+.container {
   margin-bottom: 12%;
 }
 </style>
