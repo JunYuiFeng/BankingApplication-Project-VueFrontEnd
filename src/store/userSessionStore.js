@@ -16,13 +16,9 @@ export const useUserSessionStore = defineStore("userSessionStore", {
     getRole: (state) => {
       return state.role;
     },
-
-
     getUserId: (state) => {
       return state.userId;
     }
-
-
   },
   actions: {
     autologin() {

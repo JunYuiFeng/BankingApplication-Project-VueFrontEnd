@@ -40,14 +40,15 @@
             <!-- Description -->
             <div class="form-group mb-4">
                 <label for="description">Description:</label>
-                <textarea class="form-control" id="description" v-model="description" rows="3" placeholder="Enter description"></textarea>
+                <textarea class="form-control" id="description" v-model="description" rows="3"
+                    placeholder="Enter description"></textarea>
             </div>
 
             <!-- Submit -->
             <button class="btn btn-primary" type="submit" @click="makeTransaction">Submit</button>
         </form>
-        <TransactionSuccess v-if="showTransactionSuccess" @close="showTransactionSuccess=false"/>
-        <TransactionFailed v-if="showTransactionFailed" @close="showTransactionFailed=false" :errorMessage = "errorMessage"/>
+        <TransactionSuccess v-if="showTransactionSuccess" @close="showTransactionSuccess = false" />
+        <TransactionFailed v-if="showTransactionFailed" @close="showTransactionFailed = false" :errorMessage="errorMessage" />
     </div>
 </template>
 
@@ -79,6 +80,12 @@ export default {
         TransactionFailed
     },
     mounted() {
+        if (localStorage.getItem("role") !== "ROLE_EMPLOYEE") {
+            this.$router.push("/Overview");
+        }
+        if (!localStorage.getItem("token")) {
+            this.$router.push("/login");
+        }
         this.getBankAccounts();
     },
     methods: {

@@ -8,7 +8,16 @@
                 <p>absoluteLimit: {{ bankAccount.absoluteLimit }}</p>
             </div>
             <div class="d-flex align-items-center">
-                <p>€ {{ formatNumber(bankAccount.balance) }}</p>
+                <div>
+                    <p>€ {{ formatNumber(bankAccount.balance) }}</p>
+                    <p>Status:
+                        <span :class="{
+                            active: bankAccount.status == 'ACTIVE',
+                            inactive: bankAccount.status == 'INACTIVE'}">
+                            {{ bankAccount.status }}
+                        </span>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -33,5 +42,13 @@ export default {
 .bankAccountContainer {
     background: #D9D9D9;
     border-radius: 18px;
+}
+
+.active {
+    color: rgb(37, 176, 13);
+}
+
+.inactive {
+    color: red;
 }
 </style>

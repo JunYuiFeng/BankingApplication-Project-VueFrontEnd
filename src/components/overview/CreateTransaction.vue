@@ -88,13 +88,14 @@ export default {
         TransactionFailed
     },
     mounted() {
-        this.getBankAccounts();
+        this.getActiveBankAccounts();
     },
     methods: {
-        getBankAccounts() {
+        getActiveBankAccounts() {
             axios.get(`/BankAccounts/UserAccount/${this.store.getUserId}`)
                 .then(response => {
                     this.bankAccounts = response.data;
+                    this.bankAccounts = this.bankAccounts.filter(account => account.status == 'ACTIVE');
                 })
                 .catch(error => {
                     console.log(error);
