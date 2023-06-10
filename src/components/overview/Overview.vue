@@ -118,7 +118,8 @@ export default {
 
 
 .container {
-  height: calc(100vh - 270px);
+  height: 100%;
+  margin-bottom: 10%;
 }
 .bankAccountContainer {
   background: #d9d9d9;
