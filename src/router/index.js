@@ -12,6 +12,7 @@ import ATM from "../components/atm/ATM.vue";
 import Profile from "../components/profile/Profile.vue";
 import AddressBook from "../components/overview/AddressBook.vue";
 import TransferService from "../components/TransferService.vue";
+import NotFoundPage from "../components/404Page.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -26,11 +27,34 @@ const routes = [
   { path: "/Profile", component: Profile },
   { path: "/AddressBook", component: AddressBook },
   { path: "/TransferService", component: TransferService },
+  { path: "/:pathMatch(.*)*", component: NotFoundPage },
 ];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+  
+  const authRequiredRoutes = [
+    "/Overview",
+    "/CreateTransaction",
+    "/Transactions",
+    "/UserManagement",
+    "/BankAccountsManagement",
+    "/ATM",
+    "/Profile",
+    "/AddressBook",
+    "/TransferService"
+  ];
+
+  if (authRequiredRoutes.includes(to.path) && !token) {
+    next("/404Page"); 
+  } else {
+    next();
+  }
 });
 
 export default router;
