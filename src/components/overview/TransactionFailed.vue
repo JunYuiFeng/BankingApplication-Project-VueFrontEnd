@@ -1,14 +1,16 @@
 <template>
     <div class="Failed d-flex justify-content-center align-items-center">
-        <div class="FailedContainer shadow">    
-            <h1 class="d-flex justify-content-center mt-3">Transaction Failed</h1>        
-            <div class="d-flex justify-content-center m-5">
+        <div class="FailedContainer shadow">
+            <h2 class="d-flex justify-content-center mt-3">Transaction Failed</h2>
+            <div class="d-flex justify-content-center m-3">
                 <div class="circle-border"></div>
                 <div class="circle">
                     <div class="error"></div>
                 </div>
             </div>
-            <h3 class="d-flex justify-content-center m-3">{{ errorMessage }}</h3>        
+            <div class="alert alert-danger ms-2 me-2" role="alert">
+                {{ errorMessage }}
+            </div>
             <div class="d-flex justify-content-center">
                 <button class="btn btn-primary" @click="$emit('close')">Close</button>
             </div>
@@ -30,7 +32,6 @@ export default {
 </script>
 
 <style scoped>
-
 .Failed {
     position: fixed;
     top: 0;
@@ -43,8 +44,8 @@ export default {
 
 .FailedContainer {
     background: white;
-    width: 30%;
-    height: 40%;
+    width: 35%;
+    height: 43%;
     border-radius: 18px;
     z-index: 1;
 }
@@ -76,9 +77,11 @@ export default {
     0% {
         transform: scale(0);
     }
+
     30% {
         transform: scale(0);
     }
+
     100% {
         transform: scale(1);
     }
@@ -88,6 +91,7 @@ export default {
     from {
         transform: scale(0);
     }
+
     to {
         transform: scale(1.1);
     }

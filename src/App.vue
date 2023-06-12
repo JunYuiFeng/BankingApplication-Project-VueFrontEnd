@@ -9,9 +9,7 @@ export default {
     return { store: useUserSessionStore() };
   },
   mounted() {
-    // console.log("mounted");
     this.store.autologin();
-    //this.role = localStorage.getItem("role");
     if (this.store.isLoggedIn) {
       //this.$router.push("/Overview");
     }
@@ -21,17 +19,7 @@ export default {
     Navbar,
     Footer,
   },
-  /*created() {
-    const store = useUserSessionStore();
-    const storedToken = localStorage.getItem("token");
-    const storedRole = localStorage.getItem("role");
 
-    if (storedToken && storedRole) {
-      // Set the user session data in the Vuex store
-      store.setToken(storedToken);
-      store.setRole(storedRole);
-    }
-  },*/
 };
 </script>
 

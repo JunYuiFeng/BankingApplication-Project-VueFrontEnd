@@ -1,8 +1,8 @@
 <template>
     <div class="Success d-flex justify-content-center align-items-center">
         <div class="SuccessContainer shadow">    
-            <h1 class="d-flex justify-content-center mt-3">Transaction Success</h1>       
-            <div class="d-flex justify-content-center success-animation m-5">
+            <h2 class="d-flex justify-content-center mt-3">Transaction Success</h2>       
+            <div class="d-flex justify-content-center success-animation m-4">
                 <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
             </div>
             
