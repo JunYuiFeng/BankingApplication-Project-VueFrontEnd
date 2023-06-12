@@ -162,6 +162,13 @@ export default {
           placeholder: "Enter Amount",
         },
         {
+          value: "amount=<>",
+          label: "Amount range",
+          inputValue: "",
+          type: "number",
+          placeholder: "Enter amount range separated by comma e.g. 100,200",
+        },
+        {
           value: "dateFrom",
           label: "Date From",
           inputValue: "",
@@ -218,6 +225,18 @@ export default {
                 this.errorMessage = "Please enter a valid number";
                 return;
               }
+            case "amount=<>":
+              const rangeValues = item.inputValue.split(",");
+              if (
+                rangeValues.length !== 2 ||
+                isNaN(rangeValues[0]) ||
+                isNaN(rangeValues[1])
+              ) {
+                this.errorMessage =
+                  "Please enter a valid amount range separated by a comma (e.g., 100,200)";
+                return;
+              }
+              break;
             case "dateFrom":
             case "dateTo":
               const timespanRegex =
@@ -240,11 +259,19 @@ export default {
             default:
               break;
           }
+          console.log(item.value);
           if (item.value === "amount=<" || item.value == "amount=>") {
+            queryString += `?${item.value}${item.inputValue}`;
+          } else if (item.value === "amount=<>") {
             queryString += `?${item.value}${item.inputValue}`;
           } else {
             queryString += `?${item.value}=${item.inputValue}`;
           }
+          /*if (item.value === "amount=<>") {
+            console.log("here");
+            console.log(item.inputValue);
+            // queryString += `${item.inputValue}`;
+          }*/
         } else {
           if (item.value === "amount=<" || item.value == "amount=>") {
             queryString += `&${item.value}${item.inputValue}`;
@@ -258,7 +285,7 @@ export default {
 
     formatDate(dateString) {
       const date = new Date(dateString);
-      return date.toLocaleString(); // Adjust the formatting as per your requirements
+      return date.toLocaleString();
     },
     setup() {
       return { store: useUserSessionStore() };
@@ -283,6 +310,10 @@ export default {
         axios.get(apiEndpoint).then((response) => {
           this.transactions = response.data;
           console.log(this.transactions);
+          if (Object.entries(this.transactions).length === 0) {
+            this.errorMessage =
+              "No transactions found. Please try again with different filters.";
+          }
         });
       } catch (error) {
         console.log(error);
