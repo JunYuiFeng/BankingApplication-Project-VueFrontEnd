@@ -303,6 +303,7 @@ export default {
       }
     },
     applyFilters() {
+      this.errorMessage = "";
       const queryString = this.generateQueryString();
       const apiEndpoint = `/Transactions${queryString}`;
       console.log(apiEndpoint);
