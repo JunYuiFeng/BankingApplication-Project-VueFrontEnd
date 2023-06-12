@@ -27,6 +27,7 @@ export default {
 .homepageContent {
   display: flex;
   background-color: #5d0c1d;
+  height: calc(100vh - 225px);
 }
 #myH1 {
   margin-top: 5em;
