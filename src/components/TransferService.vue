@@ -113,7 +113,13 @@ export default {
                 })
                 .catch(error => {
                     this.showTransactionFailed = true;
-                    console.log(error);
+                    if (error.response && error.response.data && error.response.data.message) {
+                        const errorMessage = error.response.data.message;
+
+                        this.errorMessage = errorMessage;
+                    } else {
+                        console.log(error); // Fallback to logging the error if the message is not available
+                    }
                 })
         }
     }
