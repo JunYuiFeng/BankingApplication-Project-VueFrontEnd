@@ -1,5 +1,5 @@
 # Blossom Bank Frontend vue application
-Inholland term4 year2 Group1 banking application project
+### Inholland term4 year2 Group1 banking application project
 
 ## Project Setup
 
