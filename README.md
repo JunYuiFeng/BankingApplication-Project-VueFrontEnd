@@ -1,4 +1,4 @@
-Blossom Bank Frontend vue application
+#Blossom Bank Frontend vue application
 
 ## Project Setup
 
