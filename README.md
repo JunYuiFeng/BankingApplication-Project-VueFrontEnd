@@ -1,3 +1,5 @@
+Blossom Bank Frontend vue application
+
 ## Project Setup
 
 ```sh
