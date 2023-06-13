@@ -12,7 +12,7 @@
       </div>
       <div class="col d-flex justify-content-center align-items-center">
         <p v-if="!editing">€ {{ bankAccount.absoluteLimit }}</p>
-        <input v-else type="number" class="form-control" v-model="editedAbsoluteLimit" min="0" @input="handleInput" />
+        <input v-else type="number" class="form-control" v-model="editedAbsoluteLimit" min="0"/>
       </div>
       <div class="col-2 d-flex justify-content-center align-items-center">
         <p>€ {{ bankAccount.balance }}</p>
@@ -98,12 +98,7 @@ export default {
           console.log("An error occurred:", error.response.data.message);
         });
       this.editing = false;
-    },
-    handleInput(event) {
-      let sanitizedValue = event.target.value.replace(/-/g, ''); // Remove "-" from the input value
-      event.target.value = sanitizedValue; // Update the input value without "-"
-      this.editedAbsoluteLimit = sanitizedValue; // Update the v-model with the sanitized value
-    },
+    }
   },
 };
 </script>
